@@ -1,4 +1,4 @@
-package com.example.geovanni.meajuda;
+package com.mathheals.meajuda;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
