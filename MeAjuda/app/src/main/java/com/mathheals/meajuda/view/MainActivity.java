@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity
 
         for(int categoriesCount = 0; categoriesCount < categories.size(); categoriesCount++){
 
+            //If the count is even, adds a item on the first column of the menu
             if((categoriesCount+1)%2 == 0){
                 //Creates a layout for the new menu item
                 View newItem = getLayoutInflater().inflate
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity
 
                 menuFirstColumn.addView(newItem);
             }
+            //If the count is odd, adds a item on the second column of the menu
             else{
                 //Creates a layout for the new menu item
                 View newItem = getLayoutInflater().inflate
