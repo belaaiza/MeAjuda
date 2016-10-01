@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 public abstract class DAO {
 
-    private static final int LIMIT_CONNECTION_TIME = 15000;
+    private static final int LIMIT_CONNECTION_TIME = 50000;
     private static final String STRING_EMPTY = "";
     private static final String URL_QUERY = "http://meajuda.orgfree.com/query.php";
     private static final String URL_CONSULT = "http://meajuda.orgfree.com/consult.php";
