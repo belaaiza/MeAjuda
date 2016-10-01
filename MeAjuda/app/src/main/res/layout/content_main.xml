@@ -230,13 +230,14 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/abc_ic_menu_paste_mtrl_am_alpha" />
+                    android:tint="#FFF"
+                    android:src="@drawable/chemical" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Química"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="26dp"
                     android:layout_gravity="center"
                     android:textColor="#ffffff" />
             </FrameLayout>
