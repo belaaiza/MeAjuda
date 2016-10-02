@@ -80,20 +80,7 @@ public class MainActivity extends AppCompatActivity
             View newItem = getLayoutInflater().inflate
                     (R.layout.categories_menu_item, null);
 
-            //Sets the layout background
-            FrameLayout imageFrame = (FrameLayout) newItem.findViewById(R.id.imageFrame);
-            imageFrame.setBackgroundColor(Color.parseColor(currentCategory.getColor()));
-
-            //Sets the text of the new menu item as the given category name
-            TextView categoryName = (TextView) newItem.findViewById(R.id.categoryName);
-            categoryName.setText(currentCategory.getName());
-
-            //Sets the category icon
-            ImageView categoryIcon = (ImageView) newItem.findViewById(R.id.categoryIcon);
-            Drawable icon = ResourcesCompat.getDrawable(getResources(), currentCategory.getIdIcon(),
-                    getTheme());
-            categoryIcon.setImageDrawable(icon);
-
+            setUpItemMenuView(newItem, currentCategory);
 
             if((categoriesCount+1)%2 == 0){
                 menuFirstColumn.addView(newItem);
@@ -102,6 +89,22 @@ public class MainActivity extends AppCompatActivity
                 menuSecondColumn.addView(newItem);
             }
         }
+    }
+
+    private void setUpItemMenuView(View itemMenuCategory, Category categoryInfo) {
+        //Sets the layout background
+        FrameLayout imageFrame = (FrameLayout) itemMenuCategory.findViewById(R.id.imageFrame);
+        imageFrame.setBackgroundColor(Color.parseColor(categoryInfo.getColor()));
+
+        //Sets the text of the new menu item as the given category name
+        TextView categoryName = (TextView) itemMenuCategory.findViewById(R.id.categoryName);
+        categoryName.setText(categoryInfo.getName());
+
+        //Sets the category icon
+        ImageView categoryIcon = (ImageView) itemMenuCategory.findViewById(R.id.categoryIcon);
+        Drawable icon = ResourcesCompat.getDrawable(getResources(), categoryInfo.getIdIcon(),
+                getTheme());
+        categoryIcon.setImageDrawable(icon);
     }
 
     private void setUpNavigationDrawer(Toolbar toolbar){
