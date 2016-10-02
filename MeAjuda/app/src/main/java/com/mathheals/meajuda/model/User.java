@@ -33,10 +33,14 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private Integer rating;
+    private Integer idSchool;
+    private Integer idClassification;
 
     public User(String firstName, String lastName, String username, String email,
-                String mailConfirmation, String password, String passwordConfirmation)
-            throws UserException, ParseException{
+                String mailConfirmation, String password, String passwordConfirmation,
+                Integer rating, Integer idSchool, Integer idClassification) throws UserException,
+            ParseException{
 
         setFirstName(firstName);
         setLastName(lastName);
@@ -45,7 +49,22 @@ public class User {
         verifyEmailConfirmation(mailConfirmation);
         setPassword(password);
         verifyPasswordConfirmation(passwordConfirmation);
+        setRating(rating);
+        setIdSchool(idSchool);
+        setIdClassification(idClassification);
 
+    }
+
+    private void setRating (Integer rating){
+        this.rating = rating;
+    }
+
+    private void setIdSchool (Integer idSchool){
+        this.idSchool = idSchool;
+    }
+
+    private void setIdClassification (Integer idClassification){
+        this.idClassification = idClassification;
     }
 
     private void setFirstName(String firstName) throws UserException{
@@ -164,5 +183,17 @@ public class User {
 
     public String getPassword(){
         return this.password;
+    }
+
+    public Integer getRating(){
+        return this.rating;
+    }
+
+    public Integer getIdSchool(){
+        return this.idSchool;
+    }
+
+    public Integer getIdClassification(){
+        return this.idClassification;
     }
 }

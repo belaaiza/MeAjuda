@@ -14,7 +14,7 @@ public class UserPresenter {
 
         try{
              User user = new User(firstName, lastName, username, mail, mailConfirmation,
-                    password, passwordConfirmation);
+                    password, passwordConfirmation, 0, null, 1);
 
             message = user.USER_SUCCESSFULLY_REGISTERED;
         }catch(UserException e){
@@ -27,8 +27,7 @@ public class UserPresenter {
     }
 
     public String authenticateUser(String email, String password){
-
-
-
+        String message = "";
+        return message;
     }
 }

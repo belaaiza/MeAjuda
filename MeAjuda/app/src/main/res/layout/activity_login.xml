@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+            android:id="@+id/emailField"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
@@ -37,6 +38,7 @@
             android:layout_height="wrap_content"/>
 
         <EditText
+            android:id="@+id/passwordField"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
@@ -44,6 +46,7 @@
 
         <Button
             android:text="Entrar"
+            android:id="@+id/loginButton"
             android:background="@color/green_logo"
             android:textColor="#FFF"
             android:layout_margin="10dp"
