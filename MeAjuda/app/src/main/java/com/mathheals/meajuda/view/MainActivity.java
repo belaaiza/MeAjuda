@@ -15,8 +15,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        UserRegister userRegister= new UserRegister();
-        openFragment(userRegister);
+        TopicCreation topicCreation= new TopicCreation();
+        openFragment(topicCreation);
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
