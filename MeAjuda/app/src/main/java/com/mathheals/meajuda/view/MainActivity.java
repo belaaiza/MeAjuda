@@ -1,18 +1,23 @@
 package com.mathheals.meajuda.view;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,31 +73,38 @@ public class MainActivity extends AppCompatActivity
 
         for(int categoriesCount = 0; categoriesCount < categories.size(); categoriesCount++){
 
-            //If the count is even, adds a item on the first column of the menu
+            //Gets current category on the for loop
+            Category currentCategory = categories.get(categoriesCount);
+
+            //Creates a layout for the new menu item
+            View newItem = getLayoutInflater().inflate
+                    (R.layout.categories_menu_item, null);
+
+            setUpItemMenuView(newItem, currentCategory);
+
             if((categoriesCount+1)%2 == 0){
-                //Creates a layout for the new menu item
-                View newItem = getLayoutInflater().inflate
-                        (R.layout.categories_menu_item, null);
-
-                //Sets the text of the new menu item as the given category name
-                TextView categoryName = (TextView) newItem.findViewById(R.id.categoryName);
-                categoryName.setText(categories.get(categoriesCount).getName());
-
                 menuFirstColumn.addView(newItem);
             }
-            //If the count is odd, adds a item on the second column of the menu
             else{
-                //Creates a layout for the new menu item
-                View newItem = getLayoutInflater().inflate
-                        (R.layout.categories_menu_item, null);
-
-                //Sets the text of the new menu item as the given category name
-                TextView categoryName = (TextView) newItem.findViewById(R.id.categoryName);
-                categoryName.setText(categories.get(categoriesCount).getName());
-
                 menuSecondColumn.addView(newItem);
             }
         }
+    }
+
+    private void setUpItemMenuView(View itemMenuCategory, Category categoryInfo) {
+        //Sets the layout background
+        FrameLayout imageFrame = (FrameLayout) itemMenuCategory.findViewById(R.id.imageFrame);
+        imageFrame.setBackgroundColor(Color.parseColor(categoryInfo.getColor()));
+
+        //Sets the text of the new menu item as the given category name
+        TextView categoryName = (TextView) itemMenuCategory.findViewById(R.id.categoryName);
+        categoryName.setText(categoryInfo.getName());
+
+        //Sets the category icon
+        ImageView categoryIcon = (ImageView) itemMenuCategory.findViewById(R.id.categoryIcon);
+        Drawable icon = ResourcesCompat.getDrawable(getResources(), categoryInfo.getIdIcon(),
+                getTheme());
+        categoryIcon.setImageDrawable(icon);
     }
 
     private void setUpNavigationDrawer(Toolbar toolbar){

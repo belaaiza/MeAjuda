@@ -7,17 +7,19 @@ import java.text.ParseException;
 
 public class User {
     public static final String USER_SUCCESSFULLY_REGISTERED = "Usuário cadastrado com sucesso";
-    public static final String NAME_CANT_BE_EMPTY_NAME = "Hey, acho que você está esquecendo de nos dizer seu nome.";
-    public static final String NAME_CANT_BE_HIGHER_THAN_50 = "Hey, acho que você ultrapassou o número de caracteres permitido para o nome, tente novamente.";
-    public static final String EMAIL_CANT_BE_EMPTY_EMAIL = "Hey, acho que você está esquecendo de nos dizer seu email.";
-    public static final String EMAIL_CANT_BE_HIGHER_THAN_150 = "Hey, acho que você ultrapassou o número de caracteres permitido para email, tente novamente.";
+    public static final String FIRST_NAME_CANT_BE_EMPTY_NAME = "Acho que você está esquecendo de nos dizer seu nome.";
+    public static final String FIRST_NAME_CANT_BE_HIGHER_THAN_50 = "O nome deve ter até 50 caracteres.";
+    public static final String LAST_NAME_CANT_BE_EMPTY_NAME = "Acho que você está esquecendo de nos dizer seu último nome.";
+    public static final String LAST_NAME_CANT_BE_HIGHER_THAN_50 = "O último nome deve ter até 50 caracteres.";
+    public static final String EMAIL_CANT_BE_EMPTY_EMAIL = "Acho que você está esquecendo de nos dizer seu email.";
+    public static final String EMAIL_CANT_BE_HIGHER_THAN_150 = "O e-mail deve ter até 150 caracteres.";
     public static final String INVALID_EMAIL = "Ops, esse e-mail é inválido.";
-    public static final String CONFIRM_PASSWORD_CANT_BE_EMPTY = "Hey, confirme sua senha";
-    public static final String EMAIL_CONFIRMATION_CANT_BE_EMPTY = "Hey, confirme seu e-mail";
-    public static final String USERNAME_CANT_BE_EMPTY_USERNAME = "Hey, acho que você está esquecendo de nos dizer seu login.";
-    public static final String USERNAME_CANT_BE_HIGHER_THAN_100 = "Hey, acho que você ultrapassou o número de caracteres permitido para o login, tente novamente.";
-    public static final String PASSWORD_CANT_BE_EMPTY_PASSWORD = "Hey, acho que você está esquecendo de nos dizer sua senha.";
-    public static final String PASSWORD_CANT_BE_LESS_THAN_6 = "Hey, acho que vocẽ não atingiu o número mínimo de caracteres.";
+    public static final String CONFIRM_PASSWORD_CANT_BE_EMPTY = "Por favor, confirme sua senha";
+    public static final String EMAIL_CONFIRMATION_CANT_BE_EMPTY = "Por favor, confirme seu e-mail";
+    public static final String USERNAME_CANT_BE_EMPTY_USERNAME = "Acho que você está esquecendo de nos dizer seu login.";
+    public static final String USERNAME_CANT_BE_HIGHER_THAN_100 = "O nome deve ter até 100 caracteres.";
+    public static final String PASSWORD_CANT_BE_EMPTY_PASSWORD = "Acho que você está esquecendo de nos dizer sua senha.";
+    public static final String PASSWORD_CANT_BE_LESS_THAN_6 = "A senha deve possuir no mínimo 6 caracteres.";
     public static final String EMAIL_ARE_NOT_EQUALS = "Ops, E-mails não conferem.";
     public static final String PASSWORD_ARE_NOT_EQUALS = "Ops, as senhas não conferem.";
     public static final String USERNAME_EXISTENT = "Ops, esse login já existe";
@@ -26,13 +28,18 @@ public class User {
     private static final int MAX_LENGTH_USERNAME = 100;
     private static final int MIN_LENGTH_PASSWORD = 6;
 
-    private String name;
+    private String firstName;
+    private String lastName;
     private String username;
     private String email;
     private String password;
 
-    public User(String name, String username, String email, String mailConfirmation, String password, String passwordConfirmation) throws UserException, ParseException{
-        setName(name);
+    public User(String firstName, String lastName, String username, String email,
+                String mailConfirmation, String password, String passwordConfirmation)
+            throws UserException, ParseException{
+
+        setFirstName(firstName);
+        setLastName(lastName);
         setUsername(username);
         setEmail(email);
         verifyEmailConfirmation(mailConfirmation);
@@ -41,16 +48,29 @@ public class User {
 
     }
 
-    private void setName(String name) throws UserException{
+    private void setFirstName(String firstName) throws UserException{
 
-        if(!name.isEmpty() && name!=null){
-            if(name.length() <= MAX_LENGTH_NAME){
-                this.name = name;
+        if(!firstName.isEmpty() && firstName!=null){
+            if(firstName.length() <= MAX_LENGTH_NAME){
+                this.firstName = firstName;
             }else{
-                throw new UserException(NAME_CANT_BE_HIGHER_THAN_50);
+                throw new UserException(FIRST_NAME_CANT_BE_HIGHER_THAN_50);
             }
         }else{
-            throw new UserException(NAME_CANT_BE_EMPTY_NAME);
+            throw new UserException(FIRST_NAME_CANT_BE_EMPTY_NAME);
+        }
+    }
+
+    private void setLastName(String lastName) throws UserException{
+
+        if(!lastName.isEmpty() && lastName!=null){
+            if(lastName.length() <= MAX_LENGTH_NAME){
+                this.lastName = lastName;
+            }else{
+                throw new UserException(LAST_NAME_CANT_BE_HIGHER_THAN_50);
+            }
+        }else{
+            throw new UserException(LAST_NAME_CANT_BE_EMPTY_NAME);
         }
     }
 
@@ -126,8 +146,12 @@ public class User {
         }
     }
 
-    public String getName(){
-        return this.name;
+    public String getFirstName(){
+        return this.firstName;
+    }
+
+    public String getLastName(){
+        return this.lastName;
     }
 
     public String getUsername(){

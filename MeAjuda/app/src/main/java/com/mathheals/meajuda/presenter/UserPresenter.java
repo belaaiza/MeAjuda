@@ -6,13 +6,14 @@ import com.mathheals.meajuda.model.User;
 import java.text.ParseException;
 
 public class UserPresenter {
-    public String registerUser(String name, String username, String mail,
+
+    public String registerUser(String firstName, String lastName, String username, String mail,
                                          String mailConfirmation, String password,
                                          String passwordConfirmation){
         String message = "";
 
         try{
-             User user = new User(name, username, mail, mailConfirmation,
+             User user = new User(firstName, lastName, username, mail, mailConfirmation,
                     password, passwordConfirmation);
 
             message = user.USER_SUCCESSFULLY_REGISTERED;
@@ -23,5 +24,11 @@ public class UserPresenter {
         }
 
         return message;
+    }
+
+    public String authenticateUser(String email, String password){
+
+
+
     }
 }
