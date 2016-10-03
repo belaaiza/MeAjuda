@@ -69,7 +69,7 @@ public class UserRegister extends Fragment implements View.OnClickListener{
 
         UserPresenter userPresenter = new UserPresenter();
 
-        String message = userPresenter.registerUser(this.firstName, this.username, this.mail,
+        String message = userPresenter.registerUser(this.firstName,this.lastName, this.username, this.mail,
                 this.mailConfirmation, this.password, this.passwordConfirmation);
 
         switch(message){

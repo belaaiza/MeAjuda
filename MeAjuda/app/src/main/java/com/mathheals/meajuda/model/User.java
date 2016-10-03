@@ -55,6 +55,13 @@ public class User {
 
     }
 
+    public User(String firstName, String lastName, String username, String email) throws UserException, ParseException{
+        setFirstName(firstName);
+        setLastName(lastName);
+        setUsername(username);
+        setEmail(email);
+    }
+
     private void setRating (Integer rating){
         this.rating = rating;
     }
