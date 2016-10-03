@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity
         } catch(JSONException e){
             e.printStackTrace();
         }
-
     }
 
     private void fillCategoriesMenu() throws JSONException{
