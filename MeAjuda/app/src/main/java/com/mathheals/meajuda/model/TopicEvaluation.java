@@ -10,9 +10,9 @@ public class TopicEvaluation {
     private Float rating;
     private Integer userId;
     private Integer topicId;
-    public static final String EVALUATION_IS_INVALID = "Hey, a avaliação deve estar entre 0 e 5";
-    public static final String USER_ID_IS_INVALID = "O identificador do usuário é inválido";
-    public static final String TOPIC_ID_IS_INVALID = "O identificador do evento é inválido";
+    public static final String EVALUATION_IS_INVALID = "A avaliação deve estar entre 0 e 5";
+    public static final String USER_ID_IS_INVALID = "O identificador do usuário está inválido";
+    public static final String TOPIC_ID_IS_INVALID = "O identificador do post está inválido";
 
     public TopicEvaluation(Float rating, Integer userId, Integer topicId) throws TopicEvaluationException {
         setRating(rating);
