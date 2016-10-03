@@ -10,24 +10,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mathheals.meajuda.R;
-import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.User;
 import com.mathheals.meajuda.presenter.UserPresenter;
-
-import java.text.ParseException;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class UserRegister extends Fragment implements View.OnClickListener{
-    private EditText nameField = null;
+    private EditText firstNameField = null;
+    private EditText lastNameField = null;
     private EditText mailField = null;
     private EditText mailConfirmationField = null;
     private EditText usernameField = null;
     private EditText passwordField = null;
     private EditText passwordConfirmField = null;
 
-    private String name = "";
+    private String firstName = "";
+    private String lastName = "";
     private String username = "";
     private String mail = "";
     private String password = "";
@@ -54,7 +53,8 @@ public class UserRegister extends Fragment implements View.OnClickListener{
     }
 
     private void settingEditText(View view){
-        this.nameField = (EditText) view.findViewById(R.id.nameField);
+        this.firstNameField = (EditText) view.findViewById(R.id.firstNameField);
+        this.lastNameField = (EditText) view.findViewById(R.id.lastNameField);
         this.mailField = (EditText) view.findViewById(R.id.mailField);
         this.usernameField = (EditText) view.findViewById(R.id.loginField);
         this.passwordField = (EditText) view.findViewById(R.id.passwordField);
@@ -69,20 +69,29 @@ public class UserRegister extends Fragment implements View.OnClickListener{
 
         UserPresenter userPresenter = new UserPresenter();
 
-        String message = userPresenter.registerUser(this.name, this.username, this.mail,
-                this.mailConfirmation, this.password, this.passwordConfirmation);
+        String message = userPresenter.registerUser(this.firstName, this.lastName, this.username,
+                this.mail, this.mailConfirmation, this.password, this.passwordConfirmation,
+                getContext());
 
         switch(message){
             case User.USER_SUCCESSFULLY_REGISTERED:
                 Toast.makeText(getActivity(), "Usuário Cadastrado com Sucesso", Toast.LENGTH_LONG).show();
                 break;
-            case User.NAME_CANT_BE_EMPTY_NAME:
-                nameField.requestFocus();
-                nameField.setError(message);
+            case User.FIRST_NAME_CANT_BE_EMPTY_NAME:
+                firstNameField.requestFocus();
+                firstNameField.setError(message);
                 break;
-            case User.NAME_CANT_BE_HIGHER_THAN_50:
-                nameField.requestFocus();
-                nameField.setError(message);
+            case User.FIRST_NAME_CANT_BE_HIGHER_THAN_50:
+                firstNameField.requestFocus();
+                firstNameField.setError(message);
+                break;
+            case User.LAST_NAME_CANT_BE_EMPTY_NAME:
+                lastNameField.requestFocus();
+                lastNameField.setError(message);
+                break;
+            case User.LAST_NAME_CANT_BE_HIGHER_THAN_50:
+                lastNameField.requestFocus();
+                lastNameField.setError(message);
                 break;
             case User.EMAIL_CANT_BE_EMPTY_EMAIL:
                 mailField.requestFocus();
@@ -138,7 +147,8 @@ public class UserRegister extends Fragment implements View.OnClickListener{
     }
 
     private void settingTextTyped(){
-        this.name = nameField.getText().toString();
+        this.firstName = firstNameField.getText().toString();
+        this.lastName = lastNameField.getText().toString();
         this.username = usernameField.getText().toString();
         this.mail = mailField.getText().toString();
         this.mailConfirmation = mailConfirmationField.getText().toString();
