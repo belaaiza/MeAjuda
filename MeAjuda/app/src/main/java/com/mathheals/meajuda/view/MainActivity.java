@@ -101,7 +101,11 @@ public class MainActivity extends AppCompatActivity
 
         //Sets the category icon
         ImageView categoryIcon = (ImageView) itemMenuCategory.findViewById(R.id.categoryIcon);
-        Drawable icon = ResourcesCompat.getDrawable(getResources(), categoryInfo.getIdIcon(),
+
+
+        int drawableId = getResources().getIdentifier(categoryInfo.getIconName(), "drawable",
+                getPackageName());
+        Drawable icon = ResourcesCompat.getDrawable(getResources(), drawableId,
                 getTheme());
         categoryIcon.setImageDrawable(icon);
     }

@@ -10,21 +10,21 @@ public class Category {
     private int idCategory;
     private String name;
     private String color;
-    private Integer idIcon;
+    private String iconName;
 
-    public Category(int idCategory, String name, String color, Integer idIcon){
+    public Category(int idCategory, String name, String color, String iconName){
         setIdCategory(idCategory);
         setName(name);
         setColor(color);
-        setIdIcon(idIcon);
+        setIconName(iconName);
     }
 
     public String getColor(){
         return color;
     }
 
-    public Integer getIdIcon(){
-        return idIcon;
+    public String getIconName(){
+        return iconName;
     }
 
     public String getName(){
@@ -39,8 +39,8 @@ public class Category {
         this.color = color;
     }
 
-    public void setIdIcon(Integer idIcon){
-        this.idIcon = idIcon;
+    public void setIconName(String iconName){
+        this.iconName = iconName;
     }
 
     private void setName(String name){
