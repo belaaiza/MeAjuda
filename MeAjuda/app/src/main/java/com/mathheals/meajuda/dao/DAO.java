@@ -105,7 +105,7 @@ public abstract class DAO {
             consultJson = processQuery(query, URL_CONSULT);
             assert consultJson != null;
 
-            jsonObject  = new JSONObject(consultJson);
+            jsonObject = new JSONObject(consultJson);
         }catch(Exception e){
             e.printStackTrace();
         }

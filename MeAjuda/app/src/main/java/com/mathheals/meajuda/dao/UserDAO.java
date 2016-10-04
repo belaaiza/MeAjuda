@@ -1,15 +1,17 @@
 package com.mathheals.meajuda.dao;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.User;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.Vector;
+
+import org.json.JSONObject;
 
 public class UserDAO extends DAO {
 
@@ -39,16 +41,20 @@ public class UserDAO extends DAO {
 
     /**
      * Saves an user on the database
-     * @param user
+     * @param user - User to be saved
      * @return String - Returns a text confirming if the query was executed with success
      */
     public String saveUser(User user){
 
-        final String QUERY = "INSERT INTO Usuario(email, nome, sobrenome, rating, Escola_idEscola" +
-                ")VALUES" + "(\"" + user.getEmail() + "\", \"" + user.getFirstName() + "\", \""
-                + user.getLastName() + "\"," + user.getRating() + "\"," + user.getIdSchool() + "\")";
+        final String QUERY = "INSERT INTO Usuario(email, nome, sobrenome, rating, " +
+                "Escola_idEscola, Classificacao_idClassificacao)VALUES (\" " + user.getEmail() +
+                " \", \" " + user.getFirstName() + " \", \" " + user.getLastName() + " \", " +
+                user.getRating() +  ", " + user.getIdSchool() + ", " +
+                user.getIdClassification() + ")";
+        Log.d("Final Query", QUERY);
 
         String queryStatus = this.executeQuery(QUERY);
+        Log.d("User save status", queryStatus);
 
         return queryStatus;
     }
@@ -86,5 +92,30 @@ public class UserDAO extends DAO {
         return users;
     }
 
+    /**
+     * Searches an user at database by his login name
+     * @param login - The login of an user
+     * @return JSONObject - Returns a JSONObject with the results of the consult
+     */
+    public JSONObject searchUserByLoginName(String login){
+        final String QUERY = "SELECT * FROM Usuario WHERE login =\"" + login + "\"";
+        Log.d("FinalLoginSearchQuery", QUERY);
 
+        JSONObject userData = this.executeConsult(QUERY);
+
+        return userData;
+    }
+
+    /**
+     * Searches an user at database by his email
+     * @param email - The email of an user
+     * @return JSONObject - Returns a JSONObject with the results of the consult
+     */
+    public JSONObject searchUserByEmail (String email){
+        final String QUERY = "SELECT * FROM Usuario WHERE email =\"" + email + "\"";
+
+        JSONObject userData = this.executeConsult(QUERY);
+
+        return userData;
+    }
 }

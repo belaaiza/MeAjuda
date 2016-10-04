@@ -73,7 +73,7 @@ public class CategoryDAO extends DAO {
                         consultResult.getJSONObject("" + i).getInt("idCategoria"),
                         consultResult.getJSONObject("" + i).getString("descricao"),
                         consultResult.getJSONObject("" + i).getString("cor"),
-                        consultResult.getJSONObject("" + i).getInt("id_img")
+                        consultResult.getJSONObject("" + i).getString("name_img")
                 );
 
                 categories.add(category);
