@@ -1,13 +1,14 @@
 /**
- * File: DAO.java
- * Purpose: Process database queries
- */
+* File: DAO.java
+* Purpose: Process database queries
+*/
 
 package com.mathheals.meajuda.dao;
 
 import android.content.Context;
 import android.widget.Toast;
 import org.json.JSONObject;
+import com.mathheals.meajuda.dao.ConsultDAO;
 import java.util.Calendar;
 
 public abstract class DAO {
@@ -140,3 +141,4 @@ public abstract class DAO {
         return isConnectionTimedOut;
     }
 }
+
