@@ -26,11 +26,13 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title;
         public TextView description;
+        public TextView author;
 
         public ViewHolder(CardView card) {
             super(card);
             this.title = (TextView) card.findViewById(R.id.title);
             this.description = (TextView) card.findViewById(R.id.description);
+            this.author = (TextView) card.findViewById(R.id.author);
             card.setOnClickListener(this);
         }
 
@@ -63,6 +65,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         Topic rowData = this.data.get(position);
         holder.title.setText(rowData.getTitle());
         holder.description.setText(rowData.getDescription());
+        holder.author.setText(rowData.getNameOwner());
     }
 
     @Override

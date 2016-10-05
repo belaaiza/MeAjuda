@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,11 +28,13 @@ import com.mathheals.meajuda.model.Category;
 import com.mathheals.meajuda.presenter.CategoryPresenter;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -49,6 +52,18 @@ public class MainActivity extends AppCompatActivity
         } catch(JSONException e){
             e.printStackTrace();
         }
+    }
+
+    public void editActions(View view){
+        TextView categoryId = (TextView)view.findViewById(R.id.categoryId);
+
+        Bundle args = new Bundle();
+        args.putInt("idCategory", Integer.parseInt(categoryId.getText().toString()));
+
+        TopicList topicList = new TopicList();
+        topicList.setArguments(args);
+
+        openFragment(topicList);
     }
 
     private void fillCategoriesMenu() throws JSONException{
@@ -98,6 +113,10 @@ public class MainActivity extends AppCompatActivity
         //Sets the text of the new menu item as the given category name
         TextView categoryName = (TextView) itemMenuCategory.findViewById(R.id.categoryName);
         categoryName.setText(categoryInfo.getName());
+
+        //Sets the category id
+        TextView categoryId = (TextView) itemMenuCategory.findViewById(R.id.categoryId);
+        categoryId.setText(categoryInfo.getIdCategory() + "");
 
         //Sets the category icon
         ImageView categoryIcon = (ImageView) itemMenuCategory.findViewById(R.id.categoryIcon);
