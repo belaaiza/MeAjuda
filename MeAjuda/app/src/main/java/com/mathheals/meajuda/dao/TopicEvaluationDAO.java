@@ -2,8 +2,6 @@ package com.mathheals.meajuda.dao;
 
 import android.app.Activity;
 import android.content.Context;
-import com.mathheals.meajuda.model.TopicEvaluation;
-import org.json.JSONObject;
 
 /**
  * Created by geovanni on 02/10/16.
