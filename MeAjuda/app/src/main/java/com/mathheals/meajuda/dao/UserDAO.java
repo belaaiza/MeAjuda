@@ -60,39 +60,6 @@ public class UserDAO extends DAO {
         return queryStatus;
     }
 
-    public Vector<User> searchUserFirstName(int owner) throws JSONException, ParseException, UserException {
-        assert owner >= 1;
-
-        JSONObject json = this.executeConsult("SELECT * FROM tb_event WHERE idFirstName=" + owner + " GROUP BY idFirstName");
-
-
-        if(json == null) {
-            return null;
-        }else{
-            // Nothing to do
-        }
-
-        Vector<User> users = new Vector<>();
-
-        for (int i = 0; i < json.length(); i++) {
-
-            User user = new User(json.getJSONObject("" + i).getString("userFirstName"),
-                    json.getJSONObject("" + i).getString("userLastName"),
-                    json.getJSONObject("" + i).getString("username"),
-                    json.getJSONObject("" + i).getString("email"),
-                    json.getJSONObject("" + i).getString("mailConfirmation"),
-                    json.getJSONObject("" + i).getString("password"),
-                    json.getJSONObject("" + i).getString("passwordConfirmation"),
-                    json.getJSONObject("" + i).getInt("rating"),
-                    json.getJSONObject("" + i).getInt("idSchool"),
-                    json.getJSONObject("" + i).getInt("idClassification")
-                    );
-            users.add(user);
-        }
-
-        return users;
-    }
-
     /**
      * Searches an user at database by his login name
      * @param login - The login of an user

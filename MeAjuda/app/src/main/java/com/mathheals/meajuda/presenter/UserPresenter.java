@@ -2,6 +2,7 @@ package com.mathheals.meajuda.presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.dao.UserDAO;
@@ -86,14 +87,11 @@ public class UserPresenter {
         return message;
     }
 
-    public SharedPreferences.Editor createLoginSession(String name, String email,
+    public SharedPreferences.Editor createLoginSession(String email,
                                                         SharedPreferences session) {
 
         // All Shared Preferences Keys
         final String IS_LOGIN = "IsLoggedIn";
-
-        // User name
-        final String KEY_NAME = "name";
 
         // Email address
         final String KEY_EMAIL = "email";
@@ -101,10 +99,41 @@ public class UserPresenter {
         SharedPreferences.Editor editor = session.edit();
 
         editor.putBoolean(IS_LOGIN, true);
-        editor.putString(KEY_NAME, name);
         editor.putString(KEY_EMAIL, email);
         editor.commit();
 
         return editor;
+    }
+
+    public User showProfile(String emailOrLogin, Context context){
+        UserDAO userDAO = UserDAO.getInstance(context);
+
+        JSONObject userFound = userDAO.searchUserByEmail(emailOrLogin);
+
+        if(userFound == null){
+            userFound = userDAO.searchUserByLoginName(emailOrLogin);
+        }
+
+        Log.d("USER FOUND", userFound.toString());
+
+        User user = null;
+
+        try{
+            user = new User(userFound.getJSONObject("0").getString("nome"),
+                    userFound.getJSONObject("0").getString("sobrenome"),
+                    userFound.getJSONObject("0").getString("login"),
+                    userFound.getJSONObject("0").getInt("rating"));
+
+        } catch(UserException e){
+            e.printStackTrace();
+
+        } catch(ParseException e){
+            e.printStackTrace();
+
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        return user;
     }
 }

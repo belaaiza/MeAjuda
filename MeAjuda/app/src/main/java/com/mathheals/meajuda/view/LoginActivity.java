@@ -3,6 +3,7 @@ package com.mathheals.meajuda.view;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -60,9 +61,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     emailField.setError(message);
                 }
                 else{
-                    SharedPreferences session = getApplicationContext()
-                            .getSharedPreferences("session", MODE_PRIVATE);
-                    userPresenter.createLoginSession(emailTyped, passwordTyped, session);
+                    SharedPreferences session = PreferenceManager.
+                            getDefaultSharedPreferences(getApplicationContext());
+                    userPresenter.createLoginSession(emailTyped, session);
 
                     Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
 
@@ -80,8 +81,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             UserRegister userRegisterFragment = new UserRegister();
             openFragment(userRegisterFragment);
         }
-
-
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
