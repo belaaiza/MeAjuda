@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity
         } catch(JSONException e){
             e.printStackTrace();
         }
+
+        ViewProfile viewProfile = new ViewProfile();
+        openFragment(viewProfile);
     }
 
     private void fillCategoriesMenu() throws JSONException{
