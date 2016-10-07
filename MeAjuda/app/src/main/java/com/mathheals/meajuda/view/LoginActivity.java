@@ -57,8 +57,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     emailField.setError(message);
                 }
                 else if(message.equals(getResources().getString(R.string.error_password))){
-                    emailField.requestFocus();
-                    emailField.setError(message);
+                    passwordField.requestFocus();
+                    passwordField.setError(message);
                 }
                 else{
                     SharedPreferences session = PreferenceManager.
