@@ -46,4 +46,16 @@ public class TopicPresenter {
 
         return topics;
     }
+
+    public Topic getTopicById(int idTopic) {
+        Topic topic = null;
+
+        try {
+            topic = topicDAO.getTopicById(idTopic);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return topic;
+    }
 }
