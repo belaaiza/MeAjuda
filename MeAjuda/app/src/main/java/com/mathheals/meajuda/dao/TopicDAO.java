@@ -40,9 +40,28 @@ public class TopicDAO extends DAO {
 
     }
 
+    public Topic getTopicById(int idTopic) throws JSONException {
+        final String SELECT_TOPIC_BY_ID_QUERY = "SELECT titulo, descricao, " +
+                "Usuario_idUsuario FROM Topico WHERE idTopico = "+ idTopic +" ";
+
+        JSONObject consultResult = executeConsult(SELECT_TOPIC_BY_ID_QUERY);
+
+        int idOwner = consultResult.getJSONObject("0").getInt("Usuario_idUsuario");
+
+        UserDAO userDAO = UserDAO.getInstance(context);
+
+        String nameOwner = userDAO.getUserNameById(idOwner);
+        String title = consultResult.getJSONObject("0").getString("titulo");
+        String description = consultResult.getJSONObject("0").getString("descricao");
+
+        Topic topic = new Topic(idTopic, title, description, nameOwner);
+
+        return topic;
+    }
+
     public List<Topic> getTopicsByCategory(int idCategory) throws JSONException {
-        final String SELECT_ALL_TOPICS_QUERY = "SELECT titulo, descricao, Usuario_idUsuario " +
-                "FROM Topico WHERE Categoria_idCategoria = "+ idCategory +" ";
+        final String SELECT_ALL_TOPICS_QUERY = "SELECT idTopico, titulo, descricao, " +
+                "Usuario_idUsuario FROM Topico WHERE Categoria_idCategoria = "+ idCategory +" ";
 
         JSONObject consultResult = executeConsult(SELECT_ALL_TOPICS_QUERY);
 
@@ -52,13 +71,14 @@ public class TopicDAO extends DAO {
 
         if(consultResult != null) {
             for (int i = 0; i < consultResult.length(); i++) {
+                int idTopic = consultResult.getJSONObject("" + i).getInt("idTopico");
                 int idOwner = consultResult.getJSONObject("" + i).getInt("Usuario_idUsuario");
 
                 String title = consultResult.getJSONObject("" + i).getString("titulo");
                 String description = consultResult.getJSONObject("" + i).getString("descricao");
                 String nameOwner = userDAO.getUserNameById(idOwner);
 
-                Topic topic = new Topic(title, description, nameOwner);
+                Topic topic = new Topic(idTopic, title, description, nameOwner);
                 topics.add(topic);
             }
         } else {
