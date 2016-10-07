@@ -190,6 +190,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             finish();
             return true;
+        } else if(id == R.id.create_topic){
+            TopicCreation topicCreation = new TopicCreation();
+            openFragment(topicCreation);
         }
 
         return super.onOptionsItemSelected(item);

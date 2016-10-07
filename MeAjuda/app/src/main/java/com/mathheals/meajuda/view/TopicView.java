@@ -1,5 +1,6 @@
 package com.mathheals.meajuda.view;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -49,7 +50,10 @@ public class TopicView extends Fragment {
 
     private void setTextViews(View view) {
         nameAuthorTextView = (TextView) view.findViewById(R.id.nameAuthor);
+
         titleTextView = (TextView) view.findViewById(R.id.title);
+        titleTextView.setTypeface(null, Typeface.BOLD);
+
         contentTextView = (TextView) view.findViewById(R.id.content);
         likesTextView = (TextView) view.findViewById(R.id.likes);
         dislikesTextView = (TextView) view.findViewById(R.id.dislikes);
@@ -65,8 +69,8 @@ public class TopicView extends Fragment {
         contentTextView.setText(topic.getDescription());
 
         //Trocar essa parte pela avaliação real depois
-        likesTextView.setText("7");
-        dislikesTextView.setText("3");
+        likesTextView.setText("7 likes");
+        dislikesTextView.setText("3 dislikes");
 
     }
 

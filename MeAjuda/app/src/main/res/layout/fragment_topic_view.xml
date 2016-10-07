@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/nameAuthor"
@@ -22,6 +23,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="title"/>
 
         <TextView
@@ -30,17 +32,27 @@
             android:layout_height="wrap_content"
             android:text="Content" />
 
-        <TextView
-            android:id="@+id/likes"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Likes" />
+            android:layout_gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/dislikes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dislikes" />
+            <TextView
+                android:id="@+id/likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="180dp"
+                android:text="Likes" />
+
+            <TextView
+                android:id="@+id/dislikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Dislikes" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

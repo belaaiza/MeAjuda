@@ -33,8 +33,8 @@ public class TopicDAO extends DAO {
     public void createTopic(int idCategory, String title, String description) {
         final String QUERY;
 
-        QUERY = "INSERT INTO Topico(descricao, Categoria_idCategoria, titulo) " +
-            "VALUES(\" "+ description +" \", "+ idCategory +", \" "+ title +" \")";
+        QUERY = "INSERT INTO Topico(descricao, Categoria_idCategoria, titulo, Usuario_idUsuario) "+
+            "VALUES(\" "+ description +" \", "+ idCategory +", \" "+ title +" \", \" 6 \")";
 
         executeQuery(QUERY);
 
