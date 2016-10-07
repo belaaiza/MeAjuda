@@ -3,6 +3,8 @@
     android:id="@+id/linear"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:onClick="editActions"
     android:orientation="vertical">
 
     <FrameLayout
@@ -26,6 +28,12 @@
             android:layout_marginTop="25dp"
             android:layout_gravity="center"
             android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/categoryId"
+            android:visibility="invisible"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
 
     </FrameLayout>
 

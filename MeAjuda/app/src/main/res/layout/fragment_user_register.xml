@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/saveButton"
-            android:background="@color/green_logo"
+            android:background="@color/colorPrimary"
             android:textColor="#FFF"
             android:text="Cadastrar"  />
     </LinearLayout>

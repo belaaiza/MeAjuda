@@ -1,5 +1,6 @@
 package com.mathheals.meajuda.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,8 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +32,7 @@ import java.util.Vector;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -52,6 +52,18 @@ public class MainActivity extends AppCompatActivity
 
         ViewProfile viewProfile = new ViewProfile();
         openFragment(viewProfile);
+    }
+
+    public void editActions(View view){
+        TextView categoryId = (TextView)view.findViewById(R.id.categoryId);
+
+        Bundle args = new Bundle();
+        args.putInt("idCategory", Integer.parseInt(categoryId.getText().toString()));
+
+        TopicList topicList = new TopicList();
+        topicList.setArguments(args);
+
+        openFragment(topicList);
     }
 
     private void fillCategoriesMenu() throws JSONException{
@@ -101,6 +113,10 @@ public class MainActivity extends AppCompatActivity
         //Sets the text of the new menu item as the given category name
         TextView categoryName = (TextView) itemMenuCategory.findViewById(R.id.categoryName);
         categoryName.setText(categoryInfo.getName());
+
+        //Sets the category id
+        TextView categoryId = (TextView) itemMenuCategory.findViewById(R.id.categoryId);
+        categoryId.setText(categoryInfo.getIdCategory() + "");
 
         //Sets the category icon
         ImageView categoryIcon = (ImageView) itemMenuCategory.findViewById(R.id.categoryIcon);
@@ -154,15 +170,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if(id == R.id.action_settings){
-            TopicList topicList = new TopicList();
-            openFragment(topicList);
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+
             return true;
         }
 

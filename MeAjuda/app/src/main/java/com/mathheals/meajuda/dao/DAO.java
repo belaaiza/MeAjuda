@@ -1,16 +1,18 @@
 /**
- * File: DAO.java
- * Purpose: Process database queries
- */
+* File: DAO.java
+* Purpose: Process database queries
+*/
 
 package com.mathheals.meajuda.dao;
 
 import android.content.Context;
 import android.widget.Toast;
+
 import org.json.JSONObject;
+
 import java.util.Calendar;
 
-public abstract class DAO {
+public abstract class DAO{
 
     private static final int LIMIT_CONNECTION_TIME = 50000;
     private static final String STRING_EMPTY = "";
@@ -23,6 +25,7 @@ public abstract class DAO {
 
     /**
      * Constructs DAO with the current context
+     *
      * @param currentContext Current context
      */
     public DAO(Context currentContext){
@@ -31,15 +34,16 @@ public abstract class DAO {
 
     /**
      * Process a query in the database
-     * @param query Query text to be used in the database
+     *
+     * @param query    Query text to be used in the database
      * @param urlQuery URL of the database
      * @return Answer of the query
      */
-    private String processQuery(String query,String urlQuery){
+    private String processQuery(String query, String urlQuery){
         assert query != null;
         assert urlQuery != null;
 
-        ConsultDAO consultDAO = new ConsultDAO(query,urlQuery);
+        ConsultDAO consultDAO = new ConsultDAO(query, urlQuery);
         consultDAO.execute();
 
         boolean isConnectionTimedOut = this.testConnectionTime(consultDAO);
@@ -47,7 +51,8 @@ public abstract class DAO {
         String consultAnswer = STRING_EMPTY;
         if(!isConnectionTimedOut){
             consultAnswer = consultDAO.getResult();
-        }else{
+        }
+        else{
             consultAnswer = null;
         }
 
@@ -56,7 +61,8 @@ public abstract class DAO {
 
     /**
      * Checks if query time exceeded the time limit
-     * @param timeLimit Time limit to consult database
+     *
+     * @param timeLimit   Time limit to consult database
      * @param currentTime Current time of the consult
      * @return True if the limit was exceeded, false otherwise
      */
@@ -68,7 +74,8 @@ public abstract class DAO {
 
         if(currentTime < timeLimit){
             isLimitExceeded = false;
-        }else{
+        }
+        else{
             isLimitExceeded = true;
         }
 
@@ -77,6 +84,7 @@ public abstract class DAO {
 
     /**
      * Executes a query in the database
+     *
      * @param query Query text to be executed in the database
      * @return Executed query answer
      */
@@ -91,6 +99,7 @@ public abstract class DAO {
 
     /**
      * Executes database consult and creates a JSONObject from it
+     *
      * @param query Query text to be executed in the database
      * @return JSONObject generated based on the consult
      */
@@ -106,7 +115,7 @@ public abstract class DAO {
             assert consultJson != null;
 
             jsonObject = new JSONObject(consultJson);
-        }catch(Exception e){
+        } catch(Exception e){
             e.printStackTrace();
         }
 
@@ -115,6 +124,7 @@ public abstract class DAO {
 
     /**
      * Tests connection time of a given consult
+     *
      * @param consultDAO Consult to be made in database
      * @return True if the connection had timed out, false otherwise
      */
@@ -130,15 +140,14 @@ public abstract class DAO {
         }
 
         boolean isConnectionTimedOut = false;
-        if(limitExceeded(timeLimit,currentTime)){
-            Toast.makeText(currentContext,CONNECTION_PROBLEM_MESSAGE, Toast.LENGTH_LONG).show();
+        if(limitExceeded(timeLimit, currentTime)){
+            Toast.makeText(currentContext, CONNECTION_PROBLEM_MESSAGE, Toast.LENGTH_LONG).show();
             isConnectionTimedOut = true;
-        }else{
+        }
+        else{
             isConnectionTimedOut = false;
         }
 
         return isConnectionTimedOut;
     }
-
-
 }

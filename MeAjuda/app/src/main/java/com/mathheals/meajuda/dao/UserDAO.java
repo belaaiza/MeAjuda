@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.util.Vector;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class UserDAO extends DAO {
@@ -118,4 +119,21 @@ public class UserDAO extends DAO {
 
         return userData;
     }
+
+    /**
+     * Searches an user name at database by his id
+     * @param idUser - The id of an user
+     * @return String - Returns a String with the name of the user
+     * @throws JSONException
+     */
+    public String getUserNameById(int idUser) throws JSONException {
+        final String QUERY = "SELECT nome FROM Usuario WHERE idUsuario = "+ idUser +" ";
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        String name = consultResult.getJSONObject("0").getString("nome");
+
+        return name;
+    }
+
 }
