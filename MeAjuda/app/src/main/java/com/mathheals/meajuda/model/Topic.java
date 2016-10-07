@@ -2,24 +2,25 @@ package com.mathheals.meajuda.model;
 
 public class Topic {
 
-    private int topicId;
-    private int categoryId;
+    private int idTopic;
+    private int idCategory;
     private String title;
     private String description;
     private String nameOwner;
 
-    public Topic(String title, String description, String nameOwner) {
+    public Topic(int idTopic, String title, String description, String nameOwner) {
+        setIdTopic(idTopic);
         setTitle(title);
         setDescription(description);
         setNameOwner(nameOwner);
     }
 
-    public int getTopicId() {
-        return topicId;
+    public int getIdTopic() {
+        return idTopic;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public int getIdCategory() {
+        return idCategory;
     }
 
     public String getTitle(){
@@ -34,12 +35,12 @@ public class Topic {
         return nameOwner;
     }
 
-    private void setTopicId(int topicId) {
-        this.topicId = topicId;
+    private void setIdTopic(int idTopic) {
+        this.idTopic = idTopic;
     }
 
-    private void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    private void setIdCategory(int idCategory) {
+        this.idCategory = idCategory;
     }
 
     private void setTitle(String title){

@@ -49,13 +49,14 @@ public class MainActivity extends AppCompatActivity
         } catch(JSONException e){
             e.printStackTrace();
         }
+
     }
 
     public void editActions(View view){
-        TextView categoryId = (TextView)view.findViewById(R.id.categoryId);
+        TextView idCategory = (TextView)view.findViewById(R.id.idCategory);
 
         Bundle args = new Bundle();
-        args.putInt("idCategory", Integer.parseInt(categoryId.getText().toString()));
+        args.putInt("idCategory", Integer.parseInt(idCategory.getText().toString()));
 
         TopicList topicList = new TopicList();
         topicList.setArguments(args);
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         categoryName.setText(categoryInfo.getName());
 
         //Sets the category id
-        TextView categoryId = (TextView) itemMenuCategory.findViewById(R.id.categoryId);
+        TextView categoryId = (TextView) itemMenuCategory.findViewById(R.id.idCategory);
         categoryId.setText(categoryInfo.getIdCategory() + "");
 
         //Sets the category icon
