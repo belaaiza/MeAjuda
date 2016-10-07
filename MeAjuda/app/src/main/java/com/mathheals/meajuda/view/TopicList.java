@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.presenter.TopicPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,16 +35,21 @@ public class TopicList extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        List<Topic> data = new ArrayList<>();
-        Topic topic1 = new Topic(1, "Testando", "Testando a descrição da parada");
-        Topic topic2 = new Topic(1, "Testando", "Testando a descrição da parada");
+        TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
-        data.add(topic1);
-        data.add(topic2);
+        Bundle args = this.getArguments();
+
+        int idCategory = args.getInt("idCategory", 0);
+        Log.d("Category id: ", idCategory + "");
+
+        assert(idCategory != 0);
+
+        List<Topic> data = topicPresenter.getTopicsByCategory(idCategory);
 
         recyclerView.setAdapter(new CardListAdapter(this.getContext(), data));
 
         return topicListView;
     }
+
 
 }

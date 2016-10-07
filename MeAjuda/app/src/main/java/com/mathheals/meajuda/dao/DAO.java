@@ -7,8 +7,9 @@ package com.mathheals.meajuda.dao;
 
 import android.content.Context;
 import android.widget.Toast;
+
 import org.json.JSONObject;
-import com.mathheals.meajuda.dao.ConsultDAO;
+
 import java.util.Calendar;
 
 public abstract class DAO{

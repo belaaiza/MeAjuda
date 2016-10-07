@@ -1,8 +1,12 @@
 package com.mathheals.meajuda.view;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.res.ResourcesCompat;
@@ -12,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +36,8 @@ import java.util.Vector;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+    private SharedPreferences session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        this.session = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         setUpNavigationDrawer(toolbar);
 
         try{
@@ -49,6 +56,19 @@ public class MainActivity extends AppCompatActivity
         } catch(JSONException e){
             e.printStackTrace();
         }
+
+    }
+
+    public void editActions(View view){
+        TextView idCategory = (TextView)view.findViewById(R.id.idCategory);
+
+        Bundle args = new Bundle();
+        args.putInt("idCategory", Integer.parseInt(idCategory.getText().toString()));
+
+        TopicList topicList = new TopicList();
+        topicList.setArguments(args);
+
+        openFragment(topicList);
     }
 
     private void fillCategoriesMenu() throws JSONException{
@@ -99,6 +119,10 @@ public class MainActivity extends AppCompatActivity
         TextView categoryName = (TextView) itemMenuCategory.findViewById(R.id.categoryName);
         categoryName.setText(categoryInfo.getName());
 
+        //Sets the category id
+        TextView categoryId = (TextView) itemMenuCategory.findViewById(R.id.idCategory);
+        categoryId.setText(categoryInfo.getIdCategory() + "");
+
         //Sets the category icon
         ImageView categoryIcon = (ImageView) itemMenuCategory.findViewById(R.id.categoryIcon);
 
@@ -120,6 +144,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if(session != null && session.getBoolean("IsLoggedIn", false)){
+            navigationView.getMenu().findItem(R.id.nav_manage).setVisible(true);
+        }
+
+
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
@@ -151,14 +181,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if(id == R.id.action_settings){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
             return true;
+        } else if(id == R.id.create_topic){
+            TopicCreation topicCreation = new TopicCreation();
+            openFragment(topicCreation);
         }
 
         return super.onOptionsItemSelected(item);
@@ -183,7 +217,8 @@ public class MainActivity extends AppCompatActivity
                 }
                 else{
                     if(id == R.id.nav_manage){
-
+                        ViewProfile viewProfile = new ViewProfile();
+                        openFragment(viewProfile);
                     }
                     else{
                         if(id == R.id.nav_share){
