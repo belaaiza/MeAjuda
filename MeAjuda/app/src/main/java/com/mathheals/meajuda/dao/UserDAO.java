@@ -3,7 +3,13 @@ package com.mathheals.meajuda.dao;
 import android.content.Context;
 import android.util.Log;
 
+import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.User;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.util.Vector;
 
 import org.json.JSONException;
 import org.json.JSONObject;

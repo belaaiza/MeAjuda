@@ -1,9 +1,12 @@
 package com.mathheals.meajuda.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.res.ResourcesCompat;
@@ -12,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +36,7 @@ import java.util.Vector;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+    private SharedPreferences session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity
         //Setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        this.session = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         setUpNavigationDrawer(toolbar);
 
@@ -137,6 +144,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if(session != null && session.getBoolean("IsLoggedIn", false)){
+            navigationView.getMenu().findItem(R.id.nav_manage).setVisible(true);
+        }
+
+
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
@@ -176,7 +189,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
-
             return true;
         }
 
@@ -202,7 +214,8 @@ public class MainActivity extends AppCompatActivity
                 }
                 else{
                     if(id == R.id.nav_manage){
-
+                        ViewProfile viewProfile = new ViewProfile();
+                        openFragment(viewProfile);
                     }
                     else{
                         if(id == R.id.nav_share){
