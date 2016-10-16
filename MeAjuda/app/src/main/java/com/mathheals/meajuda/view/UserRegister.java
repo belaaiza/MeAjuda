@@ -2,21 +2,33 @@ package com.mathheals.meajuda.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.NoCopySpan;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mathheals.meajuda.R;
+import com.mathheals.meajuda.dao.JSONHelper;
+import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.User;
 import com.mathheals.meajuda.presenter.UserPresenter;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserRegister extends Fragment implements View.OnClickListener{
+public class UserRegister extends Fragment implements View.OnClickListener, NoCopySpan {
     private EditText firstNameField = null;
     private EditText lastNameField = null;
     private EditText mailField = null;
@@ -24,6 +36,7 @@ public class UserRegister extends Fragment implements View.OnClickListener{
     private EditText usernameField = null;
     private EditText passwordField = null;
     private EditText passwordConfirmField = null;
+    private AutoCompleteTextView schoolField = null;
 
     private String firstName = "";
     private String lastName = "";
@@ -32,6 +45,7 @@ public class UserRegister extends Fragment implements View.OnClickListener{
     private String password = "";
     private String passwordConfirmation = "";
     private String mailConfirmation = "";
+    private String school = "";
 
     public UserRegister(){
         // Required empty public constructor
@@ -60,7 +74,47 @@ public class UserRegister extends Fragment implements View.OnClickListener{
         this.passwordField = (EditText) view.findViewById(R.id.passwordField);
         this.mailConfirmationField = (EditText) view.findViewById(R.id.confirmMailField);
         this.passwordConfirmField = (EditText) view.findViewById(R.id.confirmPasswordField);
+        this.schoolField = (AutoCompleteTextView) view.findViewById(R.id.schoolField);
+
+        schoolField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                List<School> schoolList = new ArrayList<>();
+
+                try {
+                    schoolList = JSONHelper.schoolListFromName(s.toString().replaceAll(" ", "%20"), 3);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                List<String> schoolNameList = new ArrayList<>();
+
+                for(int i = 0; i < schoolList.size(); i++) {
+                    schoolNameList.add(schoolList.get(i).getName());
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                        android.R.layout.simple_list_item_1, schoolNameList);
+                schoolField.setAdapter(adapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        List<String> countries = new ArrayList<>();
+        //String[] countries = {"Brasil", "Canada", "Brama", "Bahamas", "Cualquer coisa"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,countries);
+        schoolField.setAdapter(adapter);
     }
+
 
 
     @Override
@@ -154,6 +208,7 @@ public class UserRegister extends Fragment implements View.OnClickListener{
         this.mailConfirmation = mailConfirmationField.getText().toString();
         this.password = passwordField.getText().toString();
         this.passwordConfirmation = passwordConfirmField.getText().toString();
+        this.school = schoolField.getText().toString();
     }
 
 }
