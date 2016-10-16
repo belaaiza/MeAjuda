@@ -55,8 +55,6 @@ public class TopicView extends Fragment {
         titleTextView.setTypeface(null, Typeface.BOLD);
 
         contentTextView = (TextView) view.findViewById(R.id.content);
-        likesTextView = (TextView) view.findViewById(R.id.likes);
-        dislikesTextView = (TextView) view.findViewById(R.id.dislikes);
     }
 
     private void setTopicInfo(int idTopic) {
@@ -67,11 +65,6 @@ public class TopicView extends Fragment {
         nameAuthorTextView.setText(topic.getNameOwner());
         titleTextView.setText(topic.getTitle());
         contentTextView.setText(topic.getDescription());
-
-        //Trocar essa parte pela avaliação real depois
-        likesTextView.setText("7 likes");
-        dislikesTextView.setText("3 dislikes");
-
     }
 
 

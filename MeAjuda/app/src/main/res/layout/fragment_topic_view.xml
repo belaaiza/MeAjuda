@@ -1,59 +1,145 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFF"
-    tools:context=".view.topics.TopicView">
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/nameAuthor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Author" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="title"/>
-
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Content" />
-
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
+            android:background="#FFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/likes"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="180dp"
-                android:text="Likes" />
+                android:layout_margin="5dp"
+                android:background="#fff"
+                android:elevation="4dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/dislikes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Dislikes" />
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/userHeader"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:id="@+id/user_profile_photo"
+                            android:layout_gravity="center"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/profile_circular_border_imageview"
+                            android:elevation="5dp"
+                            android:padding="10dp"
+                            android:scaleType="centerCrop"
+                            android:src="@android:drawable/sym_def_app_icon" />
+
+                            <TextView
+                                android:layout_gravity="center"
+                                android:textSize="14dp"
+                                style="@style/TextAppearance.AppCompat.Headline"
+                                android:text="Izabela Cardoso"
+                                android:id="@+id/nameAuthor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:layout_gravity="center"
+                                android:textSize="12dp"
+                                android:text="Iniciante"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="Titulo da pergunta"
+                            android:layout_marginLeft="5dp"
+                            android:id="@+id/title"
+                            style="@style/TextAppearance.AppCompat.Headline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:text="Categoria"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="5dp"
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/content"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec lorem euismod, porta eros non, semper nibh. Duis fringilla volutpat erat, vitae mollis orci pulvinar sed. "
+                            android:layout_margin="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:layout_margin="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_arrow_drop_up_black_24dp"
+                            android:tint="#000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:text="10"
+                            style="@style/TextAppearance.AppCompat.Headline"
+                            android:textColor="#000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                            android:tint="#000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_topics"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
-</FrameLayout>
+</ScrollView>

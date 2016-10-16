@@ -7,6 +7,7 @@ package com.mathheals.meajuda.model;
 import com.mathheals.meajuda.exception.TopicEvaluationException;
 
 public class TopicEvaluation {
+
     private Float rating;
     private Integer userId;
     private Integer topicId;

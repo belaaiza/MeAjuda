@@ -75,8 +75,9 @@ public class User {
     }
 
     //Constructor without password and email confirmation
-    public User(Integer userId, String firstName, String lastName, String username, String email, String password,
-                Integer rating, Integer idSchool, Integer idClassification) throws UserException,
+    public User(Integer userId, String firstName, String lastName, String username, String email,
+                String password, Integer rating, Integer idSchool, Integer idClassification)
+            throws UserException,
             ParseException{
 
         setUserId(userId);
