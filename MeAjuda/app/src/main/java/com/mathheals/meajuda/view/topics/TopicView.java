@@ -1,4 +1,4 @@
-package com.mathheals.meajuda.view;
+package com.mathheals.meajuda.view.topics;
 
 import android.graphics.Typeface;
 import android.os.Bundle;

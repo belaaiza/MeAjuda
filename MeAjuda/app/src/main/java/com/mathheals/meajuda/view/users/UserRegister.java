@@ -1,4 +1,4 @@
-package com.mathheals.meajuda.view;
+package com.mathheals.meajuda.view.users;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -65,7 +65,7 @@ public class UserRegister extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v){
-        settingTextTyped();
+        getTextTyped();
 
         UserPresenter userPresenter = new UserPresenter();
 
@@ -146,7 +146,7 @@ public class UserRegister extends Fragment implements View.OnClickListener{
         }
     }
 
-    private void settingTextTyped(){
+    private void getTextTyped(){
         this.firstName = firstNameField.getText().toString();
         this.lastName = lastNameField.getText().toString();
         this.username = usernameField.getText().toString();

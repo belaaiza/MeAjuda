@@ -2,17 +2,30 @@ package com.mathheals.meajuda.dao;
 
 import android.util.Log;
 
+import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.School;
+import com.mathheals.meajuda.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class JSONHelper{
+public class JSONHelper {
+
+    private static JSONHelper instance;
+
+    public static JSONHelper getInstance() {
+        if (instance == null) {
+            instance = new JSONHelper();
+        }
+        return instance;
+    }
+
     public static String getJSONObjectApi(final String URL) {
         String getApi = null;
 
@@ -54,5 +67,33 @@ public class JSONHelper{
 
     private static void populateSchoolList(JSONArray results) {
 
+    }
+
+    public User jsonToUser(String json){
+
+        User user = null;
+
+        try{
+            JSONObject jsonObject = new JSONObject(json);
+
+            user = new User(jsonObject.getJSONObject("0").getInt("idUsuario"),
+                    jsonObject.getJSONObject("0").getString("nome"),
+                    jsonObject.getJSONObject("0").getString("sobrenome"),
+                    jsonObject.getJSONObject("0").getString("login"),
+                    jsonObject.getJSONObject("0").getString("email"),
+                    jsonObject.getJSONObject("0").getString("senha"),
+                    jsonObject.getJSONObject("0").getInt("rating"),
+                    0,
+                    jsonObject.getJSONObject("0").getInt("Classificacao_idClassificacao"));
+
+        } catch(UserException e){
+            e.printStackTrace();
+        } catch(ParseException e){
+            e.printStackTrace();
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        return user;
     }
 }

@@ -2,9 +2,11 @@ package com.mathheals.meajuda.presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.mathheals.meajuda.R;
+import com.mathheals.meajuda.dao.JSONHelper;
 import com.mathheals.meajuda.dao.UserDAO;
 import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.User;
@@ -47,8 +49,38 @@ public class UserPresenter {
         return message;
     }
 
+    public String updateUser(String firstName, String lastName, String username, String mail,
+                               String mailConfirmation, String password,
+                               String passwordConfirmation, Context context){
+        String message = "";
+
+        SharedPreferences currentSession = PreferenceManager.getDefaultSharedPreferences
+                (context);
+
+        try{
+            User user = new User(currentSession.getInt(context.getString(R.string.key_id), -1),
+                    firstName, lastName, username, mail, mailConfirmation,
+                    password, passwordConfirmation);
+
+            UserDAO userDAO = UserDAO.getInstance(context);
+            userDAO.updateUser(user);
+
+            updateLoginSession(user, context, currentSession);
+
+            message = user.USER_SUCCESSFULLY_UPDATED;
+
+        }catch(UserException e){
+            message = e.getMessage();
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+
+        return message;
+    }
+
     public String authenticateUser(String emailOrLogin, String typedPassword, Context context)
             throws JSONException{
+
         String message = "";
 
         UserDAO userDAO = UserDAO.getInstance(context);
@@ -71,14 +103,14 @@ public class UserPresenter {
         return message;
     }
 
+
     private String verifyLoginPassword(JSONObject searchResult, String passwordTyped,
                                        Context context) throws JSONException{
-
-        String message = "";
+        String message;
 
         String userPassword = searchResult.getJSONObject("0").getString("senha");
         if(userPassword.equals(passwordTyped)){
-            message = context.getResources().getString(R.string.success_authentication);
+            message = searchResult.toString();
         }
         else{
             message = context.getResources().getString(R.string.error_password);
@@ -87,19 +119,50 @@ public class UserPresenter {
         return message;
     }
 
-    public SharedPreferences.Editor createLoginSession(String email,
+    public SharedPreferences.Editor createLoginSession(String userJson,Context context,
                                                         SharedPreferences session) {
+
+        User user = JSONHelper.getInstance().jsonToUser(userJson);
 
         // All Shared Preferences Keys
         final String IS_LOGIN = "IsLoggedIn";
 
-        // Email address
-        final String KEY_EMAIL = "email";
+        SharedPreferences.Editor editor = session.edit();
+
+        editor.putBoolean(IS_LOGIN, true);
+        editor.putInt(context.getResources().getString(R.string.key_id), user.getUserId());
+        editor.putString(context.getResources().getString(R.string.key_email), user.getEmail());
+        editor.putString(context.getResources().getString(R.string.key_login), user.getUsername());
+        editor.putString(context.getResources().getString(R.string.key_name), user.getFirstName());
+        editor.putString(context.getResources().getString(R.string.key_last_name),
+                user.getLastName());
+        editor.putString(context.getResources().getString(R.string.key_password),
+                user.getPassword());
+        editor.putInt(context.getResources().getString(R.string.key_rating), user.getRating());
+        editor.putInt(context.getResources().getString(R.string.key_classification),
+                user.getIdClassification());
+        editor.putInt(context.getResources().getString(R.string.key_school), user.getIdSchool());
+        editor.commit();
+
+        return editor;
+    }
+
+    public SharedPreferences.Editor updateLoginSession(User user,Context context,
+                                                       SharedPreferences session) {
+
+        // All Shared Preferences Keys
+        final String IS_LOGIN = "IsLoggedIn";
 
         SharedPreferences.Editor editor = session.edit();
 
         editor.putBoolean(IS_LOGIN, true);
-        editor.putString(KEY_EMAIL, email);
+        editor.putString(context.getResources().getString(R.string.key_email), user.getEmail());
+        editor.putString(context.getResources().getString(R.string.key_login), user.getUsername());
+        editor.putString(context.getResources().getString(R.string.key_name), user.getFirstName());
+        editor.putString(context.getResources().getString(R.string.key_last_name),
+                user.getLastName());
+        editor.putString(context.getResources().getString(R.string.key_password),
+                user.getPassword());
         editor.commit();
 
         return editor;
@@ -118,21 +181,7 @@ public class UserPresenter {
 
         User user = null;
 
-        try{
-            user = new User(userFound.getJSONObject("0").getString("nome"),
-                    userFound.getJSONObject("0").getString("sobrenome"),
-                    userFound.getJSONObject("0").getString("login"),
-                    userFound.getJSONObject("0").getInt("rating"));
-
-        } catch(UserException e){
-            e.printStackTrace();
-
-        } catch(ParseException e){
-            e.printStackTrace();
-
-        } catch(JSONException e){
-            e.printStackTrace();
-        }
+        user = JSONHelper.getInstance().jsonToUser(userFound.toString());
 
         return user;
     }

@@ -1,4 +1,4 @@
-package com.mathheals.meajuda.view;
+package com.mathheals.meajuda.view.topics;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.TopicPresenter;
+import com.mathheals.meajuda.view.CardListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

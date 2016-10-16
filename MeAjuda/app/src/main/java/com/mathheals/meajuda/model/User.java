@@ -7,6 +7,7 @@ import java.text.ParseException;
 
 public class User {
     public static final String USER_SUCCESSFULLY_REGISTERED = "Usuário cadastrado com sucesso";
+    public static final String USER_SUCCESSFULLY_UPDATED = "Seu perfil foi atualizado com sucesso";
     public static final String FIRST_NAME_CANT_BE_EMPTY_NAME = "Acho que você está esquecendo de nos dizer seu nome.";
     public static final String FIRST_NAME_CANT_BE_HIGHER_THAN_50 = "O nome deve ter até 50 caracteres.";
     public static final String LAST_NAME_CANT_BE_EMPTY_NAME = "Acho que você está esquecendo de nos dizer seu último nome.";
@@ -28,6 +29,7 @@ public class User {
     private static final int MAX_LENGTH_USERNAME = 100;
     private static final int MIN_LENGTH_PASSWORD = 6;
 
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String username;
@@ -37,6 +39,7 @@ public class User {
     private Integer idSchool;
     private Integer idClassification;
 
+    //Complete constructor
     public User(String firstName, String lastName, String username, String email,
                 String mailConfirmation, String password, String passwordConfirmation,
                 Integer rating, Integer idSchool, Integer idClassification) throws UserException,
@@ -55,12 +58,40 @@ public class User {
 
     }
 
-    public User(String firstName, String lastName, String username,Integer rating)
+    //Update constructor
+    public User(Integer userId, String firstName, String lastName, String username, String email,
+                String mailConfirmation, String password, String passwordConfirmation)
             throws UserException, ParseException{
+
+        setUserId(userId);
         setFirstName(firstName);
         setLastName(lastName);
         setUsername(username);
+        setEmail(email);
+        verifyEmailConfirmation(mailConfirmation);
+        setPassword(password);
+        verifyPasswordConfirmation(passwordConfirmation);
         setRating(rating);
+    }
+
+    //Constructor without password and email confirmation
+    public User(Integer userId, String firstName, String lastName, String username, String email, String password,
+                Integer rating, Integer idSchool, Integer idClassification) throws UserException,
+            ParseException{
+
+        setUserId(userId);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setUsername(username);
+        setEmail(email);
+        setPassword(password);
+        setRating(rating);
+        setIdSchool(idSchool);
+        setIdClassification(idClassification);
+    }
+
+    private void setUserId(Integer id) {
+        this.userId = id;
     }
 
     private void setRating (Integer rating){
@@ -106,7 +137,7 @@ public class User {
         if (!email.isEmpty() && email!=null) {
             if(email.length() <= MAX_LENGTH_EMAIL){
                 CharSequence emailCharSequence = email;
-                if(Patterns.EMAIL_ADDRESS.matcher(emailCharSequence).matches()){
+                if(Patterns.EMAIL_ADDRESS.matcher(emailCharSequence.toString().trim()).matches()){
                     this.email = email;
                 }else{
                     throw new UserException(INVALID_EMAIL);
@@ -172,6 +203,8 @@ public class User {
             throw new UserException(CONFIRM_PASSWORD_CANT_BE_EMPTY);
         }
     }
+
+    public Integer getUserId() {return this.userId; }
 
     public String getFirstName(){
         return this.firstName;

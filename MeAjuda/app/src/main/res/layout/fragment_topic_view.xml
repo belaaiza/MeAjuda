@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFF"
-    tools:context="com.mathheals.meajuda.view.TopicView">
+    tools:context=".view.topics.TopicView">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -47,15 +47,36 @@ public class UserDAO extends DAO {
      */
     public String saveUser(User user){
 
-        final String QUERY = "INSERT INTO Usuario(email, nome, sobrenome, rating, " +
-                "Escola_idEscola, Classificacao_idClassificacao)VALUES (\" " + user.getEmail() +
-                " \", \" " + user.getFirstName() + " \", \" " + user.getLastName() + " \", " +
-                user.getRating() +  ", " + user.getIdSchool() + ", " +
-                user.getIdClassification() + ")";
+        final String QUERY = "INSERT INTO Usuario(nome, sobrenome, email, login, senha, rating, " +
+                "Escola_idEscola, Classificacao_idClassificacao)VALUES (\" " + user.getFirstName() +
+                " \", \" " + user.getLastName() + " \", \" " + user.getEmail() + " \", \" " +
+                user.getUsername() + " \", \" " + user.getPassword() + " \", " + user.getRating() +
+                ", " + user.getIdSchool() + ", " + user.getIdClassification() + ")";
+
         Log.d("Final Query", QUERY);
 
         String queryStatus = this.executeQuery(QUERY);
         Log.d("User save status", queryStatus);
+
+        return queryStatus;
+    }
+
+    /**
+     * Updates the user's data on the database
+     * @param user
+     * @return String - Returns a text confirming if the query was executed with success
+     */
+    public String updateUser(User user){
+
+        final String QUERY = "UPDATE Usuario SET nome=\"" + user.getFirstName() + "\", " +
+                "sobrenome=\"" + user.getLastName() + "\", " + "email=\"" + user.getEmail() +
+                "\", " + "login=\"" + user.getUsername() + "\", " + "senha=\"" + user.getPassword()
+                + "\"" + " WHERE idUsuario=" + user.getUserId() + " ";
+
+        Log.d("Final Query", QUERY);
+
+        String queryStatus = this.executeQuery(QUERY);
+        Log.d("User update status", queryStatus);
 
         return queryStatus;
     }
