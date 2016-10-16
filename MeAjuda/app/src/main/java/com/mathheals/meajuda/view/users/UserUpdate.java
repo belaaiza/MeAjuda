@@ -796,6 +796,9 @@ public class UserUpdate extends Fragment implements View.OnClickListener {
             case User.USER_SUCCESSFULLY_UPDATED:
                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG)
                         .show();
+
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                
                 break;
             case User.FIRST_NAME_CANT_BE_EMPTY_NAME:
                 firstNameField.requestFocus();
