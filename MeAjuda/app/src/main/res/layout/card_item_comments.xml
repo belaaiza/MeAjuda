@@ -24,12 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/idTopic"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:visibility="invisible" />
-
             <LinearLayout
                 android:id="@+id/userHeader"
                 android:orientation="vertical"
@@ -37,17 +31,6 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/user_profile_photo"
-                    android:layout_gravity="center"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/profile_circular_border_imageview"
-                    android:elevation="5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@android:drawable/sym_def_app_icon" />
 
                 <TextView
                     android:layout_gravity="center"
@@ -72,17 +55,9 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Titulo da pergunta"
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/title"
-                    android:singleLine="true"
-                    style="@style/TextAppearance.AppCompat.Headline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
                     android:id="@+id/description"
                     android:singleLine="true"
+                    android:textColor="#000"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec lorem euismod, porta eros non, semper nibh. Duis fringilla volutpat erat, vitae mollis orci pulvinar sed. "
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
