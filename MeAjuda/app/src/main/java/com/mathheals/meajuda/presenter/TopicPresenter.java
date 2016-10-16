@@ -3,6 +3,7 @@ package com.mathheals.meajuda.presenter;
 import android.content.Context;
 
 import com.mathheals.meajuda.dao.TopicDAO;
+import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
 
 import org.json.JSONException;

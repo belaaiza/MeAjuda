@@ -87,7 +87,6 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
         Comment rowData = this.data.get(position);
 
         holder.description.setText(rowData.getDescription());
-        holder.author.setText(rowData.getIdParent());
     }
 
     @Override

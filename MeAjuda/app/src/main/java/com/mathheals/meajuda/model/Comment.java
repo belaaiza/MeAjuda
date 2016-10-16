@@ -14,6 +14,12 @@ public class Comment {
         setDescription(description);
     }
 
+    //Provisory constructor
+    public Comment(Integer idParent, String description) {
+        setIdParent(idParent);
+        setDescription(description);
+    }
+
     public void setIdComment(Integer idComment) {
         this.idComment = idComment;
     }

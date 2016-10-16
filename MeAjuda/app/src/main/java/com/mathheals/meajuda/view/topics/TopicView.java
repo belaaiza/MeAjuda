@@ -3,6 +3,8 @@ package com.mathheals.meajuda.view.topics;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +12,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mathheals.meajuda.R;
+import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.presenter.CommentPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
+import com.mathheals.meajuda.view.CardListAdapter;
+import com.mathheals.meajuda.view.users.CommentsListAdapter;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +47,16 @@ public class TopicView extends Fragment {
 
         int idTopic = args.getInt("idTopic", 0);
         Log.d("Topic id: ", idTopic + "");
+
+        RecyclerView recyclerView = (RecyclerView) topicView.findViewById
+                (R.id.recycler_view_topics);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        CommentPresenter commentPresenter = CommentPresenter.getInstance(getContext());
+        List<Comment> data = commentPresenter.getCommentsOfTopic(idTopic, getContext());
+
+        recyclerView.setAdapter(new CommentsListAdapter(this.getContext(), data));
 
         assert(idTopic != 0);
 
