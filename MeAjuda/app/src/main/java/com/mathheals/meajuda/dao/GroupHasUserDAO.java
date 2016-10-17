@@ -2,23 +2,25 @@ package com.mathheals.meajuda.dao;
 
 import android.content.Context;
 
-public class GroupHasUsuarioDAO extends DAO {
-    private static GroupHasUsuarioDAO instance;
+import java.util.List;
+
+public class GroupHasUserDAO extends DAO {
+    private static GroupHasUserDAO instance;
     Context context;
 
-    private GroupHasUsuarioDAO(Context currentContext) {
+    private GroupHasUserDAO(Context currentContext) {
         super(currentContext);
         this.context = currentContext;
     }
 
-    public static GroupHasUsuarioDAO getInstance(final Context context) {
-        if(GroupHasUsuarioDAO.instance != null) {
+    public static GroupHasUserDAO getInstance(final Context context) {
+        if(GroupHasUserDAO.instance != null) {
             //Nothing to do
         } else {
-            GroupHasUsuarioDAO.instance = new GroupHasUsuarioDAO(context);
+            GroupHasUserDAO.instance = new GroupHasUserDAO(context);
         }
 
-        return GroupHasUsuarioDAO.instance;
+        return GroupHasUserDAO.instance;
     }
 
     public void addMember(Integer idGroup, Integer idNewMember) {
@@ -28,6 +30,12 @@ public class GroupHasUsuarioDAO extends DAO {
                 +", "+ idNewMember +")";
 
         executeQuery(QUERY);
+    }
+
+    public void addListOfMembers(Integer idGroup, List<Integer> userIdList) {
+        for(int i = 0; i < userIdList.size(); i++) {
+            addMember(idGroup, userIdList.get(i));
+        }
     }
 
     public void deleteMember(Integer idGroup, Integer idMember) {
