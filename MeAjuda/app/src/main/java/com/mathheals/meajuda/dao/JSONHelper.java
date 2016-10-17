@@ -43,7 +43,6 @@ public class JSONHelper {
         return getApi;
     }
 
-    //public static List<School> schoolListFromJsonFromName(String typedSchoolName)
     public static void schoolListFromJsonFromName(String typedSchoolName, int desiredNumberSchools)
             throws JSONException {
         final String URL = "http://mobile-aceite.tcu.gov.br/nossaEscolaRS/rest/escolas?" +

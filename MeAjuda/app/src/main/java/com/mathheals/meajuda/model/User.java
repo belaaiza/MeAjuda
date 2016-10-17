@@ -90,6 +90,11 @@ public class User {
         setIdClassification(idClassification);
     }
 
+    public User(Integer userId, String username) throws UserException {
+        setUserId(userId);
+        setUsername(username);
+    }
+
     private void setUserId(Integer id) {
         this.userId = id;
     }

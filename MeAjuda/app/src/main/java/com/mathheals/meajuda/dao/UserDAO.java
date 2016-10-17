@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.json.JSONException;
@@ -122,6 +124,49 @@ public class UserDAO extends DAO {
         String name = consultResult.getJSONObject("0").getString("nome");
 
         return name;
+    }
+
+    public Integer searchUserByLogin(String typedUsername) {
+        final String QUERY = "SELECT idUsuario FROM Usuario WHERE Login = \""+ typedUsername +"\"";
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        Integer returnValue = null;
+
+        if(consultResult != null) {
+            try {
+                returnValue = consultResult.getJSONObject("0").getInt("idUsuario");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return returnValue;
+    }
+
+    public List<User> searchUserByLoginWithLike(String typedUsername, Integer desiredNumberUsers)
+            throws JSONException, UserException {
+        final String QUERY = "SELECT idUsuario, login FROM Usuario WHERE login LIKE \"%"+
+                typedUsername +"%\" LIMIT "+ desiredNumberUsers +"";
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        List<User> userList = new ArrayList<>();
+
+        if(consultResult != null) {
+            for(int i = 0; i < consultResult.length(); i++) {
+                Integer idUser = consultResult.getJSONObject("" + i).getInt("idUsuario");
+                String username = consultResult.getJSONObject("" + i).getString("login");
+
+                Log.d("Username: ", username);
+
+                User user = new User(idUser, username);
+
+                userList.add(user);
+            }
+        }
+
+        return userList;
     }
 
 }
