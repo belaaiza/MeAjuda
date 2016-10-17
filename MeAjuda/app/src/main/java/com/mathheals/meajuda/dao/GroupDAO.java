@@ -1,8 +1,12 @@
 package com.mathheals.meajuda.dao;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mathheals.meajuda.model.Group;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class GroupDAO extends DAO{
     private static GroupDAO instance;
@@ -23,13 +27,33 @@ public class GroupDAO extends DAO{
         return GroupDAO.instance;
     }
 
-    public void createGroup(Group group) {
-        final String QUERY;
+    public Integer createGroup(Group group) {
+        final String QUERY_INSERT, QUERY_CONSULT, QUERY_UPDATE;
 
-        QUERY = "INSERT INTO Grupo(idProprietario, nome) VALUES (\"" + group.getIdOwner() +
-                "\", \"" + group.getName() + "\")";
+        QUERY_INSERT = "INSERT INTO Grupo(idProprietario, nome) VALUES (\"" + group.getIdOwner() +
+                "\", \"" + group.getName() + "\");";
 
-        executeQuery(QUERY);
+        executeQuery(QUERY_INSERT);
+
+        QUERY_CONSULT = "SELECT idGrupo FROM Grupo WHERE " +
+                "idProprietario = "+ group.getIdOwner() +" " +
+                "AND nome = \""+ group.getName() +"\" AND flag = 0";
+
+
+        JSONObject idGroupJSONObject = executeConsult(QUERY_CONSULT);
+
+        Integer idGroup = null;
+        try {
+            idGroup = idGroupJSONObject.getJSONObject("0").getInt("idGrupo");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        QUERY_UPDATE = "UPDATE Grupo SET flag = 1 WHERE idGrupo = "+ idGroup +" ";
+
+        executeQuery(QUERY_UPDATE);
+
+        return idGroup;
     }
 
     public void deleteGroup(Integer idGroup) {
