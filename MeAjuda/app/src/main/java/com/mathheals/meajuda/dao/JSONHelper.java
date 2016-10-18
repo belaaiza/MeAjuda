@@ -48,7 +48,83 @@ public class JSONHelper{
 
         return schoolList;
     }
+    public static School getSchoolByCode( String schoolCode ) throws JSONException {
 
+        final String URL = "http://mobile-aceite.tcu.gov.br/nossaEscolaRS/rest/escolas/" + schoolCode;
+
+        String schoolApiString = getJSONObjectApi(URL);
+
+        JSONObject schoolJSONObject = new JSONObject(schoolApiString);
+
+
+        String name = getStringFromJSONObject(schoolJSONObject, "nome", defaultStringValue);
+
+        Double latitude = getDoubleFromJSONObject(schoolJSONObject, "latitude", defaultDoubleValue);
+
+        Double longitude = getDoubleFromJSONObject(schoolJSONObject, "longitude",
+                defaultDoubleValue);
+
+        String network = getStringFromJSONObject(schoolJSONObject, "rede", defaultStringValue);
+
+        String email = getStringFromJSONObject(schoolJSONObject, "email", defaultStringValue);
+
+        String administrativeType = getStringFromJSONObject(schoolJSONObject,
+                "esferaAdministrativa", defaultStringValue);
+
+        String privateSchoolCategory = getStringFromJSONObject(schoolJSONObject,
+                "categoriaEscolaPrivada", defaultStringValue);
+
+        String operatingCondition = getStringFromJSONObject(schoolJSONObject,
+                "situacaoFuncionamento", defaultStringValue);
+
+        String typeAgreementGovernment = getStringFromJSONObject(schoolJSONObject,
+                "tipoConvenioPoderPublico", defaultStringValue);
+
+        String CNPJ = getStringFromJSONObject(schoolJSONObject, "cnpj", defaultStringValue);
+
+        String phoneNumber = getStringFromJSONObject(schoolJSONObject, "telefone",
+                defaultStringValue);
+
+        Character hasProfit = getCharacterFromJSONObject(schoolJSONObject, "seFimLucrativo",
+                defaultCharacterValue);
+
+        Character contractedPublicSector = getCharacterFromJSONObject(schoolJSONObject,
+                "seConveniadaSetorPublico", defaultCharacterValue);
+
+        Integer numberRooms = getIntegerFromJSONObject(schoolJSONObject, "qtdSalasExistentes",
+                defaultIntegerValue);
+
+        Integer numberUsedRooms = getIntegerFromJSONObject(schoolJSONObject, "qtdSalasUtilizadas",
+                defaultIntegerValue);
+
+        Integer numberEmployees = getIntegerFromJSONObject(schoolJSONObject, "qtdFuncionarios",
+                defaultIntegerValue);
+
+        Integer numberComputers = getIntegerFromJSONObject(schoolJSONObject, "qtdComputadores",
+                defaultIntegerValue);
+
+        Integer numberComputersByStudent = getIntegerFromJSONObject(schoolJSONObject,
+                "qtdComputadoresPorAluno", defaultIntegerValue);
+
+        Integer numberStudents = getIntegerFromJSONObject(schoolJSONObject, "qtdAlunos",
+                defaultIntegerValue);
+
+        String zone = getStringFromJSONObject(schoolJSONObject, "zona", defaultStringValue);
+
+        School school = new School(schoolCode, name, latitude, longitude, network, email,
+                administrativeType, privateSchoolCategory, operatingCondition,
+                typeAgreementGovernment, CNPJ, phoneNumber, hasProfit, contractedPublicSector,
+                numberRooms, numberUsedRooms, numberEmployees, numberComputers,
+                numberComputersByStudent, numberStudents, zone);
+
+        JSONObject addressJSONObject = schoolJSONObject.getJSONObject("endereco");
+        addAddressToSchoolFromJSONObject(school, addressJSONObject);
+
+        JSONObject infrastructureJSONObject = schoolJSONObject.getJSONObject("infraestrutura");
+        addInfrastructureToSchoolFromJSONObject(school, infrastructureJSONObject);
+
+        return  school;
+    }
     private static List<School> populateSchoolList(JSONArray schoolListJSONArray) throws JSONException {
         List<School> schoolList = new ArrayList<>();
 
