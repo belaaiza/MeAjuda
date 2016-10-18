@@ -16,9 +16,8 @@ import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.CommentPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
-import com.mathheals.meajuda.view.CardListAdapter;
-import com.mathheals.meajuda.view.users.CommentsListAdapter;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,8 +28,6 @@ public class TopicView extends Fragment {
     private TextView nameAuthorTextView;
     private TextView titleTextView;
     private TextView contentTextView;
-    private TextView likesTextView;
-    private TextView dislikesTextView;
 
     public TopicView() {
         // Required empty public constructor
@@ -48,17 +45,20 @@ public class TopicView extends Fragment {
         int idTopic = args.getInt("idTopic", 0);
         Log.d("Topic id: ", idTopic + "");
 
+        assert(idTopic != 0);
+
         RecyclerView recyclerView = (RecyclerView) topicView.findViewById
                 (R.id.recycler_view_topics);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         CommentPresenter commentPresenter = CommentPresenter.getInstance(getContext());
-        List<Comment> data = commentPresenter.getCommentsOfTopic(idTopic, getContext());
+        List<Comment> comments = commentPresenter.getCommentsOfTopic
+                (idTopic, getContext());
 
-        recyclerView.setAdapter(new CommentsListAdapter(this.getContext(), data));
+        CommentListAdapter commentListAdapter = new CommentListAdapter(getContext(), comments);
 
-        assert(idTopic != 0);
+        recyclerView.setAdapter(commentListAdapter);
 
         setTextViews(topicView);
         setTopicInfo(idTopic);
