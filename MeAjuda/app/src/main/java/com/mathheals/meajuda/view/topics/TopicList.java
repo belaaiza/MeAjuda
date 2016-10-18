@@ -1,6 +1,7 @@
-package com.mathheals.meajuda.view;
+package com.mathheals.meajuda.view.topics;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,14 +14,12 @@ import android.widget.Toast;
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.TopicPresenter;
+import com.mathheals.meajuda.view.CardListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by izabela on 03/10/16.
- */
-public class TopicList extends Fragment {
+public class TopicList extends Fragment implements View.OnClickListener {
 
     public TopicList(){
     }
@@ -37,6 +36,7 @@ public class TopicList extends Fragment {
 
         TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
+
         Bundle args = this.getArguments();
 
         int idCategory = args.getInt("idCategory", 0);
@@ -51,5 +51,20 @@ public class TopicList extends Fragment {
         return topicListView;
     }
 
+    @Override
+    public void onClick(View view){
+        /*if(view.getId() == R.id.newTopic){
+            TopicCreation topicCreation = new TopicCreation();
+            openFragment(topicCreation);
+        }*/
+    }
 
+    private void openFragment(Fragment fragmentToBeOpen){
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getActivity().getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 }
