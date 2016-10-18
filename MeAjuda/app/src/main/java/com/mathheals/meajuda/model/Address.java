@@ -15,6 +15,26 @@ public class Address {
         setState(state);
     }
 
+    public String getCEP() {
+        return CEP;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public String getState() {
+        return state;
+    }
+
     private void setCEP(String CEP) {
         this.CEP = CEP;
     }
