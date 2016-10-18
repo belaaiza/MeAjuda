@@ -1,180 +1,283 @@
 package com.mathheals.meajuda.model;
 
-
 public class School {
-    private final String DEFAULT_STRING_MESSAGE = "initiated";
-    private final int DEFAULT_INT_NUMBER = -1;
+    private String schoolCode;
+    private String name;
+    private Double latitude;
+    private Double longitude;
+    private String network;
+    private String email;
+    private String administrativeType;
+    private String privateSchoolCategory;
+    private String operatingCondition;
+    private String typeAgreementGovernment;
+    private String CNPJ;
+    private String phoneNumber;
+    private Character hasProfit;
+    private Character contractedPublicSector;
+    private Integer numberRooms;
+    private Integer numberUsedRooms;
+    private Integer numberEmployees;
+    private Integer numberComputers;
+    private Integer numberComputersByStudent;
+    private Integer numberStudents;
+    private String zone;
+    private Address address;
+    private Infrastructure infrastructure;
 
-    private String name = DEFAULT_STRING_MESSAGE;
-    private String classification = DEFAULT_STRING_MESSAGE;
-    private String email = DEFAULT_STRING_MESSAGE;
-    private String administrativeType = DEFAULT_STRING_MESSAGE;
-    private String privateSchoolCategory = DEFAULT_STRING_MESSAGE;
-    private String operatingCondition = DEFAULT_STRING_MESSAGE;
-    private String zone = DEFAULT_STRING_MESSAGE;
-
-    private Float latitude = 0F;
-    private Float longitude = 0F;
-    private char hasProfit = ' ';
-
-    private Integer ifContractedPublicSector = DEFAULT_INT_NUMBER;
-    private Integer numberOfRooms = DEFAULT_INT_NUMBER;
-    private Integer numberComputers = DEFAULT_INT_NUMBER;
-    private Integer numberComputersForStudent = DEFAULT_INT_NUMBER;
-    private Integer numberStudent = DEFAULT_INT_NUMBER;
-
-
-    public School(String name,
-                  String classification,
-                  String email,
-                  String administrativeType,
-                  String privateSchoolCategory,
-                  String operatingCondition,
-                  String zone,
-                  Float latitude,
-                  Float longitude,
-                  char hasProfit,
-                  Integer ifContractedPublicSector,
-                  Integer numberOfRooms,
-                  Integer numberComputers,
-                  Integer numberComputersForStudent,
-                  Integer numberStudent){
-
+    public School(String schoolCode, String name, Double latitude, Double longitude, String network,
+                  String email, String administrativeType, String privateSchoolCategory,
+                  String operatingCondition, String typeAgreementGovernment, String CNPJ,
+                  String phoneNumber, Character hasProfit, Character contractedPublicSector,
+                  Integer numberRooms, Integer numberUsedRooms, Integer numberEmployees,
+                  Integer numberComputers, Integer numberComputersByStudent, Integer numberStudents,
+                  String zone){
+        setSchoolCode(schoolCode);
         setName(name);
-        setClassification(classification);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setNetwork(network);
         setEmail(email);
         setAdministrativeType(administrativeType);
         setPrivateSchoolCategory(privateSchoolCategory);
         setOperatingCondition(operatingCondition);
-        setZone(zone);
-        setLatitude(latitude);
-        setLongitude(longitude);
+        setTypeAgreementGovernment(typeAgreementGovernment);
+        setCNPJ(CNPJ);
+        setPhoneNumber(phoneNumber);
         setHasProfit(hasProfit);
-        setIfContractedPublicSector(ifContractedPublicSector);
-        setNumberOfRooms(numberOfRooms);
+        setContractedPublicSector(contractedPublicSector);
+        setNumberRooms(numberRooms);
+        setNumberUsedRooms(numberUsedRooms);
+        setNumberEmployees(numberEmployees);
         setNumberComputers(numberComputers);
-        setNumberComputersForStudent(numberComputersForStudent);
-        setNumberStudent(numberStudent);
-
+        setNumberComputersByStudent(numberComputersByStudent);
+        setNumberStudents(numberStudents);
+        setZone(zone);
     }
 
-    public Float getLatitude() {
-        return latitude;
+    public void createAddress(String CEP, String description, String district,
+                                        String county, String state) {
+        Address address = new Address(CEP, description, district, county, state);
+
+        setAddress(address);
     }
 
-    private void setLatitude(Float latitude) {
-        this.latitude = latitude;
+    public void createInfrastructure(Character hasIndoorSportCourt,
+                                     Character hasDiscoverySportCourt,
+                                     Character hasInternet, Character hasBroadband,
+                                     Character hasComputerLab,
+                                     Character hasScienceLab, Character hasRefectory,
+                                     Character hasAuditory,
+                                     Character hasPantry, Character hasWareHouse,
+                                     Character hasCoveredPatio,
+                                     Character hasDiscoveredPatio, Character hasPlayground,
+                                     Character hasKitchen, Character hasLibrary,
+                                     Character hasNursery,
+                                     Character hasBathroomInsideBuilding,
+                                     Character hasBathroomOutsideBuilding,
+                                     Character hasReadingRoom, Character hasGreenArea,
+                                     Character hasFilteredWater, Character hasAccessibility,
+                                     Character hasCreche, Character hasElementarySchool,
+                                     Character hasHighSchool, Character hasNormalHighSchool,
+                                     Character hasProfessionalHighSchool,
+                                     Character hasIntegratedHighSchool,
+                                     Character hasAdultEducation, Character hasIndigenousEducation,
+                                     Character hasBathroomShower, Character hasOfferFood,
+                                     Character hasServiceSpecializedEducation) {
+        Infrastructure infrastructure = new Infrastructure(hasIndoorSportCourt,
+                hasDiscoverySportCourt, hasInternet, hasBroadband, hasComputerLab, hasScienceLab,
+                hasRefectory, hasAuditory, hasPantry, hasWareHouse, hasCoveredPatio,
+                hasDiscoveredPatio, hasPlayground, hasKitchen, hasLibrary, hasNursery,
+                hasBathroomInsideBuilding, hasBathroomOutsideBuilding, hasReadingRoom, hasGreenArea,
+                hasFilteredWater, hasAccessibility, hasCreche, hasElementarySchool, hasHighSchool,
+                hasNormalHighSchool, hasProfessionalHighSchool, hasIntegratedHighSchool,
+                hasAdultEducation, hasIndigenousEducation, hasBathroomShower, hasOfferFood,
+                hasServiceSpecializedEducation);
+
+        setInfrastructure(infrastructure);
     }
 
-    public Float getLongitude() {
-        return longitude;
-    }
-
-    private void setLongitude(Float longitude) {
-        this.longitude = longitude;
+    public String getSchoolCode() {
+        return schoolCode;
     }
 
     public String getName() {
         return name;
     }
 
-    private void setName(String name) {
-        this.name = name;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public String getClassification() {
-        return classification;
+    public Double getLongitude() {
+        return longitude;
     }
 
-    private void setClassification(String classification) {
-        this.classification = classification;
+    public String getNetwork() {
+        return network;
     }
 
     public String getEmail() {
         return email;
     }
 
-    private void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getAdministrativeType() {
         return administrativeType;
-    }
-
-    private void setAdministrativeType(String administrativeType) {
-        this.administrativeType = administrativeType;
     }
 
     public String getPrivateSchoolCategory() {
         return privateSchoolCategory;
     }
 
-    private void setPrivateSchoolCategory(String privateSchoolCategory) {
-        this.privateSchoolCategory = privateSchoolCategory;
-    }
-
     public String getOperatingCondition() {
         return operatingCondition;
     }
 
-    private void setOperatingCondition(String operatingCondition) {
-        this.operatingCondition = operatingCondition;
+    public String getTypeAgreementGovernment() {
+        return typeAgreementGovernment;
     }
 
-    public String getZone() {
-        return zone;
+    public String getCNPJ() {
+        return CNPJ;
     }
 
-    private void setZone(String zone) {
-        this.zone = zone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public char getHasProfit() {
+    public Character getHasProfit() {
         return hasProfit;
     }
 
-    private void setHasProfit(char hasProfit) {
-        this.hasProfit = hasProfit;
+    public Character getContractedPublicSector() {
+        return contractedPublicSector;
     }
 
-    public Integer getIfContractedPublicSector() {
-        return ifContractedPublicSector;
+    public Integer getNumberRooms() {
+        return numberRooms;
     }
 
-    private void setIfContractedPublicSector(Integer ifContractedPublicSector) {
-        this.ifContractedPublicSector = ifContractedPublicSector;
+    public Integer getNumberUsedRooms() {
+        return numberUsedRooms;
     }
 
-    public Integer getNumberOfRooms() {
-        return numberOfRooms;
-    }
-
-    private void setNumberOfRooms(Integer numberOfRooms) {
-        this.numberOfRooms = numberOfRooms;
+    public Integer getNumberEmployees() {
+        return numberEmployees;
     }
 
     public Integer getNumberComputers() {
         return numberComputers;
     }
 
+    public Integer getNumberComputersByStudent() {
+        return numberComputersByStudent;
+    }
+
+    public Integer getNumberStudents() {
+        return numberStudents;
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public Infrastructure getInfrastructure() {
+        return infrastructure;
+    }
+
+    private void setSchoolCode(String schoolCode) {
+        this.schoolCode = schoolCode;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    private void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    private void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    private void setNetwork(String network) {
+        this.network = network;
+    }
+
+    private void setEmail(String email) {
+        this.email = email;
+    }
+
+    private void setAdministrativeType(String administrativeType) {
+        this.administrativeType = administrativeType;
+    }
+
+    private void setPrivateSchoolCategory(String privateSchoolCategory) {
+        this.privateSchoolCategory = privateSchoolCategory;
+    }
+
+    private void setOperatingCondition(String operatingCondition) {
+        this.operatingCondition = operatingCondition;
+    }
+
+    private void setTypeAgreementGovernment(String typeAgreementGovernment) {
+        this.typeAgreementGovernment = typeAgreementGovernment;
+    }
+
+    private void setCNPJ(String CNPJ) {
+        this.CNPJ = CNPJ;
+    }
+
+    private void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    private void setHasProfit(Character hasProfit) {
+        this.hasProfit = hasProfit;
+    }
+
+    private void setContractedPublicSector(Character contractedPublicSector) {
+        this.contractedPublicSector = contractedPublicSector;
+    }
+
+    private void setNumberRooms(Integer numberRooms) {
+        this.numberRooms = numberRooms;
+    }
+
+    private void setNumberUsedRooms(Integer numberUsedRooms) {
+        this.numberUsedRooms = numberUsedRooms;
+    }
+
+    private void setNumberEmployees(Integer numberEmployees) {
+        this.numberEmployees = numberEmployees;
+    }
+
     private void setNumberComputers(Integer numberComputers) {
         this.numberComputers = numberComputers;
     }
 
-    public Integer getNumberComputersForStudent() {
-        return numberComputersForStudent;
+    private void setNumberComputersByStudent(Integer numberComputersByStudent) {
+        this.numberComputersByStudent = numberComputersByStudent;
     }
 
-    private void setNumberComputersForStudent(Integer numberComputersForStudent) {
-        this.numberComputersForStudent = numberComputersForStudent;
+    private void setNumberStudents(Integer numberStudents) {
+        this.numberStudents = numberStudents;
     }
 
-    public Integer getNumberStudent() {
-        return numberStudent;
+    private void setZone(String zone) {
+        this.zone = zone;
     }
 
-    private void setNumberStudent(Integer numberStudent) {
-        this.numberStudent = numberStudent;
+    private void setAddress(Address address) {
+        this.address = address;
+    }
+
+    private void setInfrastructure(Infrastructure infrastructure) {
+        this.infrastructure = infrastructure;
     }
 }
