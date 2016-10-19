@@ -25,5 +25,7 @@
     <string name="key_password">password</string>
     <string name="key_school">school</string>
     <string name="key_classification">classification</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

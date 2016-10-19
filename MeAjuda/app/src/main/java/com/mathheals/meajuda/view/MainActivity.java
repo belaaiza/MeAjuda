@@ -196,6 +196,10 @@ public class MainActivity extends AppCompatActivity
         } else if(id == R.id.create_topic){
             TopicCreation topicCreation = new TopicCreation();
             openFragment(topicCreation);
+        } else if (id == R.id.search){
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -241,5 +245,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void searchAction(){
+        onSearchRequested();
     }
 }

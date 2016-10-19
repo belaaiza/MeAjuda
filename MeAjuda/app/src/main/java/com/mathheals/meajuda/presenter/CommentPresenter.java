@@ -34,7 +34,7 @@ public class CommentPresenter {
     public List<Comment> getCommentsOfTopic(int idTopic, Context context){
         List<Comment> allComments;
 
-        allComments = CommentDAO.getInstance(context).getCommentsOfTopic(idTopic, context);
+        allComments = CommentDAO.getInstance(context).getCommentsOfTopic(idTopic);
 
         return allComments;
     }
