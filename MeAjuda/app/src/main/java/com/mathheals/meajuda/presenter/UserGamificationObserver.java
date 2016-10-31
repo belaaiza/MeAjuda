@@ -6,6 +6,14 @@ import com.mathheals.meajuda.dao.UserDAO;
 
 public class UserGamificationObserver implements GamificationObserver {
 
+    private Integer evaluation;
+    private Integer userToBeUpdatedId;
+
+    public UserGamificationObserver(Integer userToBeUpdatedId, Integer evaluation){
+        this.userToBeUpdatedId = userToBeUpdatedId;
+        this.evaluation = evaluation;
+    }
+
     @Override
     public void updateRating(Context context){
         UserDAO userDao = UserDAO.getInstance(context);
