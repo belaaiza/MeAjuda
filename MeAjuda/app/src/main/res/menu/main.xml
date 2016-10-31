@@ -12,4 +12,10 @@
         android:orderInCategory="100"
         android:title="Criar Tópico"
         app:showAsAction="never"/>
+
+    <item android:id="@+id/search"
+          android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+          android:title="Busca"
+          app:showAsAction="always"/>
+
 </menu>

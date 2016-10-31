@@ -1,14 +1,11 @@
-package com.mathheals.meajuda.view;
+package com.mathheals.meajuda.view.users;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,8 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mathheals.meajuda.R;
-import com.mathheals.meajuda.model.User;
 import com.mathheals.meajuda.presenter.UserPresenter;
+import com.mathheals.meajuda.view.MainActivity;
+import com.mathheals.meajuda.view.users.UserRegister;
 
 import org.json.JSONException;
 
@@ -48,24 +46,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String passwordTyped = passwordField.getText().toString();
 
             UserPresenter userPresenter = UserPresenter.getInstance();
+
             try{
-                String message = userPresenter.authenticateUser(emailTyped, passwordTyped,
+
+                String status  = userPresenter.authenticateUser(emailTyped, passwordTyped,
                         getBaseContext());
 
-                if(message.equals(getResources().getString(R.string.error_login_or_email))){
+                if(status == getApplicationContext().getResources()
+                        .getString(R.string.error_login_or_email)){
                     emailField.requestFocus();
-                    emailField.setError(message);
+                    emailField.setError(status);
                 }
-                else if(message.equals(getResources().getString(R.string.error_password))){
+                else if(status == getResources().getString(R.string.error_password)){
                     passwordField.requestFocus();
-                    passwordField.setError(message);
+                    passwordField.setError(status);
                 }
                 else{
                     SharedPreferences session = PreferenceManager.
                             getDefaultSharedPreferences(getApplicationContext());
-                    userPresenter.createLoginSession(emailTyped, session);
+                    userPresenter.createLoginSession(status, getApplicationContext(), session);
 
-                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), getResources().getString
+                            (R.string.success_authentication), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);

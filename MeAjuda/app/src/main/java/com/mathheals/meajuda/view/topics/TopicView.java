@@ -1,8 +1,10 @@
-package com.mathheals.meajuda.view;
+package com.mathheals.meajuda.view.topics;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +12,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mathheals.meajuda.R;
+import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.presenter.CommentPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,8 +28,6 @@ public class TopicView extends Fragment {
     private TextView nameAuthorTextView;
     private TextView titleTextView;
     private TextView contentTextView;
-    private TextView likesTextView;
-    private TextView dislikesTextView;
 
     public TopicView() {
         // Required empty public constructor
@@ -42,6 +47,19 @@ public class TopicView extends Fragment {
 
         assert(idTopic != 0);
 
+        RecyclerView recyclerView = (RecyclerView) topicView.findViewById
+                (R.id.recycler_view_topics);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        CommentPresenter commentPresenter = CommentPresenter.getInstance(getContext());
+        List<Comment> comments = commentPresenter.getCommentsOfTopic
+                (idTopic, getContext());
+
+        CommentListAdapter commentListAdapter = new CommentListAdapter(getContext(), comments);
+
+        recyclerView.setAdapter(commentListAdapter);
+
         setTextViews(topicView);
         setTopicInfo(idTopic);
 
@@ -55,8 +73,6 @@ public class TopicView extends Fragment {
         titleTextView.setTypeface(null, Typeface.BOLD);
 
         contentTextView = (TextView) view.findViewById(R.id.content);
-        likesTextView = (TextView) view.findViewById(R.id.likes);
-        dislikesTextView = (TextView) view.findViewById(R.id.dislikes);
     }
 
     private void setTopicInfo(int idTopic) {
@@ -67,11 +83,6 @@ public class TopicView extends Fragment {
         nameAuthorTextView.setText(topic.getNameOwner());
         titleTextView.setText(topic.getTitle());
         contentTextView.setText(topic.getDescription());
-
-        //Trocar essa parte pela avaliação real depois
-        likesTextView.setText("7 likes");
-        dislikesTextView.setText("3 dislikes");
-
     }
 
 

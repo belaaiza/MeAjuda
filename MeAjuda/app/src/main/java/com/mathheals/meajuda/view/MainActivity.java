@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.res.ResourcesCompat;
@@ -15,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +26,11 @@ import android.widget.Toast;
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Category;
 import com.mathheals.meajuda.presenter.CategoryPresenter;
+import com.mathheals.meajuda.view.topics.TopicCreation;
+import com.mathheals.meajuda.view.topics.TopicList;
+import com.mathheals.meajuda.view.users.LoginActivity;
+import com.mathheals.meajuda.view.users.UserUpdate;
+import com.mathheals.meajuda.view.users.ViewProfile;
 
 import org.json.JSONException;
 
@@ -193,6 +196,10 @@ public class MainActivity extends AppCompatActivity
         } else if(id == R.id.create_topic){
             TopicCreation topicCreation = new TopicCreation();
             openFragment(topicCreation);
+        } else if (id == R.id.search){
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -213,7 +220,8 @@ public class MainActivity extends AppCompatActivity
             }
             else{
                 if(id == R.id.nav_slideshow){
-
+                    UserUpdate userUpdate = new UserUpdate();
+                    openFragment(userUpdate);
                 }
                 else{
                     if(id == R.id.nav_manage){
@@ -237,5 +245,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void searchAction(){
+        onSearchRequested();
     }
 }

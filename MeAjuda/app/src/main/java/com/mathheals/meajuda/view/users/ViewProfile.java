@@ -1,4 +1,4 @@
-package com.mathheals.meajuda.view;
+package com.mathheals.meajuda.view.users;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

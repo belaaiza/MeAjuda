@@ -41,17 +41,6 @@
             android:singleLine="true" />
 
         <TextView
-            android:text="Escola"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <AutoCompleteTextView
-            android:id="@+id/schoolField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
-
-        <TextView
             android:text="E-mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -122,10 +111,10 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/saveButton"
+            android:id="@+id/updateButton"
             android:background="@color/colorPrimary"
             android:textColor="#FFF"
-            android:text="Cadastrar"  />
+            android:text="Atualizar"  />
     </LinearLayout>
 
 </ScrollView>

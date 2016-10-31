@@ -14,4 +14,18 @@
     <string name="success_authentication">Bem-Vindo ao MeAjuda</string>
     <string name="error_login_or_email">Login ou e-mail incorreto. Tente novamente.</string>
     <string name="error_password">Senha incorreta. Tente novamente.</string>
+
+    <!-- Session keys -->
+    <string name="key_id">id</string>
+    <string name="key_email">email</string>
+    <string name="key_name">name</string>
+    <string name="key_last_name">last name</string>
+    <string name="key_login">login</string>
+    <string name="key_rating">rating</string>
+    <string name="key_password">password</string>
+    <string name="key_school">school</string>
+    <string name="key_classification">classification</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
 </resources>

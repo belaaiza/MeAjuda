@@ -1,11 +1,9 @@
 package com.mathheals.meajuda.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.view.topics.TopicView;
 
 import java.util.List;
 import android.support.v7.widget.CardView;
