@@ -75,6 +75,36 @@ public class UserDAO extends DAO {
     }
 
     /**
+     * Update an user rating
+     * @param rating - New user rating
+     * @param userId - User to be updated
+     * @return String - Returns the query execution status
+     */
+    public String updateUserRating(Integer rating, Integer userId){
+        final String QUERY = "UPDATE Usuario SET rating = " + rating + " WHERE idUsuario =" +
+                userId + " ";
+
+        String result = this.executeQuery(QUERY);
+
+        return result;
+    }
+
+    /**
+     * Update an user classification
+     * @param classificationId - New user classification identifier
+     * @param userId - User to be updated
+     * @return String - Returns the query execution status
+     */
+    public String updateUserClassification(Integer classificationId, Integer userId){
+        final String QUERY = "UPDATE Usuario SET  = " + classificationId + " WHERE idUsuario =" +
+                userId + " ";
+
+        String result = this.executeQuery(QUERY);
+
+        return result;
+    }
+
+    /**
      * Searches an user at database by his email
      * @param email - The email of an user
      * @return JSONObject - Returns a JSONObject with the results of the consult
