@@ -117,8 +117,8 @@ public class UserDAO extends DAO {
      * @return String - Returns the query execution status
      */
     public String updateUserClassification(Integer classificationId, Integer userId){
-        final String QUERY = "UPDATE Usuario SET  = " + classificationId + " WHERE idUsuario =" +
-                userId + " ";
+        final String QUERY = "UPDATE Usuario SET Classificacao_idClassificacao = " +
+                classificationId + " WHERE idUsuario =" + userId + " ";
 
         String result = this.executeQuery(QUERY);
 
@@ -152,6 +152,16 @@ public class UserDAO extends DAO {
         String name = consultResult.getJSONObject("0").getString("nome");
 
         return name;
+    }
+
+    public Integer getUserRatingById(Integer idUser) throws JSONException {
+        final String QUERY = "SELECT rating FROM Usuario WHERE idUsuario = "+ idUser +" ";
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        Integer rating = consultResult.getJSONObject("0").getInt("rating");
+
+        return rating;
     }
 
 }

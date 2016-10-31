@@ -25,12 +25,17 @@ public class TopicEvaluationDAO extends DAO {
 
         return TopicEvaluationDAO.instance;
     }
+
     public void createEvaluateTopic(int evaluation,String description)
     {
 
         String QUERY = " defaultValue";
 
         executeQuery(QUERY);
+    }
+
+    public void evaluateTopic(Integer userToBeEvaluatedId, Integer evaluation) {
+        final String QUERY = "UPDATE AvaliacaoTopico SET Topico_idTopico = ";
     }
 
 }

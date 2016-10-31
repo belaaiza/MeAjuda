@@ -9,5 +9,5 @@ import android.content.Context;
 
 public interface Gamification {
 
-    void notify(GamificationObserver gamificationObserver, Context context);
+    void notify(Context context, GamificationObserver gamificationObserver);
 }
