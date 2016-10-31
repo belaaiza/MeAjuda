@@ -2,12 +2,29 @@ package com.mathheals.meajuda.presenter;
 
 import android.content.Context;
 
-public interface GamificationObserver {
+public abstract class GamificationObserver {
 
-    Integer userToBeUpdatedId = null;
-    Integer evaluation = null;
+    private Integer userToBeUpdatedId;
+    private Integer evaluation;
 
-    void updateRating(Context context);
+    public void GamificationObserver(Integer userToBeUpdatedId, Integer evaluation){
+        setUserToBeUpdatedId(userToBeUpdatedId);
+        setEvaluation(evaluation);
+    }
 
-    void updateClassification(Context context);
+    public void setUserToBeUpdatedId(Integer userToBeUpdatedId){
+        this.userToBeUpdatedId = userToBeUpdatedId;
+    }
+
+    public void setEvaluation(Integer evaluation){
+        this.evaluation = evaluation;
+    }
+
+    void updateRating(Context context){
+        //nothing to do
+    }
+
+    void updateClassification(Context context){
+        //nothing to do
+    }
 }

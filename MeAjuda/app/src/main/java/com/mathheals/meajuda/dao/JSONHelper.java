@@ -1,22 +1,40 @@
 package com.mathheals.meajuda.dao;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.School;
+import com.mathheals.meajuda.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class JSONHelper{
+public class JSONHelper {
     static final String defaultStringValue = "";
     static final Double defaultDoubleValue = 0.0;
     static final Character defaultCharacterValue = '-';
     static final Integer defaultIntegerValue = 0;
+    private static JSONHelper instance;
+
+    /**
+     * Get the current instance or create a new if none was created
+     * @return JSONHelper - The current or new JSONHelper instance
+     */
+    public static JSONHelper getInstance() {
+        if (JSONHelper.instance != null) {
+            //nothing to do
+        } else {
+            JSONHelper.instance = new JSONHelper();
+        }
+        return JSONHelper.instance;
+    }
 
     public static String getJSONObjectApi(final String URL) {
         String getApi = null;
@@ -337,5 +355,33 @@ public class JSONHelper{
         }
 
         return returnValue;
+    }
+
+    public User jsonToUser(String json){
+
+        User user = null;
+
+        try{
+            JSONObject jsonObject = new JSONObject(json);
+
+            user = new User(jsonObject.getJSONObject("0").getInt("idUsuario"),
+                    jsonObject.getJSONObject("0").getString("nome"),
+                    jsonObject.getJSONObject("0").getString("sobrenome"),
+                    jsonObject.getJSONObject("0").getString("login"),
+                    jsonObject.getJSONObject("0").getString("email"),
+                    jsonObject.getJSONObject("0").getString("senha"),
+                    jsonObject.getJSONObject("0").getInt("rating"),
+                    0,
+                    jsonObject.getJSONObject("0").getInt("Classificacao_idClassificacao"));
+
+        } catch(UserException e){
+            e.printStackTrace();
+        } catch(ParseException e){
+            e.printStackTrace();
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        return user;
     }
 }
