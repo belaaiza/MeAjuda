@@ -16,9 +16,6 @@ import com.mathheals.meajuda.view.topics.TopicView;
 import java.util.List;
 import android.support.v7.widget.CardView;
 
-/**
- * Created by izabela on 03/10/16.
- */
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHolder> {
 
     private List<Topic> data;
