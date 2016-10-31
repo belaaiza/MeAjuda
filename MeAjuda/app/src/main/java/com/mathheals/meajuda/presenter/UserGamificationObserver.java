@@ -8,20 +8,22 @@ public class UserGamificationObserver implements GamificationObserver {
 
     private Integer evaluation;
     private Integer userToBeUpdatedId;
+    private Context context;
 
-    public UserGamificationObserver(Integer userToBeUpdatedId, Integer evaluation){
+    public UserGamificationObserver(Integer userToBeUpdatedId, Integer evaluation, Context context){
         this.userToBeUpdatedId = userToBeUpdatedId;
         this.evaluation = evaluation;
+        this.context = context;
     }
 
     @Override
-    public void updateRating(Context context){
+    public void updateRating(){
         UserDAO userDao = UserDAO.getInstance(context);
         userDao.updateUserRating(evaluation, userToBeUpdatedId);
     }
 
     @Override
-    public void updateClassification(Context context){
+    public void updateClassification(){
         UserDAO userDao = UserDAO.getInstance(context);
 
         if(evaluation <= 10){

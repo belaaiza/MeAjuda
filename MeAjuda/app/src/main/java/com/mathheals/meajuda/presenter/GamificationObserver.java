@@ -4,6 +4,6 @@ import android.content.Context;
 
 public interface GamificationObserver {
 
-    void updateRating(Context context);
-    void updateClassification(Context context);
+    void updateRating();
+    void updateClassification();
 }
