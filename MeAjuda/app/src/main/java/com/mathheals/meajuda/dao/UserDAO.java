@@ -2,15 +2,9 @@ package com.mathheals.meajuda.dao;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.User;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.util.Vector;
-
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -93,6 +87,26 @@ public class UserDAO extends DAO {
         JSONObject userData = this.executeConsult(QUERY);
 
         return userData;
+    }
+
+    /**
+     * Searches an user at database by his name
+     * @param name - The name or part of the name of an user
+     * @return JSONArray - Array of users found
+     */
+    public JSONArray searchUserByName(String name){
+        final String QUERY = "SELECT * FROM Usuario WHERE nome =\"" + name + "\"";
+
+        JSONObject userFound = this.executeConsult(QUERY);
+        JSONArray usersAsArray = null;
+
+        try{
+            usersAsArray = new JSONArray(userFound);
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        return usersAsArray;
     }
 
     /**

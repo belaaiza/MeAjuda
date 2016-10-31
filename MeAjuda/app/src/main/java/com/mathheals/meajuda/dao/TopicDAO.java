@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.mathheals.meajuda.model.Topic;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -88,5 +89,24 @@ public class TopicDAO extends DAO {
         return topics;
     }
 
+    /**
+     * Searches an topic at database by his title
+     * @param title - The title or part of the title of a topic
+     * @return JSONArray - Array of topics found
+     */
+    public JSONArray searchTopicByTitle(String title){
+        final String QUERY = "SELECT * FROM Topico WHERE titulo =\"" + title + "\"";
+
+        JSONObject topicFound = this.executeConsult(QUERY);
+        JSONArray topicsAsArray = null;
+
+        try{
+            topicsAsArray = new JSONArray(topicFound);
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        return topicsAsArray;
+    }
 
 }

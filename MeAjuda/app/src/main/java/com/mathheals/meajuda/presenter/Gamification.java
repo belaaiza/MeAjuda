@@ -8,6 +8,5 @@ package com.mathheals.meajuda.presenter;
 import android.content.Context;
 
 public interface Gamification {
-
-    void notify(Context context, GamificationObserver gamificationObserver);
+    void notify(GamificationObserver gamificationObserver);
 }

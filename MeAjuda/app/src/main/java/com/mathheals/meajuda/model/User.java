@@ -91,6 +91,18 @@ public class User {
         setIdClassification(idClassification);
     }
 
+    //Search user constructor
+    public User(Integer userId, String firstName, String lastName, String email, String username,
+                Integer rating, Integer idClassification) throws UserException{
+        setUserId(userId);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setUsername(username);
+        setEmail(email);
+        setRating(rating);
+        setIdClassification(idClassification);
+    }
+
     private void setUserId(Integer id) {
         this.userId = id;
     }

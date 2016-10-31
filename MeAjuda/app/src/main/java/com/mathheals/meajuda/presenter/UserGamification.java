@@ -5,7 +5,7 @@ import android.content.Context;
 public class UserGamification implements  Gamification {
 
     @Override
-    public void notify(Context context, GamificationObserver gamificationObserver){
+    public void notify(GamificationObserver gamificationObserver){
         gamificationObserver.updateRating();
         gamificationObserver.updateClassification();
     }
