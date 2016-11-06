@@ -4,9 +4,6 @@
     android:background="#FFF"
     tools:context=".view.topics.TopicCreation">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -38,12 +35,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/categoryLable"/>
 
-        <EditText
-            android:id="@+id/categoryField"
-            android:maxLength="50"
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/category_spinner"
+            android:layout_margin="15dp"
+            android:elevation="2dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:text="Descrição"
@@ -51,20 +48,69 @@
             android:layout_height="wrap_content"
             android:id="@+id/descriptionLabel"/>
 
+        <ImageView
+            android:id="@+id/imagePreview"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <EditText
             android:id="@+id/descriptionField"
             android:maxLength="2000"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:singleLine="true" />
+            android:layout_height="wrap_content"/>
 
-        <Button
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/create_topic_button"
-            android:textColor="#FFFFFF"
-            android:background="#00C0C3"
-            android:text="Criar Tópico"  />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:weightSum="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_weight="9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/audio"
+                    android:clickable="true"
+                    android:src="@android:drawable/ic_btn_speak_now"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:clickable="true"
+                    android:src="@android:drawable/ic_menu_gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/attachment"
+                    android:clickable="true"
+                    android:src="@drawable/ic_attachment_black_24dp"
+                    android:tint="#757575"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <ImageView
+                android:src="@drawable/ic_send_black_24dp"
+                android:layout_weight="1"
+                android:id="@+id/create_topic_button"
+                android:tint="#757575"
+                android:clickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"/>
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

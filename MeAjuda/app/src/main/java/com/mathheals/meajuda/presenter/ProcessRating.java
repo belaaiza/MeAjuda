@@ -11,7 +11,7 @@ public abstract class ProcessRating {
                 userToBeUpdatedId, newRating, newClassificationId);
 
         UserGamification userGamification = new UserGamification();
-        userGamification.notify(context, gamificationObserver);
+        userGamification.notify(gamificationObserver);
     }
 
     public abstract Integer processEvaluation();
