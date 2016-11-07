@@ -1,7 +1,9 @@
 package com.mathheals.meajuda.presenter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Base64;
 import android.util.Log;
 
 import com.mathheals.meajuda.dao.PostRequest;
@@ -15,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -51,7 +54,12 @@ public class TopicPresenter {
         return TopicPresenter.instance;
     }
 
-    public void createTopic(int categoryId, String title, String description){
+    public void createTopic(Integer idUser, Integer categoryId, String title, String description,
+                            Bitmap image){
+        if(image != null) {
+            postImage(idUser, image);
+        }
+
         topicDAO.createTopic(categoryId, title, description);
     }
 
@@ -79,10 +87,12 @@ public class TopicPresenter {
         return topic;
     }
 
-    public void postImage(final Integer idUser, final String encodedImage) {
+    private void postImage(final Integer idUser, Bitmap image) {
         final String URL ="https://meajuda.000webhostapp.com/save_picture.php";
 
         String name = generateImageName(idUser);
+
+        String encodedImage = encodeImage(image);
 
         Log.d("image name: ", name);
 
@@ -92,6 +102,16 @@ public class TopicPresenter {
 
         PostRequest postRequest = new PostRequest(context, URL, postParams);
         postRequest.execute();
+    }
+
+    private String encodeImage(Bitmap image) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
+
+        String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(),
+                Base64.DEFAULT);
+
+        return encodedImage;
     }
 
     private String generateImageName(Integer idUser) {
