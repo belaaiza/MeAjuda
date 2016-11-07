@@ -139,10 +139,7 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d("here", "onActivityResult ");
-
-        if (requestCode == RESULT_LOAD_IMAGE /*&& resultCode == RESULT_OK */&& data != null){
-            Log.d("here2", "onActivityResult ");
+        if (requestCode == RESULT_LOAD_IMAGE && data != null){
             Uri selectedImage = data.getData();
             imagePreview.setImageURI(null);
             imagePreview.setImageURI(selectedImage);

@@ -96,6 +96,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
+                        <ImageView
+                            android:id="@+id/topicViewImage"
+                            android:visibility="gone"
+                            android:layout_width="190dp"
+                            android:layout_height="200dp" />
+
                     </LinearLayout>
 
                     <LinearLayout

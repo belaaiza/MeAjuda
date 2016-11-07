@@ -56,11 +56,13 @@ public class TopicPresenter {
 
     public void createTopic(Integer idUser, Integer categoryId, String title, String description,
                             Bitmap image){
+        String imageURL = "N";
+
         if(image != null) {
-            postImage(idUser, image);
+            imageURL = postImage(idUser, image);
         }
 
-        topicDAO.createTopic(categoryId, title, description);
+        topicDAO.createTopic(categoryId, title, description, imageURL);
     }
 
     public List<Topic> getTopicsByCategory(int idCategory) {
@@ -87,7 +89,7 @@ public class TopicPresenter {
         return topic;
     }
 
-    private void postImage(final Integer idUser, Bitmap image) {
+    private String postImage(final Integer idUser, Bitmap image) {
         final String URL ="https://meajuda.000webhostapp.com/save_picture.php";
 
         String name = generateImageName(idUser);
@@ -102,6 +104,10 @@ public class TopicPresenter {
 
         PostRequest postRequest = new PostRequest(context, URL, postParams);
         postRequest.execute();
+
+        final String IMAGE_URL = "https://meajuda.000webhostapp.com/" + name;
+
+        return IMAGE_URL;
     }
 
     private String encodeImage(Bitmap image) {

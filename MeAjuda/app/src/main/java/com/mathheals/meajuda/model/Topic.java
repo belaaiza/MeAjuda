@@ -7,12 +7,14 @@ public class Topic {
     private String title;
     private String description;
     private String nameOwner;
+    private String imageURL;
 
-    public Topic(int idTopic, String title, String description, String nameOwner) {
+    public Topic(int idTopic, String title, String description, String nameOwner, String imageURL) {
         setIdTopic(idTopic);
         setTitle(title);
         setDescription(description);
         setNameOwner(nameOwner);
+        setImageURL(imageURL);
     }
 
     public int getIdTopic() {
@@ -35,6 +37,10 @@ public class Topic {
         return nameOwner;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
+
     private void setIdTopic(int idTopic) {
         this.idTopic = idTopic;
     }
@@ -53,5 +59,9 @@ public class Topic {
 
     public void setNameOwner(String nameOwner) {
         this.nameOwner = nameOwner;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }

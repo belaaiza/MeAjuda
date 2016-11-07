@@ -31,11 +31,13 @@ public class TopicDAO extends DAO {
         return TopicDAO.instance;
     }
 
-    public void createTopic(int idCategory, String title, String description) {
+    public void createTopic(int idCategory, String title, String description, String imageURL) {
         final String QUERY;
 
-        QUERY = "INSERT INTO Topico(descricao, Categoria_idCategoria, titulo, Usuario_idUsuario) "+
-            "VALUES(\" "+ description +" \", "+ idCategory +", \" "+ title +" \", \" 6 \")";
+        QUERY = "INSERT INTO Topico(descricao, Categoria_idCategoria, titulo, Usuario_idUsuario, " +
+                "url_imagem) "+
+            "VALUES(\" "+ description +" \", "+ idCategory +", \" "+ title +" \", \" 6 \", " +
+                "\" " + imageURL +" \")";
 
         executeQuery(QUERY);
 
@@ -54,8 +56,9 @@ public class TopicDAO extends DAO {
         String nameOwner = userDAO.getUserNameById(idOwner);
         String title = consultResult.getJSONObject("0").getString("titulo");
         String description = consultResult.getJSONObject("0").getString("descricao");
+        String imageURL = consultResult.getJSONObject("0").getString("imagemURL");
 
-        Topic topic = new Topic(idTopic, title, description, nameOwner);
+        Topic topic = new Topic(idTopic, title, description, nameOwner, imageURL);
 
         return topic;
     }
@@ -79,7 +82,9 @@ public class TopicDAO extends DAO {
                 String description = consultResult.getJSONObject("" + i).getString("descricao");
                 String nameOwner = userDAO.getUserNameById(idOwner);
 
-                Topic topic = new Topic(idTopic, title, description, nameOwner);
+                String imageURL = consultResult.getJSONObject("" + i).getString("imagemURL");
+
+                Topic topic = new Topic(idTopic, title, description, nameOwner, imageURL);
                 topics.add(topic);
             }
         } else {
