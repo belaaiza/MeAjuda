@@ -17,6 +17,13 @@ public class Topic {
         setImageURL(imageURL);
     }
 
+    public Topic(int idTopic, String title, String description, String nameOwner) {
+        setIdTopic(idTopic);
+        setTitle(title);
+        setDescription(description);
+        setNameOwner(nameOwner);
+    }
+
     public int getIdTopic() {
         return idTopic;
     }

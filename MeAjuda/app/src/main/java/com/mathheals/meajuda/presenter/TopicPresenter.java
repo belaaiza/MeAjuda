@@ -89,6 +89,14 @@ public class TopicPresenter {
         return topic;
     }
 
+    public List<Topic> getAllTopics(){
+        List<Topic> topicList;
+
+        topicList = topicDAO.getAllTopics();
+
+        return topicList;
+    }
+
     private String postImage(final Integer idUser, Bitmap image) {
         final String URL ="https://meajuda.000webhostapp.com/save_picture.php";
 
