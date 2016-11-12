@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -24,6 +24,7 @@
                 android:padding="10dp">
 
                 <LinearLayout
+                    android:id="@+id/topic_header"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -95,7 +96,6 @@
                             android:layout_margin="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -131,7 +131,14 @@
 
                 </LinearLayout>
 
-            </FrameLayout>
+                <ImageView
+                    android:layout_below="@+id/topic_header"
+                    android:visibility="gone"
+                    android:id="@+id/topicViewImage"
+                    android:layout_width="190dp"
+                    android:layout_height="200dp" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 

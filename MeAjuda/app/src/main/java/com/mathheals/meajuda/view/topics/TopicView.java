@@ -1,5 +1,7 @@
 package com.mathheals.meajuda.view.topics;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,15 +11,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mathheals.meajuda.R;
+import com.mathheals.meajuda.dao.DownloadImageTask;
 import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.CommentPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
 
-import java.util.Arrays;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -28,6 +34,7 @@ public class TopicView extends Fragment {
     private TextView nameAuthorTextView;
     private TextView titleTextView;
     private TextView contentTextView;
+    private ImageView topicImage;
 
     public TopicView() {
         // Required empty public constructor
@@ -60,25 +67,46 @@ public class TopicView extends Fragment {
 
         recyclerView.setAdapter(commentListAdapter);
 
-        setTextViews(topicView);
+        setViews(topicView);
         setTopicInfo(idTopic);
 
         return topicView;
     }
 
-    private void setTextViews(View view) {
+    private void setViews(View view) {
         nameAuthorTextView = (TextView) view.findViewById(R.id.nameAuthor);
 
         titleTextView = (TextView) view.findViewById(R.id.title);
         titleTextView.setTypeface(null, Typeface.BOLD);
 
+        topicImage = (ImageView) view.findViewById(R.id.topicViewImage);
+
         contentTextView = (TextView) view.findViewById(R.id.content);
     }
 
     private void setTopicInfo(int idTopic) {
+        Log.d("id do topico: ", idTopic + "");
+
         TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
         Topic topic = topicPresenter.getTopicById(idTopic);
+
+        String imageURL = topic.getImageURL();
+
+        /*if(imageURL != "N") {
+            try {
+                Log.d("URL: ", imageURL);
+                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(imageURL).
+                        getContent());
+
+                topicImage.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
+
+        new DownloadImageTask(topicImage).execute(imageURL);
+        topicImage.setVisibility(View.VISIBLE);
 
         nameAuthorTextView.setText(topic.getNameOwner());
         titleTextView.setText(topic.getTitle());

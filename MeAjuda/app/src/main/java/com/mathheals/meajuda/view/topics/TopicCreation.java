@@ -1,7 +1,12 @@
 package com.mathheals.meajuda.view.topics;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +31,12 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
     private EditText titleEditText;
     private EditText descriptionEditText;
 
+    private ImageView createTopicButton;
+    private ImageView selectImageButton;
+    private ImageView imagePreview;
+
+    private static final Integer RESULT_LOAD_IMAGE = 9002;
+
     public TopicCreation() {
         // Required empty public constructor
     }
@@ -45,8 +56,13 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
         titleEditText = (EditText) view.findViewById(R.id.titleField);
         descriptionEditText = (EditText) view.findViewById(R.id.descriptionField);
 
-        ImageView createTopicButton = (ImageView) view.findViewById(R.id.create_topic_button);
+        imagePreview = (ImageView) view.findViewById(R.id.imagePreview);
+
+        createTopicButton = (ImageView) view.findViewById(R.id.create_topic_button);
         createTopicButton.setOnClickListener(this);
+
+        selectImageButton = (ImageView) view.findViewById(R.id.image);
+        selectImageButton.setOnClickListener(this);
 
         return view;
     }
@@ -94,13 +110,40 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
 
     @Override
     public void onClick(View v) {
-        String title = titleEditText.getText().toString();
-        String description = descriptionEditText.getText().toString();
+        switch (v.getId()) {
+            case R.id.create_topic_button:
+                String title = titleEditText.getText().toString();
+                String description = descriptionEditText.getText().toString();
 
-        TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
+                TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
-        topicPresenter.createTopic(categoryId, title, description);
+                Bitmap image = ((BitmapDrawable) imagePreview.getDrawable()).getBitmap();
 
-        Toast.makeText(getActivity(), "Tópico criado com sucesso", Toast.LENGTH_LONG).show();
+                topicPresenter.createTopic(7, 1, title, description, image);
+
+                Toast.makeText(getActivity(), "Tópico criado com sucesso", Toast.LENGTH_LONG).show();
+
+                break;
+            case R.id.image:
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+
+                break;
+
+            default:
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && data != null){
+            Uri selectedImage = data.getData();
+            imagePreview.setImageURI(null);
+            imagePreview.setImageURI(selectedImage);
+            imagePreview.setVisibility(View.VISIBLE);
+        }
     }
 }
