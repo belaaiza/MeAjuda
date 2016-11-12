@@ -119,7 +119,7 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
 
                 Bitmap image = ((BitmapDrawable) imagePreview.getDrawable()).getBitmap();
 
-                topicPresenter.createTopic(1, categoryId, title, description, image);
+                topicPresenter.createTopic(7, 1, title, description, image);
 
                 Toast.makeText(getActivity(), "Tópico criado com sucesso", Toast.LENGTH_LONG).show();
 

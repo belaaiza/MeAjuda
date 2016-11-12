@@ -105,7 +105,7 @@ public class TopicPresenter {
         PostRequest postRequest = new PostRequest(context, URL, postParams);
         postRequest.execute();
 
-        final String IMAGE_URL = "https://meajuda.000webhostapp.com/" + name;
+        final String IMAGE_URL = "https://meajuda.000webhostapp.com/pictures/" + name;
 
         return IMAGE_URL;
     }

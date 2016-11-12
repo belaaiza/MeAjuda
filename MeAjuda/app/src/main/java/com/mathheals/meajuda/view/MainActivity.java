@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Category;
 import com.mathheals.meajuda.presenter.CategoryPresenter;
+import com.mathheals.meajuda.presenter.TopicPresenter;
 import com.mathheals.meajuda.view.topics.TopicCreation;
 import com.mathheals.meajuda.view.topics.TopicList;
 import com.mathheals.meajuda.view.users.LoginActivity;

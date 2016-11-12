@@ -35,7 +35,7 @@ public class TopicDAO extends DAO {
         final String QUERY;
 
         QUERY = "INSERT INTO Topico(descricao, Categoria_idCategoria, titulo, Usuario_idUsuario, " +
-                "url_imagem) "+
+                "imagemURL) "+
             "VALUES(\" "+ description +" \", "+ idCategory +", \" "+ title +" \", \" 6 \", " +
                 "\" " + imageURL +" \")";
 
@@ -44,7 +44,7 @@ public class TopicDAO extends DAO {
     }
 
     public Topic getTopicById(int idTopic) throws JSONException {
-        final String SELECT_TOPIC_BY_ID_QUERY = "SELECT titulo, descricao, " +
+        final String SELECT_TOPIC_BY_ID_QUERY = "SELECT titulo, descricao, imagemURL, " +
                 "Usuario_idUsuario FROM Topico WHERE idTopico = "+ idTopic +" ";
 
         JSONObject consultResult = executeConsult(SELECT_TOPIC_BY_ID_QUERY);
@@ -64,7 +64,7 @@ public class TopicDAO extends DAO {
     }
 
     public List<Topic> getTopicsByCategory(int idCategory) throws JSONException {
-        final String SELECT_ALL_TOPICS_QUERY = "SELECT idTopico, titulo, descricao, " +
+        final String SELECT_ALL_TOPICS_QUERY = "SELECT idTopico, titulo, descricao, imagemURL, " +
                 "Usuario_idUsuario FROM Topico WHERE Categoria_idCategoria = "+ idCategory +" ";
 
         JSONObject consultResult = executeConsult(SELECT_ALL_TOPICS_QUERY);

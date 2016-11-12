@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mathheals.meajuda.R;
+import com.mathheals.meajuda.dao.DownloadImageTask;
 import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.CommentPresenter;
@@ -84,14 +85,17 @@ public class TopicView extends Fragment {
     }
 
     private void setTopicInfo(int idTopic) {
+        Log.d("id do topico: ", idTopic + "");
+
         TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
         Topic topic = topicPresenter.getTopicById(idTopic);
 
         String imageURL = topic.getImageURL();
 
-        if(imageURL != "N") {
+        /*if(imageURL != "N") {
             try {
+                Log.d("URL: ", imageURL);
                 Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(imageURL).
                         getContent());
 
@@ -99,7 +103,10 @@ public class TopicView extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
+
+        new DownloadImageTask(topicImage).execute(imageURL);
+        topicImage.setVisibility(View.VISIBLE);
 
         nameAuthorTextView.setText(topic.getNameOwner());
         titleTextView.setText(topic.getTitle());
