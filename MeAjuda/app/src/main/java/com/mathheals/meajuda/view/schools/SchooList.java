@@ -1,31 +1,30 @@
-package com.mathheals.meajuda.view.topics;
+package com.mathheals.meajuda.view.schools;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Topic;
-import com.mathheals.meajuda.presenter.TopicPresenter;
 import com.mathheals.meajuda.view.CardListAdapter;
+import com.mathheals.meajuda.view.SearchActivity;
 
 import java.util.List;
 
-public class TopicList extends Fragment implements View.OnClickListener {
+public class SchooList extends Fragment implements View.OnClickListener {
 
     private List<Topic> data;
 
-    public TopicList(List<Topic> data){
+    public SchooList(List<Topic> data){
         this.data = data;
     }
 
-    public TopicList(){
+    public SchooList(){
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.mathheals.meajuda.dao;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mathheals.meajuda.model.Topic;
 
@@ -92,21 +93,65 @@ public class TopicDAO extends DAO {
     /**
      * Searches an topic at database by his title
      * @param title - The title or part of the title of a topic
-     * @return JSONArray - Array of topics found
+     * @return List<Topic> - Array of topics found
      */
-    public JSONArray searchTopicByTitle(String title){
-        final String QUERY = "SELECT * FROM Topico WHERE titulo =\"" + title + "\"";
+    public List<Topic> searchTopicByTitle(String title){
+        final String QUERY = "SELECT * FROM Topico WHERE titulo LIKE '%"+title+"%'";
 
         JSONObject topicFound = this.executeConsult(QUERY);
-        JSONArray topicsAsArray = null;
+        List<Topic> listTopic = new ArrayList<>();
 
         try{
-            topicsAsArray = new JSONArray(topicFound);
+            for(int i=0; i<topicFound.length(); i++){
+                UserDAO userDAO = UserDAO.getInstance(context);
+                String nameOwner = userDAO.getUserNameById(topicFound.getJSONObject(i+"")
+                        .getInt("Usuario_idUsuario"));
+
+                Topic topic = new Topic(topicFound.getJSONObject(i+"").getInt("idTopico"),
+                        topicFound.getJSONObject(i+"").getString("titulo"),
+                        topicFound.getJSONObject(i+"").getString("descricao"),
+                        nameOwner);
+
+                listTopic.add(topic);
+            }
+
         } catch(JSONException e){
             e.printStackTrace();
         }
 
-        return topicsAsArray;
+        return listTopic;
     }
+
+    /**
+     * Get all topics from database
+     * @return List<Topic> - Array of topics found
+     */
+    public List<Topic> getAllTopics(){
+        final String QUERY = "SELECT * FROM Topico";
+
+        JSONObject topicFound = this.executeConsult(QUERY);
+        List<Topic> listTopic = new ArrayList<>();
+
+        try{
+            for(int i=0; i<topicFound.length(); i++){
+                UserDAO userDAO = UserDAO.getInstance(context);
+                String nameOwner = userDAO.getUserNameById(topicFound.getJSONObject(i+"")
+                        .getInt("Usuario_idUsuario"));
+
+                Topic topic = new Topic(topicFound.getJSONObject(i+"").getInt("idTopico"),
+                        topicFound.getJSONObject(i+"").getString("titulo"),
+                        topicFound.getJSONObject(i+"").getString("descricao"),
+                        nameOwner);
+
+                listTopic.add(topic);
+            }
+
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        return listTopic;
+    }
+
 
 }

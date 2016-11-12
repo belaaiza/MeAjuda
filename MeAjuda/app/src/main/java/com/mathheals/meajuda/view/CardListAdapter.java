@@ -1,8 +1,10 @@
 package com.mathheals.meajuda.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +21,7 @@ import android.support.v7.widget.CardView;
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHolder> {
 
     private List<Topic> data;
-    private Context context;
+    private AppCompatActivity currentActivity;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView idTopic;
@@ -55,9 +57,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
-        MainActivity mainActivity = (MainActivity)context;
-
-        android.support.v4.app.FragmentTransaction fragmentTransaction = mainActivity.
+        android.support.v4.app.FragmentTransaction fragmentTransaction = currentActivity.
                 getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen);
@@ -65,9 +65,9 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         fragmentTransaction.commit();
     }
 
-    public CardListAdapter(Context context, List<Topic> data) {
-        this.context = context;
+    public CardListAdapter(List<Topic> data, AppCompatActivity activity) {
         this.data = data;
+        this.currentActivity = activity;
     }
 
     @Override
@@ -97,4 +97,8 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         return data.size();
     }
 
+    public void updateList(List data) {
+        this.data = data;
+        notifyDataSetChanged();
+    }
 }

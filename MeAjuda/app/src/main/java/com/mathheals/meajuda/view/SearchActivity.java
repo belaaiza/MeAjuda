@@ -3,17 +3,30 @@ package com.mathheals.meajuda.view;
 import android.app.SearchManager;
 import android.content.Context;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mathheals.meajuda.R;
+import com.mathheals.meajuda.model.School;
+import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.presenter.*;
+import com.mathheals.meajuda.view.topics.TopicList;
 
-public class SearchActivity extends AppCompatActivity{
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
+        TabLayout.OnTabSelectedListener {
+
+    private Integer currentTab;
+    private TabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -23,13 +36,17 @@ public class SearchActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TabsAdapter tabsAdapter = new TabsAdapter(this.getSupportFragmentManager());
+        List<Topic> topicList = TopicPresenter.getInstance(getBaseContext()).getAllTopics();
+        List<School> schoolList = new ArrayList<>();
+
+        TabsAdapter tabsAdapter = new TabsAdapter(this.getSupportFragmentManager(), topicList,
+                schoolList);
 
         // Set up the ViewPager with the sections adapter.
         ViewPager viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(tabsAdapter);
 
-        TabLayout tabs = (TabLayout) this.findViewById(R.id.tabs);
+        tabs = (TabLayout) this.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
     }
 
@@ -42,9 +59,11 @@ public class SearchActivity extends AppCompatActivity{
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        searchView.setOnQueryTextListener(this);
+
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        searchItem.expandActionView();
 
         return true;
     }
@@ -62,5 +81,43 @@ public class SearchActivity extends AppCompatActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query){
+        Integer currentTab = tabs.getSelectedTabPosition();
+
+        switch(currentTab){
+            case 0:
+                SearchTopic searchTopic = new SearchTopic();
+                searchTopic.search(getBaseContext(), query);
+
+
+                break;
+            case 1:
+                break;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText){
+        return false;
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab){
+        currentTab = tab.getPosition();
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab){
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab){
+
     }
 }

@@ -59,4 +59,12 @@ public class TopicPresenter {
 
         return topic;
     }
+
+    public List<Topic> getAllTopics() {
+        List<Topic> topicList;
+
+        topicList = topicDAO.getAllTopics();
+
+        return topicList;
+    }
 }

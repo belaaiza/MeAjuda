@@ -25,7 +25,9 @@ import android.widget.Toast;
 
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Category;
+import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.CategoryPresenter;
+import com.mathheals.meajuda.presenter.TopicPresenter;
 import com.mathheals.meajuda.view.topics.TopicCreation;
 import com.mathheals.meajuda.view.topics.TopicList;
 import com.mathheals.meajuda.view.users.LoginActivity;
@@ -34,6 +36,7 @@ import com.mathheals.meajuda.view.users.ViewProfile;
 
 import org.json.JSONException;
 
+import java.util.List;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity
@@ -63,14 +66,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void editActions(View view){
-        TextView idCategory = (TextView)view.findViewById(R.id.idCategory);
+        TextView idCategoryTextView = (TextView)view.findViewById(R.id.idCategory);
 
-        Bundle args = new Bundle();
-        args.putInt("idCategory", Integer.parseInt(idCategory.getText().toString()));
+        Integer idCategory = Integer.parseInt(idCategoryTextView.getText().toString());
 
-        TopicList topicList = new TopicList();
-        topicList.setArguments(args);
+        assert(idCategory != 0);
 
+        TopicPresenter topicPresenter = TopicPresenter.getInstance(getBaseContext());
+        List<Topic> data = topicPresenter.getTopicsByCategory(idCategory);
+
+        TopicList topicList = new TopicList(data);
         openFragment(topicList);
     }
 
