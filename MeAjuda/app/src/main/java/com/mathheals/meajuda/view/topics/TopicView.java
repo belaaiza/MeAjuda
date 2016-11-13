@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +42,7 @@ public class TopicView extends Fragment implements View.OnClickListener {
     private ImageView topicImage;
 
     Integer idTopic = 0;
+    Integer idCategory = 0;
 
     public TopicView() {
         // Required empty public constructor
@@ -67,7 +69,9 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         CommentPresenter commentPresenter = CommentPresenter.getInstance(getContext());
         List<Comment> comments = commentPresenter.getCommentsOfTopic
-                (idTopic, getContext());
+                (idTopic);
+
+        Log.d("qtd elementos: ", comments.size() + "");
 
         CommentListAdapter commentListAdapter = new CommentListAdapter(getContext(), comments);
 
@@ -89,6 +93,10 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         contentTextView = (TextView) view.findViewById(R.id.content);
 
+        FloatingActionButton createCommentButton = (FloatingActionButton)
+                view.findViewById(R.id.create_comment);
+        createCommentButton.setOnClickListener(this);
+
         Button playAudioButton = (Button) view.findViewById(R.id.topicViewPlayAudio);
         playAudioButton.setOnClickListener(this);
     }
@@ -99,6 +107,8 @@ public class TopicView extends Fragment implements View.OnClickListener {
         TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
         Topic topic = topicPresenter.getTopicById(idTopic);
+
+        idCategory = topic.getIdCategory();
 
         String imageURL = topic.getImageURL();
 
@@ -115,6 +125,14 @@ public class TopicView extends Fragment implements View.OnClickListener {
         contentTextView.setText(topic.getDescription());
     }
 
+    private void openFragment(Fragment fragmentToBeOpen){
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                this.getActivity().getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
     @Override
     public void onClick(View v) {
@@ -129,6 +147,20 @@ public class TopicView extends Fragment implements View.OnClickListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                break;
+
+            case R.id.create_comment:
+                CommentCreation commentCreation = new CommentCreation();
+
+                Bundle bundle = new Bundle();
+
+                bundle.putInt("idTopic", idTopic);
+                bundle.putInt("idCategory", idCategory);
+
+                commentCreation.setArguments(bundle);
+
+                openFragment(commentCreation);
 
                 break;
         }

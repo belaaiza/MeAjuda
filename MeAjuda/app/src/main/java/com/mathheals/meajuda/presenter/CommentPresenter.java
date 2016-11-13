@@ -3,9 +3,7 @@ package com.mathheals.meajuda.presenter;
 import android.content.Context;
 
 import com.mathheals.meajuda.dao.CommentDAO;
-import com.mathheals.meajuda.dao.TopicDAO;
 import com.mathheals.meajuda.model.Comment;
-import com.mathheals.meajuda.model.Topic;
 
 import java.util.List;
 
@@ -31,11 +29,16 @@ public class CommentPresenter {
         return CommentPresenter.instance;
     }
 
-    public List<Comment> getCommentsOfTopic(int idTopic, Context context){
+    public List<Comment> getCommentsOfTopic(int idTopic){
         List<Comment> allComments;
 
-        allComments = CommentDAO.getInstance(context).getCommentsOfTopic(idTopic);
+        allComments = CommentDAO.getInstance(context).getCommentsByTopicId(idTopic);
 
         return allComments;
+    }
+
+    public void createComment(Integer idTopic, Integer idCategory, String comment) {
+        CommentDAO commentDAO = CommentDAO.getInstance(context);
+        commentDAO.createComment(idTopic, idCategory, comment);
     }
 }

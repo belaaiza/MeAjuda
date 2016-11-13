@@ -57,8 +57,9 @@ public class TopicDAO extends DAO {
     }
 
     public Topic getTopicById(int idTopic) throws JSONException {
-        final String SELECT_TOPIC_BY_ID_QUERY = "SELECT titulo, descricao, imagemURL, " +
-                "Usuario_idUsuario, audioURL FROM Topico WHERE idTopico = "+ idTopic +" ";
+        final String SELECT_TOPIC_BY_ID_QUERY = "SELECT Categoria_idCategoria, " +
+                "titulo, descricao, imagemURL, Usuario_idUsuario, audioURL FROM Topico " +
+                "WHERE idTopico = "+ idTopic +" ";
 
         JSONObject consultResult = executeConsult(SELECT_TOPIC_BY_ID_QUERY);
 
@@ -71,8 +72,9 @@ public class TopicDAO extends DAO {
         String description = consultResult.getJSONObject("0").getString("descricao");
         String imageURL = consultResult.getJSONObject("0").getString("imagemURL");
         String audioURL = consultResult.getJSONObject("0").getString("audioURL");
+        Integer idCategory =consultResult.getJSONObject("0").getInt("Categoria_idCategoria");
 
-        Topic topic = new Topic(idTopic, title, description, nameOwner, imageURL, audioURL);
+        Topic topic = new Topic(idTopic, idCategory, title, description, nameOwner, imageURL, audioURL);
 
         return topic;
     }
@@ -99,7 +101,8 @@ public class TopicDAO extends DAO {
                 String imageURL = consultResult.getJSONObject("" + i).getString("imagemURL");
                 String audioURL = consultResult.getJSONObject("" + i).getString("audioURL");
 
-                Topic topic = new Topic(idTopic, title, description, nameOwner, imageURL, audioURL);
+                Topic topic = new Topic(idTopic, idCategory, title, description, nameOwner,
+                        imageURL, audioURL);
                 topics.add(topic);
             }
         } else {

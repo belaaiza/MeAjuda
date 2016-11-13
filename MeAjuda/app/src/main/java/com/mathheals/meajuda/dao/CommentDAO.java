@@ -31,17 +31,19 @@ public class CommentDAO extends DAO {
 
         return CommentDAO.instance;
     }
-    public void createComment(Comment comment) {
-        String QUERY = "INSERT INTO Comentario(idPai, Topico_idTopico, " +
-                "Topico_Categoria_idCategoria, descricao) VALUES("+ comment.getIdParent() +", " +
-                ""+ comment.getIdTopic() +", "+ comment.getIdCategory() +", " +
-                ""+ comment.getDescription() +" )";
+
+    public void createComment(Integer idTopic, Integer idCategory, String description) {
+        String QUERY = "INSERT INTO Comentario(Topico_idTopico, " +
+                "Topico_Categoria_idCategoria, descricao) VALUES(" +
+                ""+ idTopic +", "+ idCategory +", " +
+                " \" " + description + " \" )";
 
         executeQuery(QUERY);
     }
 
-    public List<Comment> getCommentsOfTopic(int idTopic) {
-        final String SELECT_COMMENTS_QUERY = "SELECT * FROM Comentario WHERE idPai= "+ idTopic +" ";
+    public List<Comment> getCommentsByTopicId(int idTopic) {
+        final String SELECT_COMMENTS_QUERY = "SELECT * FROM Comentario WHERE Topico_idTopico = " +
+                ""+ idTopic +" ";
 
         JSONObject consultResult = executeConsult(SELECT_COMMENTS_QUERY);
 
