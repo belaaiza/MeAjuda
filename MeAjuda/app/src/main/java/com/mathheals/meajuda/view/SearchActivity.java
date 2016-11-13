@@ -18,8 +18,11 @@ import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.*;
+import com.mathheals.meajuda.view.schools.SchoolList;
 import com.mathheals.meajuda.view.topics.TopicList;
 import com.mathheals.meajuda.view.topics.TopicView;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +43,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         setSupportActionBar(toolbar);
 
         List<Topic> topicList = TopicPresenter.getInstance(getBaseContext()).getAllTopics();
-        List<School> schoolList = new ArrayList<>();
+        List<School> schoolList = null;
+        try{
+            schoolList = SchoolPresenter.getInstance().getAllSchools();
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
 
         TabsAdapter tabsAdapter = new TabsAdapter(this.getSupportFragmentManager(), topicList,
                 schoolList);
@@ -90,19 +98,30 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     public boolean onQueryTextSubmit(String query){
         Integer currentTab = tabs.getSelectedTabPosition();
 
+        Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(
+                "android:switcher:" + R.id.container + ":" + viewPager.getCurrentItem());
+
         switch(currentTab){
             case 0:
                 SearchTopic searchTopic = new SearchTopic();
                 List topicList = searchTopic.search(getBaseContext(), query);
-
-                Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(
-                        "android:switcher:" + R.id.container + ":" + viewPager.getCurrentItem());
 
                 TopicList topicListFragment = (TopicList) currentFragment;
                 topicListFragment.getAdapater().updateList(topicList);
 
                 break;
             case 1:
+                SearchSchool searchSchool = new SearchSchool();
+                List schoolList = null;
+
+                try{
+                    schoolList = searchSchool.search(getBaseContext(), query);
+                } catch(JSONException e){
+                    e.printStackTrace();
+                }
+
+                SchoolList schoolListFragment = (SchoolList) currentFragment;
+                schoolListFragment.getAdapater().updateList(schoolList);
                 break;
         }
 
