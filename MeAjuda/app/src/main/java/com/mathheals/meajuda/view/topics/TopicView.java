@@ -1,7 +1,5 @@
 package com.mathheals.meajuda.view.topics;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,9 +19,6 @@ import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.CommentPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -113,5 +108,12 @@ public class TopicView extends Fragment {
         contentTextView.setText(topic.getDescription());
     }
 
+    @Override
+    public void onDestroy(){
+        if(this.getArguments().getBoolean("comeFromSearch")){
+            getActivity().finish();
+        }
 
+        super.onDestroy();
+    }
 }

@@ -2,6 +2,7 @@ package com.mathheals.meajuda.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
 
     private List<Topic> data;
     private AppCompatActivity currentActivity;
+    private Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView idTopic;
@@ -52,7 +54,14 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
             TopicView topicView = new TopicView();
             topicView.setArguments(args);
 
-            openFragment(topicView);
+            if(currentActivity instanceof MainActivity){
+                openFragment(topicView);
+            }
+            else if(currentActivity instanceof SearchActivity){
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("idTopic", idTopic);
+                context.startActivity(intent);
+            }
         }
     }
 
@@ -60,14 +69,15 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         android.support.v4.app.FragmentTransaction fragmentTransaction = currentActivity.
                 getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen);
+        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen, "TopicViewFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
-    public CardListAdapter(List<Topic> data, AppCompatActivity activity) {
+    public CardListAdapter(List<Topic> data, AppCompatActivity activity, Context context) {
         this.data = data;
         this.currentActivity = activity;
+        this.context = context;
     }
 
     @Override

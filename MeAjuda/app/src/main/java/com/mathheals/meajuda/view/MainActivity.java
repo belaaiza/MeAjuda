@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.mathheals.meajuda.presenter.CategoryPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
 import com.mathheals.meajuda.view.topics.TopicCreation;
 import com.mathheals.meajuda.view.topics.TopicList;
+import com.mathheals.meajuda.view.topics.TopicView;
 import com.mathheals.meajuda.view.users.LoginActivity;
 import com.mathheals.meajuda.view.users.UserUpdate;
 import com.mathheals.meajuda.view.users.ViewProfile;
@@ -61,6 +63,23 @@ public class MainActivity extends AppCompatActivity
             fillCategoriesMenu();
         } catch(JSONException e){
             e.printStackTrace();
+        }
+
+        if(getIntent().getExtras() != null ){
+            Integer idTopic = getIntent().getExtras().getInt("idTopic");
+            Bundle bundle = new Bundle();
+            bundle.putInt("idTopic", idTopic);
+            bundle.putBoolean("comeFromSearch", true);
+
+            TopicView topicView = new TopicView();
+            topicView.setArguments(bundle);
+
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+
+            fragmentTransaction.replace(R.id.layout_main, topicView, "TopicViewFragment");
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }
 
     }
@@ -171,11 +190,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed(){
+        final TopicView topicView = (TopicView)
+                getSupportFragmentManager().findFragmentByTag("TopicViewFragment");
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
         }
-        else{
+        else if(topicView != null){
+            finish();
+        }
+        else {
             super.onBackPressed();
         }
     }

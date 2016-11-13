@@ -2,6 +2,7 @@ package com.mathheals.meajuda.view;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.*;
 import com.mathheals.meajuda.view.topics.TopicList;
+import com.mathheals.meajuda.view.topics.TopicView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     private Integer currentTab;
     private TabLayout tabs;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -43,7 +46,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 schoolList);
 
         // Set up the ViewPager with the sections adapter.
-        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(tabsAdapter);
 
         tabs = (TabLayout) this.findViewById(R.id.tabs);
@@ -90,8 +93,13 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         switch(currentTab){
             case 0:
                 SearchTopic searchTopic = new SearchTopic();
-                searchTopic.search(getBaseContext(), query);
+                List topicList = searchTopic.search(getBaseContext(), query);
 
+                Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(
+                        "android:switcher:" + R.id.container + ":" + viewPager.getCurrentItem());
+
+                TopicList topicListFragment = (TopicList) currentFragment;
+                topicListFragment.getAdapater().updateList(topicList);
 
                 break;
             case 1:
@@ -119,5 +127,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
     @Override
     public void onTabReselected(TabLayout.Tab tab){
 
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
     }
 }

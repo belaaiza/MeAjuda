@@ -36,7 +36,8 @@ public class SchooList extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView = (RecyclerView) topicListView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new CardListAdapter(data, (AppCompatActivity) this.getActivity()));
+        recyclerView.setAdapter(new CardListAdapter(data, (AppCompatActivity) this.getActivity(),
+                getContext()));
 
         return topicListView;
     }
