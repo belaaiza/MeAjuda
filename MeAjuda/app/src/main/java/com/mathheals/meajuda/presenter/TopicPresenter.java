@@ -2,36 +2,30 @@ package com.mathheals.meajuda.presenter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.mathheals.meajuda.dao.DownloadAudioTask;
 import com.mathheals.meajuda.dao.PostRequest;
 import com.mathheals.meajuda.dao.TopicDAO;
-import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class TopicPresenter {
 
@@ -55,14 +49,20 @@ public class TopicPresenter {
     }
 
     public void createTopic(Integer idUser, Integer categoryId, String title, String description,
-                            Bitmap image){
+                            Bitmap image, String base64Audio){
         String imageURL = "N";
 
         if(image != null) {
             imageURL = postImage(idUser, image);
         }
 
-        topicDAO.createTopic(categoryId, title, description, imageURL);
+        String audioURL = "N";
+
+        if(base64Audio != null) {
+            audioURL = postAudio(idUser, base64Audio);
+        }
+
+        topicDAO.createTopic(categoryId, title, description, imageURL, audioURL);
     }
 
     public List<Topic> getTopicsByCategory(int idCategory) {
@@ -97,10 +97,44 @@ public class TopicPresenter {
         return topicList;
     }
 
-    private String postImage(final Integer idUser, Bitmap image) {
-        final String URL ="https://meajuda.000webhostapp.com/save_picture.php";
+    public void playAudio(final Integer idTopic) throws JSONException,
+            IOException {
+        final String URL = topicDAO.getAudioURLByTopicId(idTopic);
 
-        String name = generateImageName(idUser);
+        if(URL != "N") {
+            Log.d("Audio URL: ", topicDAO.getAudioURLByTopicId(idTopic));
+
+            DownloadAudioTask downloadAudioTask = new DownloadAudioTask();
+            downloadAudioTask.execute(URL);
+        }else {
+            Toast.makeText(context, "Esse tópico não possui um áudio anexado",
+                    Toast.LENGTH_LONG).show();
+
+            Log.d("playAudio", "Esse tópico não possui um áudio anexado");
+        }
+    }
+
+    private String postAudio(final Integer idUser, String base64Audio) {
+        final String URL = "https://meajuda.000webhostapp.com/save_audio.php";
+
+        String name = generateFileName(idUser);
+
+        List<NameValuePair> postParams = new ArrayList<>();
+        postParams.add(new BasicNameValuePair("name", name));
+        postParams.add(new BasicNameValuePair("audio", base64Audio));
+
+        PostRequest postRequest = new PostRequest(context, URL, postParams);
+        postRequest.execute();
+
+        final String AUDIO_URL = "https://meajuda.000webhostapp.com/records/" + name + ".txt";
+
+        return AUDIO_URL;
+    }
+
+    private String postImage(final Integer idUser, Bitmap image) {
+        final String URL = "https://meajuda.000webhostapp.com/save_picture.php";
+
+        String name = generateFileName(idUser);
 
         String encodedImage = encodeImage(image);
 
@@ -113,7 +147,7 @@ public class TopicPresenter {
         PostRequest postRequest = new PostRequest(context, URL, postParams);
         postRequest.execute();
 
-        final String IMAGE_URL = "https://meajuda.000webhostapp.com/pictures/" + name;
+        final String IMAGE_URL = "https://meajuda.000webhostapp.com/pictures/" + name + ".jpg";
 
         return IMAGE_URL;
     }
@@ -128,7 +162,7 @@ public class TopicPresenter {
         return encodedImage;
     }
 
-    private String generateImageName(Integer idUser) {
+    public static String generateFileName(Integer idUser) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
 
@@ -140,5 +174,18 @@ public class TopicPresenter {
         String name = dateString + "_" + idUser;
 
         return name;
+    }
+
+    public static String generateFileNameExternalStorage() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+
+        String dateString = dateFormat.format(date);
+
+        dateString = dateString.replace("/", "-");
+        dateString = dateString.replace(" ", "_");
+        dateString = dateString.replace(":", "");
+
+        return dateString;
     }
 }

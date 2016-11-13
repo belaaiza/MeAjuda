@@ -91,15 +91,11 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
         selectImageButton = (ImageView) view.findViewById(R.id.image);
         selectImageButton.setOnClickListener(this);
 
-
-        ImageView startStopRecording = (ImageView) view.findViewById(R.id.attachment);
+        ImageView startStopRecording = (ImageView) view.findViewById(R.id.record_audio);
         startStopRecording.setOnClickListener(this);
 
         Button startPlaying = (Button) view.findViewById(R.id.play_audio);
         startPlaying.setOnClickListener(this);
-
-        Button uploadAudio = (Button) view.findViewById(R.id.upload_audio);
-        uploadAudio.setOnClickListener(this);
 
         return view;
     }
@@ -154,9 +150,16 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
 
                 TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
-                Bitmap image = ((BitmapDrawable) imagePreview.getDrawable()).getBitmap();
+                Bitmap image = null;
 
-                topicPresenter.createTopic(7, 1, title, description, image);
+                if(imagePreview.getDrawable() != null) {
+                    image = ((BitmapDrawable) imagePreview.getDrawable()).getBitmap();
+                }
+
+                String encodedAudio = encodeAudio(AudioSavePathInDevice);
+
+                //FIXME Tirar esses dois números mágicos
+                topicPresenter.createTopic(7, 1, title, description, image, encodedAudio);
 
                 Toast.makeText(getActivity(), "Tópico criado com sucesso", Toast.LENGTH_LONG).show();
 
@@ -168,16 +171,7 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
 
                 break;
 
-            case R.id.upload_audio:
-                String encoded_audio = encodeAudio(AudioSavePathInDevice);
-
-                Log.d("Encoded Audio: ", encoded_audio);
-
-                decodeAudio(encoded_audio, AudioSavePathInDevice);
-
-                break;
-
-            case R.id.attachment:
+            case R.id.record_audio:
                 Log.d("to playando", "onClick ");
                 if(!recording) {
                     if(!checkPermission()) {
@@ -185,8 +179,15 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
                                 String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, RequestPermissionCode);
                     }
 
+                    //TODO: Adicionar um subdiretório com o nome do APP e outro com o nome da pasta em q os áudios ficarão salvos
+                    //TODO: Tirar esse número mágico
                     AudioSavePathInDevice =
-                            Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "AudioRecording.3gp";
+                            Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
+                                    TopicPresenter.generateFileNameExternalStorage() + ".3gp";
+
+                    AudioSavePathInDevice = AudioSavePathInDevice.replaceAll(":", "");
+
+                    Log.d("Caminho", AudioSavePathInDevice);
 
                     MediaRecorderReady();
 
@@ -234,26 +235,25 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
 
     }
 
-    private void decodeAudio(String base64AudioData, String path) {
-
+    private void playAudio(String base64AudioData) {
         try {
-            String aux = Environment.getExternalStorageDirectory().getAbsolutePath() + "/novo.3gp";
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
+                    TopicPresenter.generateFileNameExternalStorage() + ".3gp";
 
-            File audioFile = new File(aux);
+            File audioFile = new File(path);
 
             FileOutputStream fos = new FileOutputStream(audioFile);
             fos.write(Base64.decode(base64AudioData.getBytes(), Base64.DEFAULT));
             fos.close();
 
             try {
-
                 MediaPlayer mp = new MediaPlayer();
-                mp.setDataSource(aux);
+                mp.setDataSource(path);
                 mp.prepare();
                 mp.start();
 
             } catch (Exception e) {
-                Log.d("deu ruim", "decodeAudio ");
+                e.printStackTrace();
             }
 
         } catch (Exception e) {
@@ -264,31 +264,34 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
     }
 
     private String encodeAudio(String selectedPath) {
+        //TODO: Testar se funfa sem esse if
+        if(selectedPath == null) {
+            return null;
+        }
 
         byte[] audioBytes;
 
-            // Just to check file size.. Its is correct i-e; Not Zero
-            File audioFile = new File(selectedPath);
-            long fileSize = audioFile.length();
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(new File(selectedPath));
+
+            byte[] buf = new byte[1024];
+
+            int n;
+
+            while (-1 != (n = fis.read(buf))) {
+                baos.write(buf, 0, n);
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        byte[] buf = new byte[1024];
-            int n;
-        try {
-            while (-1 != (n = fis.read(buf)))
-                baos.write(buf, 0, n);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         audioBytes = baos.toByteArray();
 
-        // Here goes the Base64 string
         String _audioBase64 = Base64.encodeToString(audioBytes, Base64.DEFAULT);
 
         return _audioBase64;

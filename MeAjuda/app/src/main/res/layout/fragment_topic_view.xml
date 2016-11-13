@@ -133,10 +133,16 @@
 
                 <ImageView
                     android:layout_below="@+id/topic_header"
-                    android:visibility="gone"
                     android:id="@+id/topicViewImage"
-                    android:layout_width="190dp"
-                    android:layout_height="200dp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/topicViewImage"
+                    android:text="Tocar audio"
+                    android:id="@+id/topicViewPlayAudio"/>
 
             </RelativeLayout>
 

@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/audio"
+                    android:id="@+id/record_audio"
                     android:clickable="true"
                     android:src="@android:drawable/ic_btn_speak_now"
                     android:layout_width="wrap_content"
@@ -108,25 +108,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"/>
 
-            <LinearLayout
-                android:orientation="vertical"
+            <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="playar audio"
-                    android:id="@+id/play_audio"/>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sendar_audio"
-                    android:id="@+id/upload_audio"/>
-
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="playar audio"
+                android:id="@+id/play_audio"/>
 
         </LinearLayout>
 

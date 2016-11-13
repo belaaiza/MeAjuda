@@ -8,13 +8,16 @@ public class Topic {
     private String description;
     private String nameOwner;
     private String imageURL;
+    private String audioURL;
 
-    public Topic(int idTopic, String title, String description, String nameOwner, String imageURL) {
+    public Topic(int idTopic, String title, String description, String nameOwner, String imageURL,
+                 String audioURL) {
         setIdTopic(idTopic);
         setTitle(title);
         setDescription(description);
         setNameOwner(nameOwner);
         setImageURL(imageURL);
+        setAudioURL(audioURL);
     }
 
     public Topic(int idTopic, String title, String description, String nameOwner) {
@@ -48,6 +51,8 @@ public class Topic {
         return imageURL;
     }
 
+    public String getAudioURL() { return audioURL; }
+
     private void setIdTopic(int idTopic) {
         this.idTopic = idTopic;
     }
@@ -64,11 +69,15 @@ public class Topic {
         this.description = description;
     }
 
-    public void setNameOwner(String nameOwner) {
+    private void setNameOwner(String nameOwner) {
         this.nameOwner = nameOwner;
     }
 
-    public void setImageURL(String imageURL) {
+    private void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    private void setAudioURL(String audioURL) {
+        this.audioURL = audioURL;
     }
 }
