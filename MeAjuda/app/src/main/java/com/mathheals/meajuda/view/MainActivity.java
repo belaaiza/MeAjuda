@@ -30,8 +30,10 @@ import com.mathheals.meajuda.model.Category;
 import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.CategoryPresenter;
+import com.mathheals.meajuda.presenter.SchoolPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
 import com.mathheals.meajuda.presenter.UserPresenter;
+import com.mathheals.meajuda.view.schools.SchoolList;
 import com.mathheals.meajuda.view.schools.SchoolView;
 import com.mathheals.meajuda.view.topics.TopicCreation;
 import com.mathheals.meajuda.view.topics.TopicList;
@@ -42,6 +44,7 @@ import com.mathheals.meajuda.view.users.ViewProfile;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -281,7 +284,19 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         }
         else if(id == R.id.school_ranking){
+            SchoolPresenter schoolPresenter = SchoolPresenter.getInstance(getBaseContext());
 
+            List<School> schoolRanking = new ArrayList<>();
+
+            try {
+                schoolRanking = schoolPresenter.getSchoolRanking();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            SchoolList schoolList = new SchoolList(schoolRanking);
+
+            openFragment(schoolList);
         }
         else if(id == R.id.edit_profile){
             UserUpdate userUpdate = new UserUpdate();

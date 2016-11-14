@@ -7,6 +7,8 @@ public class School implements Serializable {
     private String name;
     private Double latitude;
     private Double longitude;
+    private String state;
+    private String county;
     private String network;
     private String email;
     private String administrativeType;
@@ -23,9 +25,16 @@ public class School implements Serializable {
     private Integer numberComputers;
     private Integer numberComputersByStudent;
     private Integer numberStudents;
+    private Integer rating;
     private String zone;
     private Address address;
     private Infrastructure infrastructure;
+
+    public School(String schoolCode, String name, Integer rating) {
+        setSchoolCode(schoolCode);
+        setName(name);
+        setRating(rating);
+    }
 
     public School(String schoolCode, String name, Double latitude, Double longitude, String network,
                   String email, String administrativeType, String privateSchoolCategory,
@@ -60,6 +69,12 @@ public class School implements Serializable {
     public void createAddress(String CEP, String description, String district,
                               String county, String state) {
         Address address = new Address(CEP, description, district, county, state);
+
+        setAddress(address);
+    }
+
+    public void createAddress(String state, String county) {
+        Address address = new Address(state, county);
 
         setAddress(address);
     }
@@ -191,6 +206,18 @@ public class School implements Serializable {
         return infrastructure;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
     private void setSchoolCode(String schoolCode) {
         this.schoolCode = schoolCode;
     }
@@ -282,4 +309,17 @@ public class School implements Serializable {
     private void setInfrastructure(Infrastructure infrastructure) {
         this.infrastructure = infrastructure;
     }
+
+    private void setState(String state) {
+        this.state = state;
+    }
+
+    private void setCounty(String county) {
+        this.county = county;
+    }
+
+    private void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
 }
