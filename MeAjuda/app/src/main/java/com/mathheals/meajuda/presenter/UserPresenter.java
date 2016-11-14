@@ -168,6 +168,7 @@ public class UserPresenter {
                 user.getLastName());
         editor.putString(context.getResources().getString(R.string.key_password),
                 user.getPassword());
+        editor.putInt("id",user.getUserId());
         editor.commit();
 
         return editor;
