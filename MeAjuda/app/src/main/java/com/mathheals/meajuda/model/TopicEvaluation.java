@@ -8,56 +8,61 @@ import com.mathheals.meajuda.exception.TopicEvaluationException;
 
 public class TopicEvaluation {
 
-    private Float rating;
-    private Integer userId;
-    private Integer topicId;
-    public static final String EVALUATION_IS_INVALID = "A avaliação deve estar entre 0 e 5";
+    private Integer idEvaluation;
+    private Integer evaluationDescription;
+    private Integer idTopic;
+    private Integer idCategory;
+    private Integer idUser;
+
     public static final String USER_ID_IS_INVALID = "O identificador do usuário está inválido";
     public static final String TOPIC_ID_IS_INVALID = "O identificador do post está inválido";
 
-    public TopicEvaluation(Float rating, Integer userId, Integer topicId) throws TopicEvaluationException {
-        setRating(rating);
-        setUserId(userId);
-        setTopicId(topicId);
+    public TopicEvaluation(Integer idEvaluation, Integer evaluationDescription, Integer idTopic,
+                           Integer idCategory, Integer idUser) throws TopicEvaluationException {
+        setIdEvaluation(idEvaluation);
+        setEvaluationDescription(evaluationDescription);
+        setIdTopic(idTopic);
+        setIdCategory(idCategory);
+        setIdUser(idUser);
     }
 
-    public Float getRating() {
-        return rating;
+    public Integer getIdEvaluation() {
+        return idEvaluation;
     }
 
-    public void setRating(Float rating) throws TopicEvaluationException {
-        if(rating>=0f && rating<=5f) {
-            this.rating = rating;
-        }
-        else{
-            throw new TopicEvaluationException(EVALUATION_IS_INVALID);
-        }
+    private void setIdEvaluation(Integer idEvaluation) {
+        this.idEvaluation = idEvaluation;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getEvaluationDescription() {
+        return evaluationDescription;
     }
 
-    public void setUserId(Integer userId) throws TopicEvaluationException {
-        if(userId <= Integer.MAX_VALUE && userId >= 1) {
-            this.userId = userId;
-        }
-        else{
-            throw new TopicEvaluationException(USER_ID_IS_INVALID);
-        }
+    private void setEvaluationDescription(Integer evaluationDescription) {
+        this.evaluationDescription = evaluationDescription;
     }
 
-    public Integer getTopicId() {
-        return topicId;
+    public Integer getIdTopic() {
+        return idTopic;
     }
 
-    public void setTopicId(Integer eventId) throws TopicEvaluationException {
-        if(eventId <= Integer.MAX_VALUE && eventId >= 1) {
-            this.topicId = eventId;
-        }
-        else{
-            throw new TopicEvaluationException(TOPIC_ID_IS_INVALID);
-        }
+    private void setIdTopic(Integer idTopic) {
+        this.idTopic = idTopic;
     }
 
+    public Integer getIdCategory() {
+        return idCategory;
+    }
+
+    private void setIdCategory(Integer idCategory) {
+        this.idCategory = idCategory;
+    }
+
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    private void setIdUser(Integer idUser) {
+        this.idUser = idUser;
+    }
 }

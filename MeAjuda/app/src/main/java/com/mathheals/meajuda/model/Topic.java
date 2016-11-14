@@ -9,8 +9,10 @@ public class Topic {
     private String nameOwner;
     private String imageURL;
 
-    public Topic(int idTopic, String title, String description, String nameOwner, String imageURL) {
+    public Topic(int idTopic, Integer idCategory, String title, String description, String nameOwner,
+                 String imageURL) {
         setIdTopic(idTopic);
+        setIdCategory(idCategory);
         setTitle(title);
         setDescription(description);
         setNameOwner(nameOwner);

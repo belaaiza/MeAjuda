@@ -17,7 +17,10 @@ import com.mathheals.meajuda.dao.DownloadImageTask;
 import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.CommentPresenter;
+import com.mathheals.meajuda.presenter.TopicEvaluationPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -26,6 +29,7 @@ public class TopicView extends Fragment implements View.OnClickListener {
     private TextView nameAuthorTextView;
     private TextView titleTextView;
     private TextView contentTextView;
+    private TextView topicEvaluationTextView;
     private ImageView topicImage;
     private Topic currentTopic;
 
@@ -78,9 +82,11 @@ public class TopicView extends Fragment implements View.OnClickListener {
         titleTextView = (TextView) view.findViewById(R.id.title);
         titleTextView.setTypeface(null, Typeface.BOLD);
 
-        topicImage = (ImageView) view.findViewById(R.id.topicViewImage);
+        topicEvaluationTextView = (TextView) view.findViewById(R.id.topicEvaluation);
 
         contentTextView = (TextView) view.findViewById(R.id.content);
+
+        topicImage = (ImageView) view.findViewById(R.id.topicViewImage);
     }
 
     private void setTopicInfo(int idTopic) {
@@ -92,24 +98,14 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         String imageURL = currentTopic.getImageURL();
 
-        /*if(imageURL != "N") {
-            try {
-                Log.d("URL: ", imageURL);
-                Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(imageURL).
-                        getContent());
-
-                topicImage.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
-
         new DownloadImageTask(topicImage).execute(imageURL);
         topicImage.setVisibility(View.VISIBLE);
 
         nameAuthorTextView.setText(currentTopic.getNameOwner());
         titleTextView.setText(currentTopic.getTitle());
         contentTextView.setText(currentTopic.getDescription());
+
+
     }
 
     @Override
@@ -123,6 +119,36 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v){
+        TopicEvaluationPresenter topicEvaluationPresenter =
+                TopicEvaluationPresenter.getInstance(getContext());
+
+        final Integer POSITIVE_EVALUATION = 1;
+        final Integer NEGATIVE_EVALUATION = -1;
+
+        switch (v.getId()) {
+            case R.id.up_evaluation:
+                //TODO: Trocar esse número mágico pelo id do usuário
+                try {
+                    topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
+                            currentTopic.getIdCategory(), POSITIVE_EVALUATION, 7);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
+            case R.id.down_evaluation:
+                //TODO: Trocar esse número mágico pelo id do usuário
+                try {
+                    topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
+                            currentTopic.getIdCategory(), NEGATIVE_EVALUATION, 7);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+        }
+
         if(v.getId() == R.id.up_evaluation){
             TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
             //TODO chamar aqui o metodo da presenter com id do topico, do usuario e avaliacao plus one

@@ -45,12 +45,12 @@ public class TopicDAO extends DAO {
     }
 
     public Topic getTopicById(int idTopic) throws JSONException {
-        final String SELECT_TOPIC_BY_ID_QUERY = "SELECT titulo, descricao, imagemURL, " +
-                "Usuario_idUsuario FROM Topico WHERE idTopico = "+ idTopic +" ";
+        final String SELECT_TOPIC_BY_ID_QUERY = "SELECT * FROM Topico WHERE idTopico = "+ idTopic +" ";
 
         JSONObject consultResult = executeConsult(SELECT_TOPIC_BY_ID_QUERY);
 
-        int idOwner = consultResult.getJSONObject("0").getInt("Usuario_idUsuario");
+        Integer idOwner = consultResult.getJSONObject("0").getInt("Usuario_idUsuario");
+        Integer idCategory = consultResult.getJSONObject("0").getInt("Categoria_idCategoria");
 
         UserDAO userDAO = UserDAO.getInstance(context);
 
@@ -59,7 +59,7 @@ public class TopicDAO extends DAO {
         String description = consultResult.getJSONObject("0").getString("descricao");
         String imageURL = consultResult.getJSONObject("0").getString("imagemURL");
 
-        Topic topic = new Topic(idTopic, title, description, nameOwner, imageURL);
+        Topic topic = new Topic(idTopic, idCategory, title, description, nameOwner, imageURL);
 
         return topic;
     }
@@ -85,7 +85,7 @@ public class TopicDAO extends DAO {
 
                 String imageURL = consultResult.getJSONObject("" + i).getString("imagemURL");
 
-                Topic topic = new Topic(idTopic, title, description, nameOwner, imageURL);
+                Topic topic = new Topic(idTopic, idCategory, title, description, nameOwner, imageURL);
                 topics.add(topic);
             }
         } else {

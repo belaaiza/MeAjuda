@@ -3,6 +3,8 @@ package com.mathheals.meajuda.presenter;
 import android.content.Context;
 import com.mathheals.meajuda.dao.TopicEvaluationDAO;
 
+import org.json.JSONException;
+
 public class TopicEvaluationPresenter {
 
     private static TopicEvaluationPresenter instance;
@@ -24,9 +26,9 @@ public class TopicEvaluationPresenter {
         return TopicEvaluationPresenter.instance;
     }
 
-    public void createEvaluation(int categoryId, String title, String description){
-        TopicEvaluationDAO topicDAO = TopicEvaluationDAO.getInstance(context);
-
-
+    public void evaluateTopic(Integer idTopic, Integer idCategory, Integer evaluation,
+                              Integer idUser) throws JSONException {
+        TopicEvaluationDAO topicEvaluationDAO = TopicEvaluationDAO.getInstance(context);
+        topicEvaluationDAO.evaluateTopic(idTopic, idCategory, evaluation, idUser);
     }
 }
