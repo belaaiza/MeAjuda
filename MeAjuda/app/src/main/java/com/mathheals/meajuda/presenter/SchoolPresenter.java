@@ -7,6 +7,8 @@ import com.mathheals.meajuda.model.School;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 public class SchoolPresenter {
 
     private static SchoolPresenter instance;
@@ -25,6 +27,11 @@ public class SchoolPresenter {
         School school = jsonHelper.getSchoolByCode(schooCode);
 
         return school;
+    }
+
+    public List<School> getAllSchools() throws JSONException {
+        JSONHelper jsonHelper = JSONHelper.getInstance();
+        return jsonHelper.getAllSchools();
     }
 
     

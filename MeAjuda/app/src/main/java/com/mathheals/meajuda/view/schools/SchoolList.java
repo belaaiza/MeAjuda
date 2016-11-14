@@ -10,21 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mathheals.meajuda.R;
+import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
-import com.mathheals.meajuda.view.CardListAdapter;
-import com.mathheals.meajuda.view.SearchActivity;
+import com.mathheals.meajuda.view.topics.TopicListAdapter;
 
 import java.util.List;
 
-public class SchooList extends Fragment implements View.OnClickListener {
+public class SchoolList extends Fragment {
 
-    private List<Topic> data;
+    private List<School> data;
+    private SchoolListAdapter schoolListAdapter;
 
-    public SchooList(List<Topic> data){
+    public SchoolList(List<School> data){
         this.data = data;
     }
 
-    public SchooList(){
+    public SchoolList(){
     }
 
     @Override
@@ -36,25 +37,15 @@ public class SchooList extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView = (RecyclerView) topicListView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new CardListAdapter(data, (AppCompatActivity) this.getActivity()));
+        schoolListAdapter = new SchoolListAdapter(data, (AppCompatActivity) this.getActivity(),
+                getContext());
+        recyclerView.setAdapter(schoolListAdapter);
 
         return topicListView;
     }
 
-    @Override
-    public void onClick(View view){
-        /*if(view.getId() == R.id.newTopic){
-            TopicCreation topicCreation = new TopicCreation();
-            openFragment(topicCreation);
-        }*/
+    public SchoolListAdapter getAdapater(){
+        return this.schoolListAdapter;
     }
 
-    private void openFragment(Fragment fragmentToBeOpen){
-        android.support.v4.app.FragmentTransaction fragmentTransaction =
-                getActivity().getSupportFragmentManager().beginTransaction();
-
-        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
 }

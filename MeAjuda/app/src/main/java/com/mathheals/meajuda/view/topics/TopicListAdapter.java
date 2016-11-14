@@ -1,11 +1,12 @@
-package com.mathheals.meajuda.view;
+package com.mathheals.meajuda.view.topics;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +14,27 @@ import android.widget.TextView;
 
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Topic;
-import com.mathheals.meajuda.view.topics.TopicView;
+import com.mathheals.meajuda.presenter.TopicEvaluationPresenter;
+import com.mathheals.meajuda.view.MainActivity;
+import com.mathheals.meajuda.view.SearchActivity;
 
 import java.util.List;
 import android.support.v7.widget.CardView;
 
-public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHolder> {
+import org.json.JSONException;
+
+public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.ViewHolder> {
 
     private List<Topic> data;
     private AppCompatActivity currentActivity;
+    private Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView idTopic;
         public TextView title;
         public TextView description;
         public TextView author;
+        private TextView topicEvaluation;
 
         public ViewHolder(CardView card) {
             super(card);
@@ -36,6 +43,8 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
             this.title = (TextView) card.findViewById(R.id.title);
             this.description = (TextView) card.findViewById(R.id.description);
             this.author = (TextView) card.findViewById(R.id.author);
+            this.topicEvaluation = (TextView) card.findViewById(R.id.topicEvaluation);
+
             card.setOnClickListener(this);
         }
 
@@ -52,7 +61,15 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
             TopicView topicView = new TopicView();
             topicView.setArguments(args);
 
-            openFragment(topicView);
+            if(currentActivity instanceof MainActivity){
+                openFragment(topicView);
+            }
+            else if(currentActivity instanceof SearchActivity){
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("whichFragment", "topic");
+                intent.putExtra("idTopic", idTopic);
+                context.startActivity(intent);
+            }
         }
     }
 
@@ -60,18 +77,19 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         android.support.v4.app.FragmentTransaction fragmentTransaction = currentActivity.
                 getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen);
+        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen, "TopicViewFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
-    public CardListAdapter(List<Topic> data, AppCompatActivity activity) {
+    public TopicListAdapter(List<Topic> data, AppCompatActivity activity, Context context) {
         this.data = data;
         this.currentActivity = activity;
+        this.context = context;
     }
 
     @Override
-    public CardListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TopicListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         CardView view = (CardView) inflater.inflate(R.layout.card_list_item, parent, false);
         return new ViewHolder(view);
@@ -90,6 +108,21 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         holder.title.setText(rowData.getTitle());
         holder.description.setText(rowData.getDescription());
         holder.author.setText(rowData.getNameOwner());
+
+        TopicEvaluationPresenter topicEvaluationPresenter = TopicEvaluationPresenter.
+                getInstance(context);
+
+        Integer idTopic = rowData.getIdTopic();
+
+        try {
+            Integer topicEvaluationValue = topicEvaluationPresenter.getTopicEvaluation(idTopic);
+
+            Log.d("id do topico pego", idTopic + "");
+
+            holder.topicEvaluation.setText(topicEvaluationValue + "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -3,9 +3,12 @@ package com.mathheals.meajuda.presenter;
 import android.content.Context;
 import com.mathheals.meajuda.dao.TopicEvaluationDAO;
 
+import org.json.JSONException;
+
 public class TopicEvaluationPresenter {
 
     private static TopicEvaluationPresenter instance;
+    private static TopicEvaluationDAO topicEvaluationDAO;
     private Context context;
 
     private TopicEvaluationPresenter(Context currentContext) {
@@ -14,8 +17,8 @@ public class TopicEvaluationPresenter {
 
     public static TopicEvaluationPresenter getInstance(final Context context) {
         if(TopicEvaluationPresenter.instance == null){
-
             TopicEvaluationPresenter.instance = new TopicEvaluationPresenter(context);
+            topicEvaluationDAO = TopicEvaluationDAO.getInstance(context);
 
         } else {
             //nothing to do
@@ -24,9 +27,14 @@ public class TopicEvaluationPresenter {
         return TopicEvaluationPresenter.instance;
     }
 
-    public void createEvaluation(int categoryId, String title, String description){
-        TopicEvaluationDAO topicDAO = TopicEvaluationDAO.getInstance(context);
+    public void evaluateTopic(Integer idTopic, Integer idCategory, Integer evaluation,
+                              Integer idUser) throws JSONException {
+        topicEvaluationDAO.evaluateTopic(idTopic, idCategory, evaluation, idUser);
+    }
 
+    public Integer getTopicEvaluation(Integer idTopic) throws JSONException {
+        Integer topicEvaluation = topicEvaluationDAO.getTopicEvaluation(idTopic);
 
+        return topicEvaluation;
     }
 }

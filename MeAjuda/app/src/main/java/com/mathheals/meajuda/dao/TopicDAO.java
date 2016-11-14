@@ -55,13 +55,12 @@ public class TopicDAO extends DAO {
     }
 
     public Topic getTopicById(int idTopic) throws JSONException {
-        final String SELECT_TOPIC_BY_ID_QUERY = "SELECT Categoria_idCategoria, " +
-                "titulo, descricao, imagemURL, Usuario_idUsuario, audioURL FROM Topico " +
-                "WHERE idTopico = "+ idTopic +" ";
+        final String SELECT_TOPIC_BY_ID_QUERY = "SELECT * FROM Topico WHERE idTopico = "+ idTopic +" ";
 
         JSONObject consultResult = executeConsult(SELECT_TOPIC_BY_ID_QUERY);
 
-        int idOwner = consultResult.getJSONObject("0").getInt("Usuario_idUsuario");
+        Integer idOwner = consultResult.getJSONObject("0").getInt("Usuario_idUsuario");
+        Integer idCategory = consultResult.getJSONObject("0").getInt("Categoria_idCategoria");
 
         UserDAO userDAO = UserDAO.getInstance(context);
 
@@ -70,7 +69,6 @@ public class TopicDAO extends DAO {
         String description = consultResult.getJSONObject("0").getString("descricao");
         String imageURL = consultResult.getJSONObject("0").getString("imagemURL");
         String audioURL = consultResult.getJSONObject("0").getString("audioURL");
-        Integer idCategory =consultResult.getJSONObject("0").getInt("Categoria_idCategoria");
 
         Topic topic = new Topic(idTopic, idCategory, title, description, nameOwner, imageURL, audioURL);
 
@@ -101,6 +99,7 @@ public class TopicDAO extends DAO {
 
                 Topic topic = new Topic(idTopic, idCategory, title, description, nameOwner,
                         imageURL, audioURL);
+
                 topics.add(topic);
             }
         } else {
@@ -122,19 +121,20 @@ public class TopicDAO extends DAO {
         List<Topic> listTopic = new ArrayList<>();
 
         try{
-            for(int i=0; i<topicFound.length(); i++){
-                UserDAO userDAO = UserDAO.getInstance(context);
-                String nameOwner = userDAO.getUserNameById(topicFound.getJSONObject(i+"")
-                        .getInt("Usuario_idUsuario"));
+            if(topicFound != null){
+                for(int i = 0; i < topicFound.length(); i++){
+                    UserDAO userDAO = UserDAO.getInstance(context);
+                    String nameOwner = userDAO.getUserNameById(topicFound.getJSONObject(i + "")
+                            .getInt("Usuario_idUsuario"));
 
-                Topic topic = new Topic(topicFound.getJSONObject(i+"").getInt("idTopico"),
-                        topicFound.getJSONObject(i+"").getString("titulo"),
-                        topicFound.getJSONObject(i+"").getString("descricao"),
-                        nameOwner);
+                    Topic topic = new Topic(topicFound.getJSONObject(i + "").getInt("idTopico"),
+                            topicFound.getJSONObject(i + "").getString("titulo"),
+                            topicFound.getJSONObject(i + "").getString("descricao"),
+                            nameOwner);
 
-                listTopic.add(topic);
+                    listTopic.add(topic);
+                }
             }
-
         } catch(JSONException e){
             e.printStackTrace();
         }

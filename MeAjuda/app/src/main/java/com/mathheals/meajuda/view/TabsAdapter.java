@@ -4,9 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.mathheals.meajuda.view.schools.SchooList;
+import com.mathheals.meajuda.view.schools.SchoolList;
 import com.mathheals.meajuda.view.topics.TopicList;
-import com.mathheals.meajuda.view.users.UserRegister;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class TabsAdapter extends FragmentPagerAdapter {
             case 0:
                 return new TopicList(topicList);
             case 1:
-                return new SchooList(schoolList);
+                return new SchoolList(schoolList);
         }
 
         return null;

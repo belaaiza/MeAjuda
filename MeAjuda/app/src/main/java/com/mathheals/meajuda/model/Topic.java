@@ -10,8 +10,8 @@ public class Topic {
     private String imageURL;
     private String audioURL;
 
-    public Topic(int idTopic, int idCategory, String title, String description, String nameOwner, String imageURL,
-                 String audioURL) {
+    public Topic(Integer idTopic, Integer idCategory, String title, String description,
+                 String nameOwner, String imageURL, String audioURL) {
         setIdTopic(idTopic);
         setIdCategory(idCategory);
         setTitle(title);
