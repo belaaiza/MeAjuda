@@ -35,7 +35,7 @@
                         android:id="@+id/userHeader"
                         android:orientation="vertical"
                         android:layout_gravity="center"
-                        android:layout_weight="3"
+                        android:layout_weight="2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
 
@@ -43,9 +43,8 @@
                         <ImageView
                             android:id="@+id/user_profile_photo"
                             android:layout_gravity="center"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:layout_centerHorizontal="true"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_margin="5dp"
                             android:background="@drawable/profile_circular_border_imageview"
                             android:elevation="5dp"
@@ -57,7 +56,6 @@
                                 android:layout_gravity="center"
                                 android:textSize="14dp"
                                 style="@style/TextAppearance.AppCompat.Headline"
-                                android:text="Izabela Cardoso"
                                 android:id="@+id/nameAuthor"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
@@ -73,7 +71,7 @@
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_weight="6"
+                        android:layout_weight="7"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content">
 
@@ -122,6 +120,7 @@
                             android:text="10"
                             style="@style/TextAppearance.AppCompat.Headline"
                             android:textColor="#000"
+                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
