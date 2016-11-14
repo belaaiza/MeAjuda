@@ -194,4 +194,5 @@ public class TopicPresenter {
     public void showImage(ImageView image, String imageURL) {
         new DownloadImageTask(image).execute(imageURL);
     }
+
 }

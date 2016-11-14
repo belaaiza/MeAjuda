@@ -1,7 +1,5 @@
 package com.mathheals.meajuda.view.topics;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -23,7 +21,9 @@ import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.dao.DownloadImageTask;
 import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.model.TopicEvaluation;
 import com.mathheals.meajuda.presenter.CommentPresenter;
+import com.mathheals.meajuda.presenter.TopicEvaluationPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
 
 import org.json.JSONException;
@@ -34,15 +34,24 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
+
+import java.util.List;
+
 public class TopicView extends Fragment implements View.OnClickListener {
 
     private TextView nameAuthorTextView;
     private TextView titleTextView;
     private TextView contentTextView;
+    private TextView topicEvaluationTextView;
+
     private ImageView topicImage;
 
     Integer idTopic = 0;
     Integer idCategory = 0;
+
+    private Topic currentTopic;
+
+    private Integer topicEvaluation;
 
     public TopicView() {
         // Required empty public constructor
@@ -75,6 +84,12 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         CommentListAdapter commentListAdapter = new CommentListAdapter(getContext(), comments);
 
+        ImageView upEvaluate = (ImageView) topicView.findViewById(R.id.up_evaluation);
+        upEvaluate.setOnClickListener(this);
+
+        ImageView downEvaluate = (ImageView) topicView.findViewById(R.id.down_evaluation);
+        downEvaluate.setOnClickListener(this);
+
         recyclerView.setAdapter(commentListAdapter);
 
         setViews(topicView);
@@ -89,7 +104,7 @@ public class TopicView extends Fragment implements View.OnClickListener {
         titleTextView = (TextView) view.findViewById(R.id.title);
         titleTextView.setTypeface(null, Typeface.BOLD);
 
-        topicImage = (ImageView) view.findViewById(R.id.topicViewImage);
+        topicEvaluationTextView = (TextView) view.findViewById(R.id.topicEvaluation);
 
         contentTextView = (TextView) view.findViewById(R.id.content);
 
@@ -99,6 +114,8 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         Button playAudioButton = (Button) view.findViewById(R.id.topicViewPlayAudio);
         playAudioButton.setOnClickListener(this);
+
+        topicImage = (ImageView) view.findViewById(R.id.topicViewImage);
     }
 
     private void setTopicInfo() {
@@ -106,11 +123,10 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
-        Topic topic = topicPresenter.getTopicById(idTopic);
+        currentTopic = topicPresenter.getTopicById(idTopic);
+        idCategory = currentTopic.getIdCategory();
 
-        idCategory = topic.getIdCategory();
-
-        String imageURL = topic.getImageURL();
+        String imageURL = currentTopic.getImageURL();
 
         if(imageURL != "N") {
             topicPresenter.showImage(topicImage, imageURL);
@@ -118,9 +134,20 @@ public class TopicView extends Fragment implements View.OnClickListener {
             new DownloadImageTask(topicImage).execute(imageURL);
         }
 
-        nameAuthorTextView.setText(topic.getNameOwner());
-        titleTextView.setText(topic.getTitle());
-        contentTextView.setText(topic.getDescription());
+        nameAuthorTextView.setText(currentTopic.getNameOwner());
+        titleTextView.setText(currentTopic.getTitle());
+        contentTextView.setText(currentTopic.getDescription());
+
+        TopicEvaluationPresenter topicEvaluationPresenter = TopicEvaluationPresenter.
+                getInstance(getContext());
+
+        try {
+            topicEvaluation = topicEvaluationPresenter.getTopicEvaluation(idTopic);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        topicEvaluationTextView.setText(topicEvaluation + "");
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
@@ -134,7 +161,39 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        TopicEvaluationPresenter topicEvaluationPresenter =
+                TopicEvaluationPresenter.getInstance(getContext());
+
+        final Integer POSITIVE_EVALUATION = 1;
+        final Integer NEGATIVE_EVALUATION = -1;
+
         switch (v.getId()) {
+            case R.id.up_evaluation:
+                //TODO: Trocar esse número mágico pelo id do usuário
+                try {
+                    topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
+                            currentTopic.getIdCategory(), POSITIVE_EVALUATION, 7);
+                    //TODO: Arrumar o bug do caso em que ele já havia votado, seja positivamente ou negativamente
+                    topicEvaluation++;
+                    topicEvaluationTextView.setText(topicEvaluation + "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
+            case R.id.down_evaluation:
+                //TODO: Trocar esse número mágico pelo id do usuário
+                try {
+                    topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
+                            currentTopic.getIdCategory(), NEGATIVE_EVALUATION, 7);
+                    topicEvaluation--;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
             case R.id.topicViewPlayAudio:
                 TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
@@ -161,7 +220,19 @@ public class TopicView extends Fragment implements View.OnClickListener {
                 openFragment(commentCreation);
 
                 break;
+
+            default:
         }
+
+    }
+
+    @Override
+    public void onDestroy(){
+        if(this.getArguments().getBoolean("comeFromSearch")){
+            getActivity().finish();
+        }
+
+        super.onDestroy();
     }
 
 }

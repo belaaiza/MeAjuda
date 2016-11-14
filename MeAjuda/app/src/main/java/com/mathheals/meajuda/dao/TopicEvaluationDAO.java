@@ -2,6 +2,10 @@ package com.mathheals.meajuda.dao;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by geovanni on 02/10/16.
@@ -26,16 +30,51 @@ public class TopicEvaluationDAO extends DAO {
         return TopicEvaluationDAO.instance;
     }
 
-    public void createEvaluateTopic(int evaluation,String description)
-    {
+    private JSONObject getTopicEvaluationJSONOBjectByUserId(Integer idTopic, Integer idUser) {
+        final String QUERY = "SELECT * FROM AvaliacaoTopico WHERE Topico_idTopico = "+ idTopic +" " +
+                "AND" + " Usuario_idUsuario = "+ idUser +" ";
 
-        String QUERY = " defaultValue";
+        JSONObject consultResult = executeConsult(QUERY);
+
+        return consultResult;
+    }
+
+    public void evaluateTopic(Integer idTopic, Integer idCategory, Integer evaluation,
+                              Integer idUser) throws JSONException {
+        JSONObject jsonObjectTopicEvaluation = getTopicEvaluationJSONOBjectByUserId(idTopic, idUser);
+
+        String QUERY;
+
+        if(jsonObjectTopicEvaluation == null) {
+            Log.d("Entrei aqui", "evaluateTopic ");
+            QUERY = "INSERT INTO AvaliacaoTopico(descricao, Topico_idTopico, " +
+                    "Topico_Categoria_idCategoria, Usuario_idUsuario) VALUES("+ evaluation +", " +
+                    ""+ idTopic +", "+ idCategory +", "+ idUser +" )";
+        }else {
+            Integer idEvaluation = jsonObjectTopicEvaluation.getJSONObject("0").getInt("idAvaliacao");
+
+            QUERY = "UPDATE AvaliacaoTopico SET descricao = "+ evaluation +" WHERE " +
+                    "idAvaliacao = "+ idEvaluation +"";
+        }
 
         executeQuery(QUERY);
     }
 
-    public void evaluateTopic(Integer userToBeEvaluatedId, Integer evaluation) {
-        final String QUERY = "UPDATE AvaliacaoTopico SET Topico_idTopico = ";
-    }
+    public Integer getTopicEvaluation(Integer idTopic) throws JSONException {
+        String QUERY = "SELECT * FROM AvaliacaoTopico WHERE Topico_idTopico = " + idTopic;
 
+        JSONObject consultResult = executeConsult(QUERY);
+
+        Integer topicEvaluation = 0;
+
+        if(consultResult != null) {
+            for (int i = 0; i < consultResult.length(); i++) {
+                Integer topicEvaluationByUser = consultResult.getJSONObject("" + i).getInt("descricao");
+
+                topicEvaluation += topicEvaluationByUser;
+            }
+        }
+
+        return topicEvaluation;
+    }
 }

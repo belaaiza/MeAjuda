@@ -6,8 +6,10 @@
 package com.mathheals.meajuda.dao;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
@@ -114,9 +116,11 @@ public abstract class DAO{
             consultJson = processQuery(query, URL_CONSULT);
             assert consultJson != null;
 
+            Log.d("consult json", consultJson);
+
             jsonObject = new JSONObject(consultJson);
         } catch(Exception e){
-            e.printStackTrace();
+            jsonObject = null;
         }
 
         return jsonObject;

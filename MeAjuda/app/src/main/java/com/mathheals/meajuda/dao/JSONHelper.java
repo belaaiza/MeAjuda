@@ -53,6 +53,19 @@ public class JSONHelper {
         return getApi;
     }
 
+    public static List<School> getAllSchools()
+            throws JSONException {
+        final String URL = "http://mobile-aceite.tcu.gov.br/nossaEscolaRS/rest/escolas";
+
+        String schoolListApiString = getJSONObjectApi(URL);
+
+        JSONArray schoolListJSONArray = new JSONArray(schoolListApiString);
+
+        List<School> schoolList = populateSchoolList(schoolListJSONArray);
+
+        return schoolList;
+    }
+
     public static List<School> schoolListFromName(String typedSchoolName, int desiredNumberSchools)
             throws JSONException {
         final String URL = "http://mobile-aceite.tcu.gov.br/nossaEscolaRS/rest/escolas?" +
@@ -66,6 +79,21 @@ public class JSONHelper {
 
         return schoolList;
     }
+
+    public static List<School> schoolListFromName(String typedSchoolName)
+            throws JSONException {
+        final String URL = "http://mobile-aceite.tcu.gov.br/nossaEscolaRS/rest/escolas?" +
+                "nome="+ typedSchoolName+"";
+
+        String schoolListApiString = getJSONObjectApi(URL);
+
+        JSONArray schoolListJSONArray = new JSONArray(schoolListApiString);
+
+        List<School> schoolList = populateSchoolList(schoolListJSONArray);
+
+        return schoolList;
+    }
+
     public static School getSchoolByCode( String schoolCode ) throws JSONException {
 
         final String URL = "http://mobile-aceite.tcu.gov.br/nossaEscolaRS/rest/escolas/" + schoolCode;

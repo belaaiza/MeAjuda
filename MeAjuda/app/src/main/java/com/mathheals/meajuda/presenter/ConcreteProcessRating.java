@@ -5,6 +5,7 @@ import android.content.Context;
 import com.mathheals.meajuda.dao.CommentEvaluationDAO;
 import com.mathheals.meajuda.dao.TopicEvaluationDAO;
 import com.mathheals.meajuda.dao.UserDAO;
+import com.mathheals.meajuda.model.TopicEvaluation;
 
 import org.json.JSONException;
 
@@ -14,13 +15,11 @@ public class ConcreteProcessRating extends ProcessRating {
     private Integer userToBeUpdatedId;
     private Integer evaluation;
     private Integer newRating;
+    private TopicEvaluation topicEvaluation;
 
-    public ConcreteProcessRating(Context context, Integer evaluationType, Integer userToBeUpdatedId,
-                                 Integer evaluation) {
+    public ConcreteProcessRating(Context context, TopicEvaluation topicEvaluation) {
         this.context = context;
-        this.evaluationType = evaluationType;
-        this.userToBeUpdatedId = userToBeUpdatedId;
-        this.evaluation = evaluation;
+        this.topicEvaluation = topicEvaluation;
     }
 
     @Override
@@ -28,11 +27,17 @@ public class ConcreteProcessRating extends ProcessRating {
         if(evaluationType == 0) {
             TopicEvaluationDAO topicEvaluationDAO = TopicEvaluationDAO.getInstance(context);
 
-            topicEvaluationDAO.evaluateTopic(userToBeUpdatedId, evaluation);
+            try {
+                topicEvaluationDAO.evaluateTopic(topicEvaluation.getIdTopic(),
+                        topicEvaluation.getIdCategory(), topicEvaluation.getEvaluationDescription(),
+                        topicEvaluation.getIdUser());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }else {
             CommentEvaluationDAO commentEvaluationDAO = CommentEvaluationDAO.getInstance(context);
 
-            commentEvaluationDAO.evaluateComment(userToBeUpdatedId, evaluation);
+            //commentEvaluationDAO.evaluateComment(userToBeUpdatedId, evaluation);
         }
 
         UserDAO userDAO = UserDAO.getInstance(context);
