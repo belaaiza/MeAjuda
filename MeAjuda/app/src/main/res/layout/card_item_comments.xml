@@ -23,97 +23,123 @@
             android:background="#fefefe"
             android:padding="10dp">
 
-            <LinearLayout
-                android:layout_gravity="center"
-                android:orientation="horizontal"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:id="@+id/userHeader"
-                    android:orientation="vertical"
+                    android:id="@+id/comment_header"
                     android:layout_gravity="center"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-
-                    <ImageView
-                        android:id="@+id/user_profile_photo"
+                    <LinearLayout
+                        android:id="@+id/userHeader"
+                        android:orientation="vertical"
                         android:layout_gravity="center"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:id="@+id/user_profile_photo"
+                            android:layout_gravity="center"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/profile_circular_border_imageview"
+                            android:elevation="5dp"
+                            android:padding="10dp"
+                            android:scaleType="centerCrop"
+                            android:src="@android:drawable/sym_def_app_icon" />
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:textSize="14dp"
+                            style="@style/TextAppearance.AppCompat.Headline"
+                            android:text="Izabela Cardoso"
+                            android:id="@+id/nameAuthor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:textSize="12dp"
+                            android:text="Iniciante"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/content"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec lorem euismod, porta eros non, semper nibh. Duis fringilla volutpat erat, vitae mollis orci pulvinar sed. "
+                            android:layout_margin="7dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
                         android:layout_margin="5dp"
-                        android:background="@drawable/profile_circular_border_imageview"
-                        android:elevation="5dp"
-                        android:padding="10dp"
-                        android:scaleType="centerCrop"
-                        android:src="@android:drawable/sym_def_app_icon" />
-
-                    <TextView
-                        android:layout_gravity="center"
-                        android:textSize="14dp"
-                        style="@style/TextAppearance.AppCompat.Headline"
-                        android:text="Izabela Cardoso"
-                        android:id="@+id/nameAuthor"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_gravity="center"
-                        android:textSize="12dp"
-                        android:text="Iniciante"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_arrow_drop_up_black_24dp"
+                            android:tint="#000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:text="10"
+                            style="@style/TextAppearance.AppCompat.Headline"
+                            android:textColor="#000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                            android:tint="#000"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/content"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec lorem euismod, porta eros non, semper nibh. Duis fringilla volutpat erat, vitae mollis orci pulvinar sed. "
-                        android:layout_margin="7dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:layout_margin="5dp"
+                    android:layout_below="@+id/comment_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_arrow_drop_up_black_24dp"
-                        android:tint="#000"
+                        android:id="@+id/commentViewImage"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:text="10"
-                        style="@style/TextAppearance.AppCompat.Headline"
-                        android:textColor="#000"
+                    <Button
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_arrow_drop_down_black_24dp"
-                        android:tint="#000"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/commentViewImage"
+                        android:text="Tocar audio"
+                        android:id="@+id/commentViewPlayAudio"/>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </FrameLayout>
 

@@ -32,15 +32,13 @@ public class TopicDAO extends DAO {
         return TopicDAO.instance;
     }
 
-    public void createTopic(int idCategory, String title, String description, String imageURL,
-                            String audioURL) {
+    public void createTopic(Integer idCategory, Integer idUser, String title, String description,
+                            String imageURL, String audioURL) {
         final String QUERY;
-
-        //FIXME: TIRAR ESSE NÚMERO MÁGICO DO USUÁRIO (POR FAVOR)
 
         QUERY = "INSERT INTO Topico(descricao, Categoria_idCategoria, titulo, Usuario_idUsuario, " +
                 "imagemURL, audioURL) "+
-            "VALUES(\" "+ description +" \", "+ idCategory +", \" "+ title +" \", \" 6 \", " +
+            "VALUES(\" "+ description +" \", "+ idCategory +", \" "+ title +" \", " + idUser + ", " +
                 "\" " + imageURL +" \", \" " + audioURL + " \")";
 
         executeQuery(QUERY);

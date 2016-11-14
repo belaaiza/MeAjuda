@@ -32,13 +32,25 @@ public class CommentDAO extends DAO {
         return CommentDAO.instance;
     }
 
-    public void createComment(Integer idTopic, Integer idCategory, String description) {
+    public void createComment(Integer idTopic, Integer idCategory, Integer idUser,
+                              String description, String imageURL, String audioURL) {
         String QUERY = "INSERT INTO Comentario(Topico_idTopico, " +
-                "Topico_Categoria_idCategoria, descricao) VALUES(" +
-                ""+ idTopic +", "+ idCategory +", " +
-                " \" " + description + " \" )";
+                "Topico_Categoria_idCategoria, Usuario_idUsuario, descricao, imagemURL, audioURL) " +
+                "VALUES("+ idTopic +", "+ idCategory +", "+ idUser +", " +
+                " \" " + description + " \", \" "+ imageURL +" \", \" "+ audioURL +" \")";
 
         executeQuery(QUERY);
+    }
+
+    public String getAudioURLByCommentId(Integer idComment) throws JSONException {
+        final String QUERY = "SELECT audioURL FROM Comentario WHERE idComentario = " +
+                ""+ idComment + " ";
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        String audioURL = consultResult.getJSONObject("0").getString("audioURL");
+
+        return audioURL;
     }
 
     public List<Comment> getCommentsByTopicId(int idTopic) {
@@ -49,19 +61,28 @@ public class CommentDAO extends DAO {
 
         List<Comment> comments = new ArrayList<>();
 
-        String commentDescription = null;
-
         if(consultResult != null) {
             for (int i = 0; i < consultResult.length(); i++) {
                 try{
-                    commentDescription = consultResult.getJSONObject("" + i)
+                    Integer idComment = consultResult.getJSONObject("" + i).
+                            getInt("idComentario");
+                    Integer idCategory = consultResult.getJSONObject("" + i).
+                            getInt("Topico_Categoria_idCategoria");
+                    Integer idUser = consultResult.getJSONObject("" + i).getInt("Usuario_idUsuario");
+                    String description = consultResult.getJSONObject("" + i)
                             .getString("descricao");
+                    String imageURL = consultResult.getJSONObject("" + i)
+                            .getString("imagemURL");
+                    String audioURL = consultResult.getJSONObject("" + i)
+                            .getString("audioURL");
+
+                    Comment comment = new Comment(idComment, idTopic, idCategory, idUser,
+                            description, imageURL, audioURL);
+                    comments.add(comment);
                 } catch(JSONException e){
                     e.printStackTrace();
                 }
 
-                Comment comment = new Comment(idTopic, commentDescription);
-                comments.add(comment);
             }
         } else {
             //Nothing to do

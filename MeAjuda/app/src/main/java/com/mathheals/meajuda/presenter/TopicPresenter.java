@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mathheals.meajuda.dao.DownloadAudioTask;
+import com.mathheals.meajuda.dao.DownloadImageTask;
 import com.mathheals.meajuda.dao.PostRequest;
 import com.mathheals.meajuda.dao.TopicDAO;
 import com.mathheals.meajuda.model.Topic;
@@ -49,7 +51,7 @@ public class TopicPresenter {
     }
 
     public void createTopic(Integer idUser, Integer categoryId, String title, String description,
-                            Bitmap image, String base64Audio){
+                            Bitmap image, String base64Audio) {
         String imageURL = "N";
 
         if(image != null) {
@@ -62,7 +64,7 @@ public class TopicPresenter {
             audioURL = postAudio(idUser, base64Audio);
         }
 
-        topicDAO.createTopic(categoryId, title, description, imageURL, audioURL);
+        topicDAO.createTopic(categoryId, idUser, title, description, imageURL, audioURL);
     }
 
     public List<Topic> getTopicsByCategory(int idCategory) {
@@ -187,5 +189,9 @@ public class TopicPresenter {
         dateString = dateString.replace(":", "");
 
         return dateString;
+    }
+
+    public void showImage(ImageView image, String imageURL) {
+        new DownloadImageTask(image).execute(imageURL);
     }
 }

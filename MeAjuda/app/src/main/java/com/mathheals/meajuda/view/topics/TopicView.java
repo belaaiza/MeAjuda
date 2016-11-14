@@ -112,12 +112,10 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         String imageURL = topic.getImageURL();
 
-        Log.d("imageURL ", imageURL);
-
         if(imageURL != "N") {
-            Log.d("Entrei aqui", "setTopicInfo ");
+            topicPresenter.showImage(topicImage, imageURL);
+
             new DownloadImageTask(topicImage).execute(imageURL);
-            topicImage.setVisibility(View.VISIBLE);
         }
 
         nameAuthorTextView.setText(topic.getNameOwner());

@@ -2,21 +2,26 @@ package com.mathheals.meajuda.model;
 
 public class Comment {
     private Integer idComment;
-    private Integer idParent;
     private Integer idTopic;
     private Integer idCategory;
+    private Integer idUser;
     private String description;
+    private String imageURL;
+    private String audioURL;
 
-    public Comment(Integer idParent, Integer idTopic, Integer idCategory, String description) {
-        setIdParent(idParent);
+    public Comment(Integer idComment, Integer idTopic, Integer idCategory, Integer idUser,
+                   String description, String imageURL, String audioURL) {
+        setIdComment(idComment);
         setIdTopic(idTopic);
         setIdCategory(idCategory);
+        setIdUser(idUser);
         setDescription(description);
+        setImageURL(imageURL);
+        setAudioURL(audioURL);
     }
 
     //Provisory constructor
-    public Comment(Integer idParent, String description) {
-        setIdParent(idParent);
+    public Comment(String description) {
         setDescription(description);
     }
 
@@ -24,28 +29,32 @@ public class Comment {
         this.idComment = idComment;
     }
 
-    public void setIdParent(Integer idParent) {
-        this.idParent = idParent;
-    }
-
-    public void setIdTopic(Integer idTopic) {
+    private void setIdTopic(Integer idTopic) {
         this.idTopic = idTopic;
     }
 
-    public void setIdCategory(Integer idCategory) {
+    private void setIdCategory(Integer idCategory) {
         this.idCategory = idCategory;
     }
 
-    public void setDescription(String description) {
+    private void setDescription(String description) {
         this.description = description;
+    }
+
+    private void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    private void setAudioURL(String audioURL) {
+        this.audioURL = audioURL;
+    }
+
+    private void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
 
     public Integer getIdComment() {
         return idComment;
-    }
-
-    public Integer getIdParent() {
-        return idParent;
     }
 
     public Integer getIdTopic() {
@@ -58,5 +67,17 @@ public class Comment {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public String getAudioURL() {
+        return audioURL;
+    }
+
+    public Integer getIdUser() {
+        return idUser;
     }
 }

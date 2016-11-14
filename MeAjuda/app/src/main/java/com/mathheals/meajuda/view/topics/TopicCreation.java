@@ -56,7 +56,7 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
 
     MediaRecorder mediaRecorder;
 
-    MediaPlayer mediaPlayer ;
+    MediaPlayer mediaPlayer;
 
     String AudioSavePathInDevice = null;
 
