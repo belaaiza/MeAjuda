@@ -32,12 +32,15 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
         public TextView name;
         public TextView local;
         public TextView author;
+        public TextView schoolEvaluation;
 
         public ViewHolder(CardView card) {
             super(card);
 
             this.name = (TextView) card.findViewById(R.id.school_name);
             this.local = (TextView) card.findViewById(R.id.local);
+            this.schoolEvaluation = (TextView) card.findViewById(R.id.schoolEvaluation);
+
             card.setOnClickListener(this);
         }
 
@@ -90,7 +93,7 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         School rowData = this.data.get(position);
-        if(rowData.getAddress().getDistrict().isEmpty())
+        if(rowData.getAddress().getCounty().isEmpty())
             holder.local.setText("Não informado" + " - " + rowData.getAddress()
                     .getState().trim());
         else{
@@ -98,6 +101,7 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
                     rowData.getAddress().getState().trim());
         }
         holder.name.setText(rowData.getName());
+        holder.schoolEvaluation.setText(rowData.getRating() + "");
     }
 
     @Override

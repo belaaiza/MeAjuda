@@ -3,19 +3,30 @@ package com.mathheals.meajuda.presenter;
 import android.content.Context;
 
 import com.mathheals.meajuda.dao.JSONHelper;
+import com.mathheals.meajuda.dao.UserDAO;
+import com.mathheals.meajuda.model.Address;
 import com.mathheals.meajuda.model.School;
+import com.mathheals.meajuda.model.User;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class SchoolPresenter {
 
     private static SchoolPresenter instance;
+    Context context;
 
-    public static SchoolPresenter getInstance() {
+    private SchoolPresenter(Context currentContext) {
+        this.context = currentContext;
+    }
+
+    public static SchoolPresenter getInstance(Context context) {
         if (instance == null) {
-            instance = new SchoolPresenter();
+            instance = new SchoolPresenter(context);
         }
         return instance;
     }
@@ -34,5 +45,51 @@ public class SchoolPresenter {
         return jsonHelper.getAllSchools();
     }
 
+    public List<School> getSchoolRanking() throws JSONException {
+        List<School> schoolList = getAllSchools();
+
+        List<School> schoolRanking = new ArrayList<>();
+
+        for(int i = 0; i< schoolList.size(); i++) {
+            School school = schoolList.get(i);
+
+            Integer rating = getSchoolRating(school.getSchoolCode());
+
+            String schoolCode = school.getSchoolCode();
+            String schoolName = school.getName();
+            String state = school.getAddress().getState();
+            String county = school.getAddress().getCounty();
+
+            School schoolWithRating = new School(schoolCode, schoolName, rating);
+            schoolWithRating.createAddress(state, county);
+
+            schoolRanking.add(schoolWithRating);
+        }
+
+        Collections.sort(schoolRanking, new Comparator<School>() {
+            @Override
+            public int compare(School lhs, School rhs) {
+                return lhs.getRating() > rhs.getRating() ? -1 : 1;
+            }
+        });
+
+        return schoolRanking;
+    }
+
+    public Integer getSchoolRating(String schoolCode) throws JSONException {
+        UserDAO userDAO = UserDAO.getInstance(context);
+
+        List<Integer> userIdList = userDAO.getUserIdListBySchoolCode(schoolCode);
+
+        Integer rating = 0;
+
+        for(int i = 0; i < userIdList.size(); i++) {
+            Integer idUser = userIdList.get(i);
+
+            rating += userDAO.getUserEvaluationById(idUser);
+        }
+
+        return rating;
+    }
     
 }

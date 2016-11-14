@@ -46,10 +46,10 @@ public class ConcreteProcessRating extends ProcessRating {
         Integer newRating = null;
 
         try {
-            Integer rating = userDAO.getUserRatingById(userToBeUpdatedId);
+            //Integer rating = userDAO.getUserRatingById(userToBeUpdatedId);
 
-            newRating = rating + evaluation;
-        } catch (JSONException e) {
+            //newRating = rating + evaluation;
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

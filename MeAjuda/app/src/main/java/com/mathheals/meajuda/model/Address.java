@@ -7,6 +7,11 @@ public class Address {
     private String county;
     private String state;
 
+    public Address(String state, String county) {
+        setState(state);
+        setCounty(county);
+    }
+
     public Address(String CEP, String description, String district, String county, String state) {
         setCEP(CEP);
         setDescription(description);

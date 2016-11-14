@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/schoolEvaluation"
                     android:text="10"
                     style="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="#000"

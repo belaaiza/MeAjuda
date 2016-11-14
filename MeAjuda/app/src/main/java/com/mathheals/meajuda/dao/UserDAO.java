@@ -8,6 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDAO extends DAO {
 
     private static UserDAO instance;
@@ -168,16 +171,6 @@ public class UserDAO extends DAO {
         return name;
     }
 
-    public Integer getUserRatingById(Integer idUser) throws JSONException {
-        final String QUERY = "SELECT rating FROM Usuario WHERE idUsuario = "+ idUser +" ";
-
-        JSONObject consultResult = executeConsult(QUERY);
-
-        Integer rating = consultResult.getJSONObject("0").getInt("rating");
-
-        return rating;
-    }
-
     public Integer getUserEvaluationById(Integer idUser) throws JSONException {
         final String SEARCH_TOPICS_QUERY = "SELECT descricao FROM AvaliacaoTopico WHERE " +
                 "Topico_Usuario_idUsuario = " + idUser;
@@ -209,6 +202,25 @@ public class UserDAO extends DAO {
         }
 
         return userEvaluation;
+    }
+
+    public List<Integer> getUserIdListBySchoolCode(String schoolCode) throws JSONException {
+        final String QUERY = "SELECT idUsuario FROM Usuario WHERE " +
+                "codigoEscola = \""+ schoolCode +"\" ";
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        List<Integer> userIdList = new ArrayList<>();
+
+        if(consultResult != null) {
+            for(int i = 0; i < consultResult.length(); i++) {
+                Integer idUser = consultResult.getJSONObject("" + i).getInt("idUsuario");
+
+                userIdList.add(idUser);
+            }
+        }
+
+        return userIdList;
     }
 
 }

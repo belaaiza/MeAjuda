@@ -43,7 +43,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         List<Topic> topicList = TopicPresenter.getInstance(getBaseContext()).getAllTopics();
         List<School> schoolList = null;
         try{
-            schoolList = SchoolPresenter.getInstance().getAllSchools();
+            schoolList = SchoolPresenter.getInstance(getBaseContext()).getAllSchools();
         } catch(JSONException e){
             e.printStackTrace();
         }

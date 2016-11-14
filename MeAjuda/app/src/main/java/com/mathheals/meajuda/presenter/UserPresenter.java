@@ -9,12 +9,14 @@ import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.dao.JSONHelper;
 import com.mathheals.meajuda.dao.UserDAO;
 import com.mathheals.meajuda.exception.UserException;
+import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.List;
 
 public class UserPresenter {
 
@@ -217,4 +219,5 @@ public class UserPresenter {
 
         return idClassification;
     }
+
 }
