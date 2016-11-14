@@ -216,35 +216,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if(id == R.id.nav_camera){
+        if(id == R.id.user_ranking){
             // Handle the camera action
         }
-        else{
-            if(id == R.id.nav_gallery){
+        else if(id == R.id.school_ranking){
 
-            }
-            else{
-                if(id == R.id.nav_slideshow){
-                    UserUpdate userUpdate = new UserUpdate();
-                    openFragment(userUpdate);
-                }
-                else{
-                    if(id == R.id.nav_manage){
-                        ViewProfile viewProfile = new ViewProfile();
-                        openFragment(viewProfile);
-                    }
-                    else{
-                        if(id == R.id.nav_share){
-
-                        }
-                        else{
-                            if(id == R.id.nav_send){
-
-                            }
-                        }
-                    }
-                }
-            }
+        }
+        else if(id == R.id.edit_profile){
+            UserUpdate userUpdate = new UserUpdate();
+            openFragment(userUpdate);
+        }
+        else if(id == R.id.show_profile){
+            ViewProfile viewProfile = new ViewProfile();
+            openFragment(viewProfile);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
