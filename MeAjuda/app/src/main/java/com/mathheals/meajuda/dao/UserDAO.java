@@ -178,4 +178,37 @@ public class UserDAO extends DAO {
         return rating;
     }
 
+    public Integer getUserEvaluationById(Integer idUser) throws JSONException {
+        final String SEARCH_TOPICS_QUERY = "SELECT descricao FROM AvaliacaoTopico WHERE " +
+                "Topico_Usuario_idUsuario = " + idUser;
+
+        final String SEARCH_COMMENTS_QUERY = "SELECT descricao FROM AvaliacaoComentario WHERE " +
+                "Comentario_Usuario_idUsuario = " + idUser;
+
+        JSONObject consultResultTopics = executeConsult(SEARCH_TOPICS_QUERY);
+        JSONObject consultResultComments = executeConsult(SEARCH_COMMENTS_QUERY);
+
+        Integer userEvaluation = 0;
+
+        if(consultResultTopics != null) {
+            for(int i = 0; i < consultResultTopics.length(); i++) {
+                Integer topicEvaluation = consultResultTopics.getJSONObject("" + i).
+                        getInt("descricao");
+
+                userEvaluation += topicEvaluation;
+            }
+        }
+
+        if(consultResultComments != null) {
+            for(int i = 0; i < consultResultComments.length(); i++) {
+                Integer commentEvaluation = consultResultComments.getJSONObject("" + i).
+                        getInt("descricao");
+
+                userEvaluation += commentEvaluation;
+            }
+        }
+
+        return userEvaluation;
+    }
+
 }

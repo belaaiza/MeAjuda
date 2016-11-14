@@ -786,7 +786,7 @@ public class UserUpdate extends Fragment implements View.OnClickListener {
     public void onClick(View v){
         getTextTyped();
 
-        UserPresenter userPresenter = new UserPresenter();
+        UserPresenter userPresenter = UserPresenter.getInstance(getContext());
 
         String message = userPresenter.updateUser(this.firstName, this.lastName, this.username,
                 this.mail, this.mailConfirmation, this.password, this.passwordConfirmation,

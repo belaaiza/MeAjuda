@@ -31,7 +31,7 @@ public class ViewProfile extends Fragment {
     }
 
     public void showUserOnProfile(View view){
-        UserPresenter userPresenter = UserPresenter.getInstance();
+        UserPresenter userPresenter = UserPresenter.getInstance(getContext());
         User user = userPresenter.showProfile(session.getString("email", ""), getActivity());
 
         TextView userName = (TextView) view.findViewById(R.id.userName);

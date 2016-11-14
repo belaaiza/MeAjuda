@@ -19,10 +19,15 @@ import java.text.ParseException;
 public class UserPresenter {
 
     private static UserPresenter instance;
+    Context context;
 
-    public static UserPresenter getInstance() {
+    private UserPresenter(Context currentContext) {
+        this.context = currentContext;
+    }
+
+    public static UserPresenter getInstance(Context context) {
         if (instance == null) {
-            instance = new UserPresenter();
+            instance = new UserPresenter(context);
         }
         return instance;
     }
@@ -184,5 +189,32 @@ public class UserPresenter {
         user = JSONHelper.getInstance().jsonToUser(userFound.toString());
 
         return user;
+    }
+
+    public Integer getUserClassificationId(Integer idUser) throws JSONException {
+        UserDAO userDAO = UserDAO.getInstance(context);
+
+        Integer userEvaluation = userDAO.getUserEvaluationById(idUser);
+
+        Integer idClassification;
+
+        if(userEvaluation < 1) {
+            idClassification = 1;
+        } else if(userEvaluation < 2) {
+            idClassification = 2;
+        } else if(userEvaluation < 3) {
+            idClassification = 3;
+        } else if(userEvaluation < 4) {
+            idClassification = 4;
+        } else if(userEvaluation < 5) {
+            idClassification = 5;
+        } else {
+            idClassification = 6;
+        }
+
+        Log.d("userEvaluation " + idUser, userEvaluation + "");
+        Log.d("classification " + idUser, idClassification + "");
+
+        return idClassification;
     }
 }

@@ -17,6 +17,7 @@ public class ConcreteProcessRating extends ProcessRating {
     private Integer newRating;
     private TopicEvaluation topicEvaluation;
 
+
     public ConcreteProcessRating(Context context, TopicEvaluation topicEvaluation) {
         this.context = context;
         this.topicEvaluation = topicEvaluation;
@@ -28,10 +29,10 @@ public class ConcreteProcessRating extends ProcessRating {
             TopicEvaluationDAO topicEvaluationDAO = TopicEvaluationDAO.getInstance(context);
 
             try {
-                topicEvaluationDAO.evaluateTopic(topicEvaluation.getIdTopic(),
+                /*topicEvaluationDAO.evaluateTopic(topicEvaluation.getIdTopic(),
                         topicEvaluation.getIdCategory(), topicEvaluation.getEvaluationDescription(),
-                        topicEvaluation.getIdUser());
-            } catch (JSONException e) {
+                        topicEvaluation.getIdUser());*/
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }else {

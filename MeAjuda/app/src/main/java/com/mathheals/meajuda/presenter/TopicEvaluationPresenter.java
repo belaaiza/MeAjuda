@@ -27,9 +27,9 @@ public class TopicEvaluationPresenter {
         return TopicEvaluationPresenter.instance;
     }
 
-    public void evaluateTopic(Integer idTopic, Integer idCategory, Integer evaluation,
-                              Integer idUser) throws JSONException {
-        topicEvaluationDAO.evaluateTopic(idTopic, idCategory, evaluation, idUser);
+    public void evaluateTopic(Integer idTopic, Integer idCategory, Integer idUserEvaluated,
+                              Integer evaluation, Integer idUser) throws JSONException {
+        topicEvaluationDAO.evaluateTopic(idTopic, idCategory, idUserEvaluated, evaluation, idUser);
     }
 
     public Integer getTopicEvaluation(Integer idTopic) throws JSONException {

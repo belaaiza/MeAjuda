@@ -28,8 +28,10 @@ public class CommentEvaluationPresenter {
     }
 
     public void evaluateComment(Integer idComment, Integer idTopic, Integer idCategory,
-                                Integer evaluation, Integer idUser) throws JSONException {
-        commentEvaluationDAO.evaluateComment(idComment, idTopic, idCategory, evaluation, idUser);
+                                Integer idUserEvaluated, Integer evaluation,
+                                Integer idUser) throws JSONException {
+        commentEvaluationDAO.evaluateComment(idComment, idTopic, idCategory, idUserEvaluated,
+                evaluation, idUser);
     }
 
     public Integer getCommentEvaluation(Integer idComment) throws JSONException {

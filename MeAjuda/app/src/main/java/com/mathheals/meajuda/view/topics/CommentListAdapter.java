@@ -86,7 +86,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                     try {
                         commentEvaluationPresenter.evaluateComment(currentComment.getIdComment(),
                                 currentComment.getIdTopic(), currentComment.getIdCategory(),
-                                POSITIVE_EVALUATION, 7);
+                                currentComment.getIdUser(), POSITIVE_EVALUATION, 7);
                         commentEvaluationValue++;
 
                         commentEvaluation.setText(commentEvaluationValue + "");
@@ -101,7 +101,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                     try {
                         commentEvaluationPresenter.evaluateComment(currentComment.getIdComment(),
                                 currentComment.getIdTopic(), currentComment.getIdCategory(),
-                                NEGATIVE_EVALUATION, 7);
+                                currentComment.getIdUser(), NEGATIVE_EVALUATION, 7);
                         commentEvaluationValue--;
 
                         commentEvaluation.setText(commentEvaluationValue + "");

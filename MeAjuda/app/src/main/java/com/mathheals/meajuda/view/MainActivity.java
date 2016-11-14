@@ -31,6 +31,7 @@ import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.CategoryPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
+import com.mathheals.meajuda.presenter.UserPresenter;
 import com.mathheals.meajuda.view.schools.SchoolView;
 import com.mathheals.meajuda.view.topics.TopicCreation;
 import com.mathheals.meajuda.view.topics.TopicList;
@@ -65,6 +66,16 @@ public class MainActivity extends AppCompatActivity
         try{
             fillCategoriesMenu();
         } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
+
+        try {
+            userPresenter.getUserClassification(6);
+            userPresenter.getUserClassification(7);
+            userPresenter.getUserClassification(8);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

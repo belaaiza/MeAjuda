@@ -35,7 +35,8 @@ public class CommentEvaluationDAO extends DAO {
     }
 
     public void evaluateComment(Integer idComment, Integer idTopic, Integer idCategory,
-                                Integer evaluation, Integer idUser) throws JSONException {
+                                Integer idUserEvaluated, Integer evaluation,
+                                Integer idUser) throws JSONException {
         JSONObject jsonObjectCommentEvaluation = getCommentEvaluationJSONOBjectByUserId(idComment, idUser);
 
         String QUERY;
@@ -43,9 +44,10 @@ public class CommentEvaluationDAO extends DAO {
         if(jsonObjectCommentEvaluation == null) {
             Log.d("Entrei aqui", "evaluateComment ");
             QUERY = "INSERT INTO AvaliacaoComentario(descricao, Comentario_idComentario, " +
-                    "Topico_idTopico, Topico_Categoria_idCategoria, Usuario_idUsuario) " +
+                    "Topico_idTopico, Topico_Categoria_idCategoria, Comentario_Usuario_idUsuario, " +
+                    "Usuario_idUsuario) " +
                     "VALUES("+ evaluation +", "+ idComment +", "+ idTopic +", "+ idCategory +", " +
-                    ""+ idUser +" )";
+                    ""+ idUserEvaluated +", "+ idUser +" )";
         }else {
             Integer idEvaluation = jsonObjectCommentEvaluation.getJSONObject("0").getInt("idAvaliacao");
 

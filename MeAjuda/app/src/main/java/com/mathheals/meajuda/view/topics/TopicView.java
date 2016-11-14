@@ -172,7 +172,8 @@ public class TopicView extends Fragment implements View.OnClickListener {
                 //TODO: Trocar esse número mágico pelo id do usuário
                 try {
                     topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
-                            currentTopic.getIdCategory(), POSITIVE_EVALUATION, 7);
+                            currentTopic.getIdCategory(), currentTopic.getIdOwner(),
+                            POSITIVE_EVALUATION, 7);
                     //TODO: Arrumar o bug do caso em que ele já havia votado, seja positivamente ou negativamente
                     topicEvaluation++;
 
@@ -187,7 +188,8 @@ public class TopicView extends Fragment implements View.OnClickListener {
                 //TODO: Trocar esse número mágico pelo id do usuário
                 try {
                     topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
-                            currentTopic.getIdCategory(), NEGATIVE_EVALUATION, 7);
+                            currentTopic.getIdCategory(), currentTopic.getIdOwner(),
+                            NEGATIVE_EVALUATION, 7);
                     topicEvaluation--;
 
                     topicEvaluationTextView.setText(topicEvaluation + "");

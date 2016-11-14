@@ -39,8 +39,8 @@ public class TopicEvaluationDAO extends DAO {
         return consultResult;
     }
 
-    public void evaluateTopic(Integer idTopic, Integer idCategory, Integer evaluation,
-                              Integer idUser) throws JSONException {
+    public void evaluateTopic(Integer idTopic, Integer idCategory, Integer idUserEvaluated,
+                              Integer evaluation, Integer idUser) throws JSONException {
         JSONObject jsonObjectTopicEvaluation = getTopicEvaluationJSONOBjectByUserId(idTopic, idUser);
 
         String QUERY;
@@ -48,8 +48,9 @@ public class TopicEvaluationDAO extends DAO {
         if(jsonObjectTopicEvaluation == null) {
             Log.d("Entrei aqui", "evaluateTopic ");
             QUERY = "INSERT INTO AvaliacaoTopico(descricao, Topico_idTopico, " +
-                    "Topico_Categoria_idCategoria, Usuario_idUsuario) VALUES("+ evaluation +", " +
-                    ""+ idTopic +", "+ idCategory +", "+ idUser +" )";
+                    "Topico_Categoria_idCategoria, Topico_Usuario_idUsuario, Usuario_idUsuario) " +
+                    "VALUES("+ evaluation +", "+ idTopic +", "+ idCategory +", " +
+                    ""+ idUserEvaluated +", "+ idUser +" )";
         }else {
             Integer idEvaluation = jsonObjectTopicEvaluation.getJSONObject("0").getInt("idAvaliacao");
 

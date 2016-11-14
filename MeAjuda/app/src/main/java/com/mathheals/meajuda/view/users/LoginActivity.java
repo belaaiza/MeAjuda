@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             EditText passwordField = (EditText) findViewById(R.id.passwordField);
             String passwordTyped = passwordField.getText().toString();
 
-            UserPresenter userPresenter = UserPresenter.getInstance();
+            UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
 
             try{
 

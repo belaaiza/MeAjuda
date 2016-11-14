@@ -2,8 +2,9 @@ package com.mathheals.meajuda.model;
 
 public class Topic {
 
-    private int idTopic;
-    private int idCategory;
+    private Integer idTopic;
+    private Integer idCategory;
+    private Integer idOwner;
     private String title;
     private String description;
     private String nameOwner;
@@ -11,9 +12,10 @@ public class Topic {
     private String audioURL;
 
     public Topic(Integer idTopic, Integer idCategory, String title, String description,
-                 String nameOwner, String imageURL, String audioURL) {
+                 Integer idOwner, String nameOwner, String imageURL, String audioURL) {
         setIdTopic(idTopic);
         setIdCategory(idCategory);
+        setIdOwner(idOwner);
         setTitle(title);
         setDescription(description);
         setNameOwner(nameOwner);
@@ -54,6 +56,10 @@ public class Topic {
 
     public String getAudioURL() { return audioURL; }
 
+    public Integer getIdOwner() {
+        return idOwner;
+    }
+
     private void setIdTopic(int idTopic) {
         this.idTopic = idTopic;
     }
@@ -80,5 +86,9 @@ public class Topic {
 
     private void setAudioURL(String audioURL) {
         this.audioURL = audioURL;
+    }
+
+    private void setIdOwner(Integer idOwner) {
+        this.idOwner = idOwner;
     }
 }
