@@ -117,8 +117,7 @@ public class UserDAO extends DAO {
                                 userFound.getJSONObject(i + "").getString("email"),
                                 userFound.getJSONObject(i + "").getString("login"),
                                 userFound.getJSONObject(i + "").getInt("rating"),
-                                userFound.getJSONObject(i + "").getInt("Classificacao_idClassificacao"),
-                                userFound.getJSONObject(i + "").getInt("Escola_idEscola"));
+                                userFound.getJSONObject(i + "").getInt("Classificacao_idClassificacao"));
                     } catch(UserException e){
                         e.printStackTrace();
                     }
@@ -156,8 +155,7 @@ public class UserDAO extends DAO {
                                 userFound.getJSONObject(i + "").getString("email"),
                                 userFound.getJSONObject(i + "").getString("login"),
                                 userFound.getJSONObject(i + "").getInt("rating"),
-                                userFound.getJSONObject(i + "").getInt("Classificacao_idClassificacao"),
-                                userFound.getJSONObject(i + "").getInt("Escola_idEscola"));
+                                userFound.getJSONObject(i + "").getInt("Classificacao_idClassificacao"));
                     } catch(UserException e){
                         e.printStackTrace();
                     }

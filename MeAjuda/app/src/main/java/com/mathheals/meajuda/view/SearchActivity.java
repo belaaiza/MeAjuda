@@ -25,6 +25,7 @@ import com.mathheals.meajuda.view.users.UserList;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
@@ -42,7 +43,9 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        List<Topic> topicList = TopicPresenter.getInstance(getBaseContext()).getAllTopics();
+        //TODO arrumar bug aqui
+        List<Topic> topicList = new ArrayList<>();
+                //TopicPresenter.getInstance(getBaseContext()).getAllTopics();
         List<School> schoolList = null;
         try{
             schoolList = SchoolPresenter.getInstance().getAllSchools();
