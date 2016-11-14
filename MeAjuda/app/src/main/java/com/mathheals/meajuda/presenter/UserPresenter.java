@@ -2,7 +2,9 @@ package com.mathheals.meajuda.presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 
 import com.mathheals.meajuda.R;
@@ -15,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.List;
 
 public class UserPresenter {
 
@@ -191,30 +194,76 @@ public class UserPresenter {
         return user;
     }
 
-    public Integer getUserClassificationId(Integer idUser) throws JSONException {
+    public Integer getUserClassificationId(Integer idUser) throws JSONException{
         UserDAO userDAO = UserDAO.getInstance(context);
 
         Integer userEvaluation = userDAO.getUserEvaluationById(idUser);
 
         Integer idClassification;
 
-        if(userEvaluation < 1) {
+        if(userEvaluation < 1){
             idClassification = 1;
-        } else if(userEvaluation < 2) {
-            idClassification = 2;
-        } else if(userEvaluation < 3) {
-            idClassification = 3;
-        } else if(userEvaluation < 4) {
-            idClassification = 4;
-        } else if(userEvaluation < 5) {
-            idClassification = 5;
-        } else {
-            idClassification = 6;
         }
+        else
+            if(userEvaluation < 2){
+                idClassification = 2;
+            }
+            else
+                if(userEvaluation < 3){
+                    idClassification = 3;
+                }
+                else
+                    if(userEvaluation < 4){
+                        idClassification = 4;
+                    }
+                    else
+                        if(userEvaluation < 5){
+                            idClassification = 5;
+                        }
+                        else{
+                            idClassification = 6;
+                        }
 
         Log.d("userEvaluation " + idUser, userEvaluation + "");
         Log.d("classification " + idUser, idClassification + "");
 
         return idClassification;
+    }
+
+    public List<User> getAllUsers(Context context){
+        List<User> usersFound = UserDAO.getInstance(context).getAllUsers(context);
+        return usersFound;
+    }
+
+    public Drawable getClassificationIcon(Integer classification){
+        Drawable levelIcon = null;
+        switch(classification){
+            case 1:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level1, context.getTheme());
+                break;
+            case 2:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level2, context.getTheme());
+                break;
+            case 3:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level3, context.getTheme());
+                break;
+            case 4:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level4, context.getTheme());
+                break;
+            case 5:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level5, context.getTheme());
+                break;
+            case 6:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level6, context.getTheme());
+                break;
+        }
+
+        return levelIcon;
     }
 }

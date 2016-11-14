@@ -93,7 +93,7 @@ public class User {
 
     //Search user constructor
     public User(Integer userId, String firstName, String lastName, String email, String username,
-                Integer rating, Integer idClassification) throws UserException{
+                Integer rating, Integer idClassification, Integer idSchool) throws UserException{
         setUserId(userId);
         setFirstName(firstName);
         setLastName(lastName);
@@ -101,6 +101,7 @@ public class User {
         setEmail(email);
         setRating(rating);
         setIdClassification(idClassification);
+        setIdSchool(idSchool);
     }
 
     private void setUserId(Integer id) {

@@ -2,11 +2,16 @@ package com.mathheals.meajuda.dao;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO extends DAO {
 
@@ -92,21 +97,79 @@ public class UserDAO extends DAO {
     /**
      * Searches an user at database by his name
      * @param name - The name or part of the name of an user
-     * @return JSONArray - Array of users found
+     * @return List - Array of users found
      */
-    public JSONArray searchUserByName(String name){
+    public List<User> searchUserByName(String name, Context context){
         final String QUERY = "SELECT * FROM Usuario WHERE nome =\"" + name + "\"";
 
         JSONObject userFound = this.executeConsult(QUERY);
-        JSONArray usersAsArray = null;
+        List<User> listUsers = new ArrayList<>();
 
         try{
-            usersAsArray = new JSONArray(userFound);
+            if(userFound != null){
+                for(int i = 0; i < userFound.length(); i++){
+
+                    User user = null;
+                    try{
+                        user = new User(userFound.getJSONObject(i + "").getInt("idUsuario"),
+                                userFound.getJSONObject(i + "").getString("nome"),
+                                userFound.getJSONObject(i + "").getString("sobrenome"),
+                                userFound.getJSONObject(i + "").getString("email"),
+                                userFound.getJSONObject(i + "").getString("login"),
+                                userFound.getJSONObject(i + "").getInt("rating"),
+                                userFound.getJSONObject(i + "").getInt("Classificacao_idClassificacao"),
+                                userFound.getJSONObject(i + "").getInt("Escola_idEscola"));
+                    } catch(UserException e){
+                        e.printStackTrace();
+                    }
+
+                    listUsers.add(user);
+                }
+            }
         } catch(JSONException e){
             e.printStackTrace();
         }
 
-        return usersAsArray;
+        return listUsers;
+    }
+
+    /**
+     * Get all users on database
+     * @param context - Context of the application
+     * @return List - Array of users found
+     */
+    public List<User> getAllUsers(Context context){
+        final String QUERY = "SELECT * FROM Usuario";
+
+        JSONObject userFound = this.executeConsult(QUERY);
+        List<User> listUsers = new ArrayList<>();
+
+        try{
+            if(userFound != null){
+                for(int i = 0; i < userFound.length(); i++){
+
+                    User user = null;
+                    try{
+                        user = new User(userFound.getJSONObject(i + "").getInt("idUsuario"),
+                                userFound.getJSONObject(i + "").getString("nome"),
+                                userFound.getJSONObject(i + "").getString("sobrenome"),
+                                userFound.getJSONObject(i + "").getString("email"),
+                                userFound.getJSONObject(i + "").getString("login"),
+                                userFound.getJSONObject(i + "").getInt("rating"),
+                                userFound.getJSONObject(i + "").getInt("Classificacao_idClassificacao"),
+                                userFound.getJSONObject(i + "").getInt("Escola_idEscola"));
+                    } catch(UserException e){
+                        e.printStackTrace();
+                    }
+
+                    listUsers.add(user);
+                }
+            }
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        return listUsers;
     }
 
     /**

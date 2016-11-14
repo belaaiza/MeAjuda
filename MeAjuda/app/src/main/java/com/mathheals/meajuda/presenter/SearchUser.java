@@ -3,6 +3,7 @@ package com.mathheals.meajuda.presenter;
 import android.content.Context;
 
 import com.mathheals.meajuda.dao.UserDAO;
+import com.mathheals.meajuda.model.User;
 
 import org.json.JSONArray;
 
@@ -14,8 +15,8 @@ public class SearchUser implements SearchStrategy {
     @Override
     public List search(Context context, String query){
         UserDAO userDAO = UserDAO.getInstance(context);
-        JSONArray usersFound = userDAO.searchUserByName(query);
-        List list = new ArrayList();
-        return list;
+        List<User> usersFound = userDAO.searchUserByName(query, context);
+
+        return usersFound;
     }
 }
