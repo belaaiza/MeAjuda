@@ -107,7 +107,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         holder.name.setText(rowData.getFirstName()+" "+rowData.getLastName());
         holder.username.setText(rowData.getUsername());
         //TODO setar rating do usuario
-        holder.rating.setText("10");
+        holder.rating.setText(rowData.getRating()+"");
         Integer classification = rowData.getIdClassification();
 
         UserPresenter userPresenter = UserPresenter.getInstance(context);

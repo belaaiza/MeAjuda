@@ -31,7 +31,6 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView name;
         public TextView local;
-        public TextView author;
         public TextView schoolEvaluation;
 
         public ViewHolder(CardView card) {

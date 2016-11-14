@@ -42,7 +42,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        
+
         List<Topic> topicList = TopicPresenter.getInstance(getBaseContext()).getAllTopics();
         List<School> schoolList = null;
         try{
