@@ -175,6 +175,7 @@ public class TopicView extends Fragment implements View.OnClickListener {
                             currentTopic.getIdCategory(), POSITIVE_EVALUATION, 7);
                     //TODO: Arrumar o bug do caso em que ele já havia votado, seja positivamente ou negativamente
                     topicEvaluation++;
+
                     topicEvaluationTextView.setText(topicEvaluation + "");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -188,6 +189,8 @@ public class TopicView extends Fragment implements View.OnClickListener {
                     topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
                             currentTopic.getIdCategory(), NEGATIVE_EVALUATION, 7);
                     topicEvaluation--;
+
+                    topicEvaluationTextView.setText(topicEvaluation + "");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
