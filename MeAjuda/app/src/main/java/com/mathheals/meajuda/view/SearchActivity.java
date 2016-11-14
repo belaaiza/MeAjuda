@@ -42,10 +42,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //TODO arrumar bug aqui
-        List<Topic> topicList = new ArrayList<>();
-                //TopicPresenter.getInstance(getBaseContext()).getAllTopics();
+        
+        List<Topic> topicList = TopicPresenter.getInstance(getBaseContext()).getAllTopics();
         List<School> schoolList = null;
         try{
             schoolList = SchoolPresenter.getInstance(getBaseContext()).getAllSchools();
