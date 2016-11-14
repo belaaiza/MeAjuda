@@ -187,7 +187,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if(session != null && session.getBoolean("IsLoggedIn", false)){
-            navigationView.getMenu().findItem(R.id.nav_manage).setVisible(true);
+            navigationView.getMenu().findItem(R.id.edit_profile).setVisible(true);
+            navigationView.getMenu().findItem(R.id.show_profile).setVisible(true);
         }
 
 
@@ -223,7 +224,9 @@ public class MainActivity extends AppCompatActivity
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
         }
-        else if(topicView != null || schoolView != null){
+        else if((topicView != null && topicView.getArguments().getBoolean("comeFromSearch")
+                && topicView.isVisible()) || (schoolView != null &&
+                schoolView.getArguments().getBoolean("comeFromSearch") && schoolView.isVisible())){
             finish();
         }
         else {
