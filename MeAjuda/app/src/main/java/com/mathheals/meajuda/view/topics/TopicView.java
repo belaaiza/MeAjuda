@@ -21,12 +21,13 @@ import com.mathheals.meajuda.presenter.TopicPresenter;
 
 import java.util.List;
 
-public class TopicView extends Fragment {
+public class TopicView extends Fragment implements View.OnClickListener {
 
     private TextView nameAuthorTextView;
     private TextView titleTextView;
     private TextView contentTextView;
     private ImageView topicImage;
+    private Topic currentTopic;
 
     public TopicView() {
         // Required empty public constructor
@@ -57,6 +58,12 @@ public class TopicView extends Fragment {
 
         CommentListAdapter commentListAdapter = new CommentListAdapter(getContext(), comments);
 
+        ImageView upEvaluate = (ImageView) topicView.findViewById(R.id.up_evaluation);
+        upEvaluate.setOnClickListener(this);
+
+        ImageView downEvaluate = (ImageView) topicView.findViewById(R.id.down_evaluation);
+        downEvaluate.setOnClickListener(this);
+
         recyclerView.setAdapter(commentListAdapter);
 
         setViews(topicView);
@@ -81,9 +88,9 @@ public class TopicView extends Fragment {
 
         TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
 
-        Topic topic = topicPresenter.getTopicById(idTopic);
+        currentTopic = topicPresenter.getTopicById(idTopic);
 
-        String imageURL = topic.getImageURL();
+        String imageURL = currentTopic.getImageURL();
 
         /*if(imageURL != "N") {
             try {
@@ -100,9 +107,9 @@ public class TopicView extends Fragment {
         new DownloadImageTask(topicImage).execute(imageURL);
         topicImage.setVisibility(View.VISIBLE);
 
-        nameAuthorTextView.setText(topic.getNameOwner());
-        titleTextView.setText(topic.getTitle());
-        contentTextView.setText(topic.getDescription());
+        nameAuthorTextView.setText(currentTopic.getNameOwner());
+        titleTextView.setText(currentTopic.getTitle());
+        contentTextView.setText(currentTopic.getDescription());
     }
 
     @Override
@@ -112,5 +119,17 @@ public class TopicView extends Fragment {
         }
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View v){
+        if(v.getId() == R.id.up_evaluation){
+            TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
+            //TODO chamar aqui o metodo da presenter com id do topico, do usuario e avaliacao plus one
+            //topicPresenter.evaluateTopic(currentTopic.getIdTopic(), currentTopic.);
+        }
+        else if(v.getId() == R.id.down_evaluation){
+
+        }
     }
 }

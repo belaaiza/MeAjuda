@@ -141,4 +141,8 @@ public class TopicPresenter {
 
         return name;
     }
+
+    public void evaluateTopic(Integer topicId, Integer evaluation, Integer userId){
+
+    }
 }
