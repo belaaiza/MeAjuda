@@ -10,7 +10,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -21,11 +20,9 @@ import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.*;
 import com.mathheals.meajuda.view.schools.SchoolList;
 import com.mathheals.meajuda.view.topics.TopicList;
-import com.mathheals.meajuda.view.topics.TopicView;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
@@ -113,7 +110,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 }
                 else{
                     TopicList topicListFragment = (TopicList) currentFragment;
-                    topicListFragment.getAdapater().updateList(topicList);
+                    topicListFragment.getAdapter().updateList(topicList);
                 }
                 break;
 

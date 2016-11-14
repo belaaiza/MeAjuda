@@ -42,7 +42,7 @@ public class TopicList extends Fragment {
         return topicListView;
     }
 
-    public TopicListAdapter getAdapater(){
+    public TopicListAdapter getAdapter(){
         return this.topicListAdapter;
     }
 

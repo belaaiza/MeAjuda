@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,14 @@ import android.widget.TextView;
 
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.presenter.TopicEvaluationPresenter;
 import com.mathheals.meajuda.view.MainActivity;
 import com.mathheals.meajuda.view.SearchActivity;
 
 import java.util.List;
 import android.support.v7.widget.CardView;
+
+import org.json.JSONException;
 
 public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.ViewHolder> {
 
@@ -30,6 +34,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         public TextView title;
         public TextView description;
         public TextView author;
+        private TextView topicEvaluation;
 
         public ViewHolder(CardView card) {
             super(card);
@@ -38,6 +43,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             this.title = (TextView) card.findViewById(R.id.title);
             this.description = (TextView) card.findViewById(R.id.description);
             this.author = (TextView) card.findViewById(R.id.author);
+            this.topicEvaluation = (TextView) card.findViewById(R.id.topicEvaluation);
+
             card.setOnClickListener(this);
         }
 
@@ -101,6 +108,21 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         holder.title.setText(rowData.getTitle());
         holder.description.setText(rowData.getDescription());
         holder.author.setText(rowData.getNameOwner());
+
+        TopicEvaluationPresenter topicEvaluationPresenter = TopicEvaluationPresenter.
+                getInstance(context);
+
+        Integer idTopic = rowData.getIdTopic();
+
+        try {
+            Integer topicEvaluationValue = topicEvaluationPresenter.getTopicEvaluation(idTopic);
+
+            Log.d("id do topico pego", idTopic + "");
+
+            holder.topicEvaluation.setText(topicEvaluationValue + "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

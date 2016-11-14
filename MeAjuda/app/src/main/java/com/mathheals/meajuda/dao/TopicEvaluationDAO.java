@@ -60,4 +60,21 @@ public class TopicEvaluationDAO extends DAO {
         executeQuery(QUERY);
     }
 
+    public Integer getTopicEvaluation(Integer idTopic) throws JSONException {
+        String QUERY = "SELECT * FROM AvaliacaoTopico WHERE Topico_idTopico = " + idTopic;
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        Integer topicEvaluation = 0;
+
+        if(consultResult != null) {
+            for (int i = 0; i < consultResult.length(); i++) {
+                Integer topicEvaluationByUser = consultResult.getJSONObject("" + i).getInt("descricao");
+
+                topicEvaluation += topicEvaluationByUser;
+            }
+        }
+
+        return topicEvaluation;
+    }
 }

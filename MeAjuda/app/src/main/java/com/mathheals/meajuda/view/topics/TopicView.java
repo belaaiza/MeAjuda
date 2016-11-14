@@ -16,6 +16,7 @@ import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.dao.DownloadImageTask;
 import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.model.TopicEvaluation;
 import com.mathheals.meajuda.presenter.CommentPresenter;
 import com.mathheals.meajuda.presenter.TopicEvaluationPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
@@ -30,8 +31,12 @@ public class TopicView extends Fragment implements View.OnClickListener {
     private TextView titleTextView;
     private TextView contentTextView;
     private TextView topicEvaluationTextView;
+
     private ImageView topicImage;
+
     private Topic currentTopic;
+
+    private Integer topicEvaluation;
 
     public TopicView() {
         // Required empty public constructor
@@ -105,7 +110,16 @@ public class TopicView extends Fragment implements View.OnClickListener {
         titleTextView.setText(currentTopic.getTitle());
         contentTextView.setText(currentTopic.getDescription());
 
+        TopicEvaluationPresenter topicEvaluationPresenter = TopicEvaluationPresenter.
+                getInstance(getContext());
 
+        try {
+            topicEvaluation = topicEvaluationPresenter.getTopicEvaluation(idTopic);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        topicEvaluationTextView.setText(topicEvaluation + "");
     }
 
     @Override
@@ -131,6 +145,9 @@ public class TopicView extends Fragment implements View.OnClickListener {
                 try {
                     topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
                             currentTopic.getIdCategory(), POSITIVE_EVALUATION, 7);
+                    //TODO: Arrumar o bug do caso em que ele já havia votado, seja positivamente ou negativamente
+                    topicEvaluation++;
+                    topicEvaluationTextView.setText(topicEvaluation + "");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -142,20 +159,12 @@ public class TopicView extends Fragment implements View.OnClickListener {
                 try {
                     topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
                             currentTopic.getIdCategory(), NEGATIVE_EVALUATION, 7);
+                    topicEvaluation--;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 break;
-        }
-
-        if(v.getId() == R.id.up_evaluation){
-            TopicPresenter topicPresenter = TopicPresenter.getInstance(getContext());
-            //TODO chamar aqui o metodo da presenter com id do topico, do usuario e avaliacao plus one
-            //topicPresenter.evaluateTopic(currentTopic.getIdTopic(), currentTopic.);
-        }
-        else if(v.getId() == R.id.down_evaluation){
-
         }
     }
 }
