@@ -2,6 +2,8 @@ package com.mathheals.meajuda.dao;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.User;
 
 import org.json.JSONArray;
@@ -239,6 +241,42 @@ public class UserDAO extends DAO {
         }
 
         return schoolCodeList;
+    }
+
+    public List<Integer> getUserIdList() throws JSONException {
+        final String QUERY = "SELECT idUsuario FROM Usuario";
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        List<Integer> userIdList = new ArrayList<>();
+
+        if(consultResult != null) {
+            for(int i = 0; i < consultResult.length(); i++) {
+                Integer idUser = consultResult.getJSONObject("" + i).getInt("idUsuario");
+
+                userIdList.add(idUser);
+            }
+        }
+        return userIdList;
+    }
+
+    public User getUserById(Integer idUser) throws JSONException, UserException {
+        final String QUERY = "SELECT * FROM Usuario WHERE idUsuario = " + idUser;
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        User user = null;
+
+        if(consultResult != null) {
+            String firstName = consultResult.getJSONObject("0").getString("nome");
+            String lastName = consultResult.getJSONObject("0").getString("sobrenome");
+            String username = consultResult.getJSONObject("0").getString("login");
+            Integer rating = getUserEvaluationById(idUser);
+
+            user = new User(firstName, lastName, username, rating);
+        }
+
+        return user;
     }
 
 }

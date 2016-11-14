@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserPresenter {
@@ -218,6 +219,24 @@ public class UserPresenter {
         Log.d("classification " + idUser, idClassification + "");
 
         return idClassification;
+    }
+
+    public List<User> getUserRanking() throws JSONException, UserException {
+        UserDAO userDAO = UserDAO.getInstance(context);
+
+        List<Integer> userIdList = userDAO.getUserIdList();
+
+        List<User> userRanking = new ArrayList<>();
+
+        for(int i = 0; i < userIdList.size(); i++) {
+            Integer idUser = userIdList.get(i);
+
+            User user = userDAO.getUserById(idUser);
+
+            userRanking.add(user);
+        }
+
+        return userRanking;
     }
 
 }

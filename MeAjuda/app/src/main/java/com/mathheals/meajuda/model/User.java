@@ -35,6 +35,7 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private String classification;
     private Integer rating;
     private Integer idSchool;
     private Integer idClassification;
@@ -53,6 +54,7 @@ public class User {
         setPassword(password);
         verifyPasswordConfirmation(passwordConfirmation);
         setRating(rating);
+        setClassification(rating);
         setIdSchool(idSchool);
         setIdClassification(idClassification);
 
@@ -101,6 +103,34 @@ public class User {
         setEmail(email);
         setRating(rating);
         setIdClassification(idClassification);
+    }
+
+    public User(String firstName, String lastName, String username, Integer rating) throws UserException {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setUsername(username);
+        setRating(rating);
+        setClassification(rating);
+    }
+
+    private void setClassification(Integer rating) {
+        String classification;
+
+        if(rating < 1) {
+            classification = "Iniciante";
+        } else if(rating < 2) {
+            classification = "Aprendiz";
+        } else if(rating < 3) {
+            classification = "Nerd";
+        } else if(rating < 4) {
+            classification = "Especialista";
+        } else if(rating < 5) {
+            classification = "Mestre";
+        } else {
+            classification = "Gênio";
+        }
+
+        this.classification = classification;
     }
 
     private void setUserId(Integer id) {
@@ -215,6 +245,10 @@ public class User {
         else{
             throw new UserException(CONFIRM_PASSWORD_CANT_BE_EMPTY);
         }
+    }
+
+    public String getClassification() {
+        return classification;
     }
 
     public Integer getUserId() {return this.userId; }
