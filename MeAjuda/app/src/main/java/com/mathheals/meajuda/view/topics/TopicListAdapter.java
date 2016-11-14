@@ -117,8 +117,6 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         try {
             Integer topicEvaluationValue = topicEvaluationPresenter.getTopicEvaluation(idTopic);
 
-            Log.d("id do topico pego", idTopic + "");
-
             holder.topicEvaluation.setText(topicEvaluationValue + "");
         } catch (JSONException e) {
             e.printStackTrace();

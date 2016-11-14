@@ -95,6 +95,7 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
+                            android:id="@+id/up_evaluation"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_arrow_drop_up_black_24dp"
                             android:tint="#000"
@@ -102,6 +103,7 @@
                             android:layout_height="wrap_content"/>
 
                         <TextView
+                            android:id="@+id/commentEvalutation"
                             android:text="10"
                             style="@style/TextAppearance.AppCompat.Headline"
                             android:textColor="#000"
@@ -110,6 +112,7 @@
 
 
                         <ImageView
+                            android:id="@+id/down_evaluation"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_arrow_drop_down_black_24dp"
                             android:tint="#000"
