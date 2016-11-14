@@ -24,11 +24,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Category;
+import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.presenter.CategoryPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
+import com.mathheals.meajuda.view.schools.SchoolView;
 import com.mathheals.meajuda.view.topics.TopicCreation;
 import com.mathheals.meajuda.view.topics.TopicList;
 import com.mathheals.meajuda.view.topics.TopicView;
@@ -66,20 +69,31 @@ public class MainActivity extends AppCompatActivity
         }
 
         if(getIntent().getExtras() != null ){
-            Integer idTopic = getIntent().getExtras().getInt("idTopic");
-            Bundle bundle = new Bundle();
-            bundle.putInt("idTopic", idTopic);
-            bundle.putBoolean("comeFromSearch", true);
+            String whichFragment = getIntent().getExtras().getString("whichFragment");
 
-            TopicView topicView = new TopicView();
-            topicView.setArguments(bundle);
+            if(whichFragment.equals("topic")){
+                Integer idTopic = getIntent().getExtras().getInt("idTopic");
+                Bundle bundle = new Bundle();
+                bundle.putInt("idTopic", idTopic);
+                bundle.putBoolean("comeFromSearch", true);
 
-            android.support.v4.app.FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
+                TopicView topicView = new TopicView();
+                topicView.setArguments(bundle);
 
-            fragmentTransaction.replace(R.id.layout_main, topicView, "TopicViewFragment");
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+                openFragment(topicView, "TopicViewFragment");
+            }
+            else if(whichFragment.equals("school")){
+                Log.d("entrou", "aqui");
+                School school = new Gson().fromJson(
+                        getIntent().getExtras().getString("school"), School.class);
+                SchoolView schoolView = new SchoolView(school);
+
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("comeFromSearch", true);
+                schoolView.setArguments(bundle);
+
+                openFragment(schoolView, "SchoolViewFragment");
+            }
         }
 
     }
@@ -179,6 +193,15 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void openFragment(Fragment fragmentToBeOpen, String tag){
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen, tag);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
     private void openFragment(Fragment fragmentToBeOpen){
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
@@ -193,11 +216,14 @@ public class MainActivity extends AppCompatActivity
         final TopicView topicView = (TopicView)
                 getSupportFragmentManager().findFragmentByTag("TopicViewFragment");
 
+        final SchoolView schoolView = (SchoolView)
+                getSupportFragmentManager().findFragmentByTag("SchoolViewFragment");
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
         }
-        else if(topicView != null){
+        else if(topicView != null || schoolView != null){
             finish();
         }
         else {

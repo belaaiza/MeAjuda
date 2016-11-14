@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.School;
@@ -106,10 +107,16 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                 SearchTopic searchTopic = new SearchTopic();
                 List topicList = searchTopic.search(getBaseContext(), query);
 
-                TopicList topicListFragment = (TopicList) currentFragment;
-                topicListFragment.getAdapater().updateList(topicList);
-
+                if(topicList.isEmpty() || topicList == null){
+                    Toast.makeText(getBaseContext(), "Nenhum resultado encontrado",
+                            Toast.LENGTH_LONG).show();
+                }
+                else{
+                    TopicList topicListFragment = (TopicList) currentFragment;
+                    topicListFragment.getAdapater().updateList(topicList);
+                }
                 break;
+
             case 1:
                 SearchSchool searchSchool = new SearchSchool();
                 List schoolList = null;
@@ -120,8 +127,14 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                     e.printStackTrace();
                 }
 
-                SchoolList schoolListFragment = (SchoolList) currentFragment;
-                schoolListFragment.getAdapater().updateList(schoolList);
+                if(schoolList.isEmpty() || schoolList == null){
+                    Toast.makeText(getBaseContext(), "Nenhum resultado encontrado",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    SchoolList schoolListFragment = (SchoolList) currentFragment;
+                    schoolListFragment.getAdapater().updateList(schoolList);
+                }
                 break;
         }
 

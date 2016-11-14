@@ -21,9 +21,6 @@ import com.mathheals.meajuda.presenter.TopicPresenter;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class TopicView extends Fragment {
 
     private TextView nameAuthorTextView;

@@ -59,6 +59,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             }
             else if(currentActivity instanceof SearchActivity){
                 Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("whichFragment", "topic");
                 intent.putExtra("idTopic", idTopic);
                 context.startActivity(intent);
             }

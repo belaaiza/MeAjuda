@@ -107,19 +107,20 @@ public class TopicDAO extends DAO {
         List<Topic> listTopic = new ArrayList<>();
 
         try{
-            for(int i=0; i<topicFound.length(); i++){
-                UserDAO userDAO = UserDAO.getInstance(context);
-                String nameOwner = userDAO.getUserNameById(topicFound.getJSONObject(i+"")
-                        .getInt("Usuario_idUsuario"));
+            if(topicFound != null){
+                for(int i = 0; i < topicFound.length(); i++){
+                    UserDAO userDAO = UserDAO.getInstance(context);
+                    String nameOwner = userDAO.getUserNameById(topicFound.getJSONObject(i + "")
+                            .getInt("Usuario_idUsuario"));
 
-                Topic topic = new Topic(topicFound.getJSONObject(i+"").getInt("idTopico"),
-                        topicFound.getJSONObject(i+"").getString("titulo"),
-                        topicFound.getJSONObject(i+"").getString("descricao"),
-                        nameOwner);
+                    Topic topic = new Topic(topicFound.getJSONObject(i + "").getInt("idTopico"),
+                            topicFound.getJSONObject(i + "").getString("titulo"),
+                            topicFound.getJSONObject(i + "").getString("descricao"),
+                            nameOwner);
 
-                listTopic.add(topic);
+                    listTopic.add(topic);
+                }
             }
-
         } catch(JSONException e){
             e.printStackTrace();
         }

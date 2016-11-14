@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
@@ -43,24 +44,19 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
         @Override
         public void onClick(View v) {
             //Gets the selected topic to be open on the list
-            /*Topic selectedItem = data.get(this.getAdapterPosition());
+            School selectedItem = data.get(this.getAdapterPosition());
 
-            int idTopic = selectedItem.getIdTopic();
-
-            Bundle args = new Bundle();
-            args.putInt("idTopic", idTopic);
-
-            TopicView topicView = new TopicView();
-            topicView.setArguments(args);
+            SchoolView schoolView = new SchoolView(selectedItem);
 
             if(currentActivity instanceof MainActivity){
-                openFragment(topicView);
+                openFragment(schoolView);
             }
             else if(currentActivity instanceof SearchActivity){
                 Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra("idTopic", idTopic);
+                intent.putExtra("whichFragment", "school");
+                intent.putExtra("school", new Gson().toJson(selectedItem));
                 context.startActivity(intent);
-            }*/
+            }
         }
     }
 
@@ -68,7 +64,7 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
         android.support.v4.app.FragmentTransaction fragmentTransaction = currentActivity.
                 getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen, "TopicViewFragment");
+        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -96,10 +92,10 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
         School rowData = this.data.get(position);
         if(rowData.getAddress().getDistrict().isEmpty())
             holder.local.setText("Não informado" + " - " + rowData.getAddress()
-                    .getState());
+                    .getState().trim());
         else{
-            holder.local.setText(rowData.getAddress().getDistrict() + " - " + rowData.getAddress()
-                    .getState());
+            holder.local.setText(rowData.getAddress().getCounty().trim() + " - " +
+                    rowData.getAddress().getState().trim());
         }
         holder.name.setText(rowData.getName());
     }
