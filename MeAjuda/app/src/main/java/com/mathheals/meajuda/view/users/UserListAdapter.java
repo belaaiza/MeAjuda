@@ -1,64 +1,75 @@
-package com.mathheals.meajuda.view.schools;
+package com.mathheals.meajuda.view.users;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.mathheals.meajuda.R;
-import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.model.TopicEvaluation;
+import com.mathheals.meajuda.model.User;
+import com.mathheals.meajuda.presenter.UserPresenter;
 import com.mathheals.meajuda.view.MainActivity;
 import com.mathheals.meajuda.view.SearchActivity;
 import com.mathheals.meajuda.view.topics.TopicView;
+import com.sun.jna.platform.win32.Netapi32Util;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.ViewHolder> {
+public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
 
-    private List<School> data;
+    private List<User> data;
     private AppCompatActivity currentActivity;
     private Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView name;
-        public TextView local;
-        public TextView schoolEvaluation;
+        public ImageView photo;
+        public TextView classification;
+        public TextView username;
+        public TextView rating;
 
         public ViewHolder(CardView card) {
             super(card);
 
-            this.name = (TextView) card.findViewById(R.id.school_name);
-            this.local = (TextView) card.findViewById(R.id.local);
-            this.schoolEvaluation = (TextView) card.findViewById(R.id.schoolEvaluation);
-
+            this.name = (TextView) card.findViewById(R.id.name);
+            this.photo = (ImageView) card.findViewById(R.id.photo);
+            this.classification = (TextView) card.findViewById(R.id.classification);
+            this.username = (TextView) card.findViewById(R.id.username);
+            this.rating = (TextView) card.findViewById(R.id.rating);
             card.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             //Gets the selected topic to be open on the list
-            School selectedItem = data.get(this.getAdapterPosition());
+            User selectedItem = data.get(this.getAdapterPosition());
 
-            SchoolView schoolView = new SchoolView(selectedItem);
+            ViewProfile viewProfile = new ViewProfile();
 
+            /*
             if(currentActivity instanceof MainActivity){
-                openFragment(schoolView);
+                openFragment(topicView);
             }
             else if(currentActivity instanceof SearchActivity){
                 Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra("whichFragment", "school");
-                intent.putExtra("school", new Gson().toJson(selectedItem));
+                intent.putExtra("whichFragment", "topic");
+                intent.putExtra("idTopic", idTopic);
                 context.startActivity(intent);
-            }
+            }*/
         }
     }
 
@@ -66,21 +77,21 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
         android.support.v4.app.FragmentTransaction fragmentTransaction = currentActivity.
                 getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen);
+        fragmentTransaction.replace(R.id.layout_main, fragmentToBeOpen, "TopicViewFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
-    public SchoolListAdapter(List<School> data, AppCompatActivity activity, Context context) {
+    public UserListAdapter(List<User> data, AppCompatActivity activity, Context context) {
         this.data = data;
         this.currentActivity = activity;
         this.context = context;
     }
 
     @Override
-    public SchoolListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UserListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        CardView view = (CardView) inflater.inflate(R.layout.card_list_item_school, parent, false);
+        CardView view = (CardView) inflater.inflate(R.layout.card_list_item_user, parent, false);
         return new ViewHolder(view);
     }
 
@@ -91,16 +102,17 @@ public class SchoolListAdapter extends RecyclerView.Adapter<SchoolListAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        School rowData = this.data.get(position);
-        if(rowData.getAddress().getCounty().isEmpty())
-            holder.local.setText("Não informado" + " - " + rowData.getAddress()
-                    .getState().trim());
-        else{
-            holder.local.setText(rowData.getAddress().getCounty().trim() + " - " +
-                    rowData.getAddress().getState().trim());
-        }
-        holder.name.setText(rowData.getName());
-        holder.schoolEvaluation.setText(rowData.getRating() + "");
+        User rowData = this.data.get(position);
+
+        holder.name.setText(rowData.getFirstName()+" "+rowData.getLastName());
+        holder.username.setText(rowData.getUsername());
+        //TODO setar rating do usuario
+        holder.rating.setText(rowData.getRating()+"");
+        Integer classification = rowData.getIdClassification();
+
+        UserPresenter userPresenter = UserPresenter.getInstance(context);
+        Drawable userPhoto = userPresenter.getClassificationIcon(classification);
+        holder.photo.setImageDrawable(userPhoto);
     }
 
     @Override

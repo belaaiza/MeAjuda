@@ -17,12 +17,15 @@ import android.widget.Toast;
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.model.User;
 import com.mathheals.meajuda.presenter.*;
 import com.mathheals.meajuda.view.schools.SchoolList;
 import com.mathheals.meajuda.view.topics.TopicList;
+import com.mathheals.meajuda.view.users.UserList;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
@@ -48,8 +51,11 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
             e.printStackTrace();
         }
 
+        List<User> userList = UserPresenter.getInstance(getBaseContext()).getAllUsers
+                (getBaseContext());
+
         TabsAdapter tabsAdapter = new TabsAdapter(this.getSupportFragmentManager(), topicList,
-                schoolList);
+                schoolList, userList);
 
         // Set up the ViewPager with the sections adapter.
         viewPager = (ViewPager) findViewById(R.id.container);
@@ -133,6 +139,22 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
                     schoolListFragment.getAdapater().updateList(schoolList);
                 }
                 break;
+            case 2:
+                SearchUser searchUser = new SearchUser();
+                List userList = null;
+
+                userList = searchUser.search(getBaseContext(), query);
+
+                if(userList.isEmpty() || userList == null){
+                    Toast.makeText(getBaseContext(), "Nenhum resultado encontrado",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    UserList userListFragment = (UserList) currentFragment;
+                    userListFragment.getAdapater().updateList(userList);
+                }
+
+
         }
 
         return false;

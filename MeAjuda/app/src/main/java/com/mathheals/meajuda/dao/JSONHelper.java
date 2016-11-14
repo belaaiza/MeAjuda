@@ -6,6 +6,7 @@ import android.util.Log;
 import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.User;
+import com.mathheals.meajuda.presenter.SchoolPresenter;
 
 import org.json.JSONArray;
 import org.json.JSONException;

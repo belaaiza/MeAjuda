@@ -104,7 +104,6 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         Topic rowData = this.data.get(position);
 
-        holder.idTopic.setText(rowData.getIdCategory() + "");
         holder.title.setText(rowData.getTitle());
         holder.description.setText(rowData.getDescription());
         holder.author.setText(rowData.getNameOwner());

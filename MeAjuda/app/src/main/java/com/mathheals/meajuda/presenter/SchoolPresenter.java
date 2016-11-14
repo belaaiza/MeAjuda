@@ -45,7 +45,13 @@ public class SchoolPresenter {
 
     public List<School> getAllSchools() throws JSONException {
         JSONHelper jsonHelper = JSONHelper.getInstance();
-        return jsonHelper.getAllSchools();
+        List<School> listSchool = jsonHelper.getAllSchools();
+
+        for(int i=0; i<listSchool.size(); i++){
+            listSchool.get(i).setRating(getSchoolRating(listSchool.get(i).getSchoolCode()));
+        }
+
+        return listSchool;
     }
 
     public List<School> getSchoolRanking() throws JSONException {

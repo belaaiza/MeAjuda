@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-
         if(getIntent().getExtras() != null ){
             String whichFragment = getIntent().getExtras().getString("whichFragment");
 
@@ -192,11 +191,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if(session != null && session.getBoolean("IsLoggedIn", false)){
+            UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
+            Drawable userPhoto = userPresenter.getClassificationIcon(session.getInt(
+                    getResources().getString(R.string.key_classification), -1));
+
+            View headerLayout = navigationView.getHeaderView(0);
+            ImageView imageView = (ImageView) headerLayout.findViewById(R.id.imageView);
+            imageView.setImageDrawable(userPhoto);
+
             navigationView.getMenu().findItem(R.id.edit_profile).setVisible(true);
             navigationView.getMenu().findItem(R.id.show_profile).setVisible(true);
         }
-
-
     }
 
     private void openFragment(Fragment fragmentToBeOpen, String tag){

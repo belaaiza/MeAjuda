@@ -318,7 +318,7 @@ public class School implements Serializable {
         this.county = county;
     }
 
-    private void setRating(Integer rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
