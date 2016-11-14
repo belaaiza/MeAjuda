@@ -223,4 +223,22 @@ public class UserDAO extends DAO {
         return userIdList;
     }
 
+    public List<String> getSchoolCodeList() throws JSONException {
+        final String QUERY = "SELECT codigoEscola FROM Usuario";
+
+        JSONObject consultResult = executeConsult(QUERY);
+
+        List<String> schoolCodeList = new ArrayList<>();
+
+        if(consultResult != null) {
+            for (int i = 0; i < consultResult.length(); i++) {
+                String schoolCode = consultResult.getJSONObject("" + i).getString("codigoEscola");
+
+                schoolCodeList.add(schoolCode);
+            }
+        }
+
+        return schoolCodeList;
+    }
+
 }

@@ -13,7 +13,10 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SchoolPresenter {
 
@@ -46,24 +49,33 @@ public class SchoolPresenter {
     }
 
     public List<School> getSchoolRanking() throws JSONException {
-        List<School> schoolList = getAllSchools();
+        UserDAO userDAO = UserDAO.getInstance(context);
+
+        List<String> schoolCodeList = userDAO.getSchoolCodeList();
 
         List<School> schoolRanking = new ArrayList<>();
 
-        for(int i = 0; i< schoolList.size(); i++) {
-            School school = schoolList.get(i);
+        HashSet<String> schoolCodeSet = new HashSet<>();
 
-            Integer rating = getSchoolRating(school.getSchoolCode());
+        for(int i = 0; i < schoolCodeList.size(); i++) {
+            String schoolCode = schoolCodeList.get(i);
 
-            String schoolCode = school.getSchoolCode();
-            String schoolName = school.getName();
-            String state = school.getAddress().getState();
-            String county = school.getAddress().getCounty();
+            if(!schoolCodeSet.contains(schoolCode)) {
+                schoolCodeSet.add(schoolCode);
 
-            School schoolWithRating = new School(schoolCode, schoolName, rating);
-            schoolWithRating.createAddress(state, county);
+                School school = JSONHelper.getSchoolByCode(schoolCode);
 
-            schoolRanking.add(schoolWithRating);
+                Integer rating = getSchoolRating(school.getSchoolCode());
+
+                String schoolName = school.getName();
+                String state = school.getAddress().getState();
+                String county = school.getAddress().getCounty();
+
+                School schoolWithRating = new School(schoolCode, schoolName, rating);
+                schoolWithRating.createAddress(state, county);
+
+                schoolRanking.add(schoolWithRating);
+            }
         }
 
         Collections.sort(schoolRanking, new Comparator<School>() {
