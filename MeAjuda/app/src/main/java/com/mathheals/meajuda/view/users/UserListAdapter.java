@@ -113,6 +113,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         UserPresenter userPresenter = UserPresenter.getInstance(context);
         Drawable userPhoto = userPresenter.getClassificationIcon(classification);
         holder.photo.setImageDrawable(userPhoto);
+
+        holder.classification.setText(rowData.getClassification());
     }
 
     @Override

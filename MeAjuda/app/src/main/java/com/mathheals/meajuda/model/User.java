@@ -110,6 +110,7 @@ public class User {
         setLastName(lastName);
         setUsername(username);
         setRating(rating);
+        setIdClassification(rating);
         setClassification(rating);
     }
 
@@ -145,7 +146,24 @@ public class User {
         this.idSchool = idSchool;
     }
 
-    private void setIdClassification (Integer idClassification){
+    //Revisar esse método se der tempo
+    private void setIdClassification (Integer rating){
+        Integer idClassification;
+
+        if(rating < 1) {
+            idClassification = 1;
+        } else if(rating < 2) {
+            idClassification = 2;
+        } else if(rating < 3) {
+            idClassification = 2;
+        } else if(rating < 4) {
+            idClassification = 3;
+        } else if(rating < 5) {
+            idClassification = 4;
+        } else {
+            idClassification = 5;
+        }
+
         this.idClassification = idClassification;
     }
 

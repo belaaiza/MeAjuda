@@ -26,9 +26,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mathheals.meajuda.R;
+import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.Category;
 import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.model.User;
 import com.mathheals.meajuda.presenter.CategoryPresenter;
 import com.mathheals.meajuda.presenter.SchoolPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
@@ -39,6 +41,7 @@ import com.mathheals.meajuda.view.topics.TopicCreation;
 import com.mathheals.meajuda.view.topics.TopicList;
 import com.mathheals.meajuda.view.topics.TopicView;
 import com.mathheals.meajuda.view.users.LoginActivity;
+import com.mathheals.meajuda.view.users.UserList;
 import com.mathheals.meajuda.view.users.UserUpdate;
 import com.mathheals.meajuda.view.users.ViewProfile;
 
@@ -281,7 +284,21 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if(id == R.id.user_ranking){
-            // Handle the camera action
+            UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
+
+            List<User> userRanking = new ArrayList<>();
+
+            try {
+                userRanking = userPresenter.getUserRanking();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (UserException e) {
+                e.printStackTrace();
+            }
+
+            UserList userList = new UserList(userRanking);
+
+            openFragment(userList);
         }
         else if(id == R.id.school_ranking){
             SchoolPresenter schoolPresenter = SchoolPresenter.getInstance(getBaseContext());
