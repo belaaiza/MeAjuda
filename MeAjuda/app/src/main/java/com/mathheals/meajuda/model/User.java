@@ -113,6 +113,20 @@ public class User {
         setClassification(rating);
     }
 
+    public User(Integer userId, String firstName, String lastName, String email, String username,
+                Integer rating) throws UserException {
+        setUserId(userId);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEmail(email);
+        setUsername(username);
+        setRating(rating);
+        setIdClassification(rating);
+        setClassification(rating);
+    }
+
+
+
     private void setClassification(Integer rating) {
         String classification;
 

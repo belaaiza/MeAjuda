@@ -111,13 +111,16 @@ public class UserDAO extends DAO {
 
                     User user = null;
                     try{
-                        user = new User(userFound.getJSONObject(i + "").getInt("idUsuario"),
+                        Integer idUser = userFound.getJSONObject(i + "").getInt("idUsuario");
+                        Integer rating = getUserEvaluationById(idUser);
+                        user = new User(idUser,
                                 userFound.getJSONObject(i + "").getString("nome"),
                                 userFound.getJSONObject(i + "").getString("sobrenome"),
                                 userFound.getJSONObject(i + "").getString("email"),
                                 userFound.getJSONObject(i + "").getString("login"),
-                                userFound.getJSONObject(i + "").getInt("rating"),
-                                userFound.getJSONObject(i + "").getInt("Classificacao_idClassificacao"));
+                                rating);
+
+
                     } catch(UserException e){
                         e.printStackTrace();
                     }
@@ -151,14 +154,12 @@ public class UserDAO extends DAO {
                     Integer idUser = userFound.getJSONObject(i + "").getInt("idUsuario");
                     Integer rating = getUserEvaluationById(idUser);
                     try{
-
                         user = new User(idUser,
                                 userFound.getJSONObject(i + "").getString("nome"),
                                 userFound.getJSONObject(i + "").getString("sobrenome"),
                                 userFound.getJSONObject(i + "").getString("email"),
                                 userFound.getJSONObject(i + "").getString("login"),
-                                rating,
-                                userFound.getJSONObject(i + "").getInt("Classificacao_idClassificacao"));
+                                rating);
                     } catch(UserException e){
                         e.printStackTrace();
                     }
