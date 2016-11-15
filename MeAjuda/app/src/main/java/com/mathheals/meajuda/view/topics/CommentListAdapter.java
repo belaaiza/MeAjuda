@@ -200,9 +200,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         }
 
         holder.description.setText(descriptionComment);
-        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
-        String authorName = session.getString("name","user");
-        holder.author.setText(authorName);
+        holder.author.setText(rowData.getNameUser());
 
 
         if(!imageURL.trim().equals("N")) {

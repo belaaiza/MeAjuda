@@ -8,9 +8,10 @@ public class Comment {
     private String description;
     private String imageURL;
     private String audioURL;
+    private String nameUser;
 
     public Comment(Integer idComment, Integer idTopic, Integer idCategory, Integer idUser,
-                   String description, String imageURL, String audioURL) {
+                   String description, String imageURL, String audioURL, String nameUser) {
         setIdComment(idComment);
         setIdTopic(idTopic);
         setIdCategory(idCategory);
@@ -18,6 +19,7 @@ public class Comment {
         setDescription(description);
         setImageURL(imageURL);
         setAudioURL(audioURL);
+        setNameUser(nameUser);
     }
 
     //Provisory constructor
@@ -53,6 +55,10 @@ public class Comment {
         this.idUser = idUser;
     }
 
+    private void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
+    }
+
     public Integer getIdComment() {
         return idComment;
     }
@@ -79,5 +85,9 @@ public class Comment {
 
     public Integer getIdUser() {
         return idUser;
+    }
+
+    public String getNameUser() {
+        return nameUser;
     }
 }
