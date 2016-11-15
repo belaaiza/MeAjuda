@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else{
                     SharedPreferences session = PreferenceManager.
                             getDefaultSharedPreferences(getApplicationContext());
+
                     userPresenter.createLoginSession(status, getApplicationContext(), session);
 
                     Toast.makeText(getBaseContext(), getResources().getString

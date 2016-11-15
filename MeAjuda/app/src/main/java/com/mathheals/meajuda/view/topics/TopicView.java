@@ -2,15 +2,12 @@ package com.mathheals.meajuda.view.topics;
 
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +20,6 @@ import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.dao.DownloadImageTask;
 import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
-import com.mathheals.meajuda.model.TopicEvaluation;
 import com.mathheals.meajuda.presenter.CommentPresenter;
 import com.mathheals.meajuda.presenter.TopicEvaluationPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
@@ -113,6 +109,12 @@ public class TopicView extends Fragment implements View.OnClickListener {
         FloatingActionButton createCommentButton = (FloatingActionButton)
                 view.findViewById(R.id.create_comment);
         createCommentButton.setOnClickListener(this);
+
+        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(
+                getContext());
+        if(!session.getBoolean("IsLoggedIn", false)){
+            createCommentButton.setVisibility(View.INVISIBLE);
+        }
 
         Button playAudioButton = (Button) view.findViewById(R.id.topicViewPlayAudio);
         playAudioButton.setOnClickListener(this);

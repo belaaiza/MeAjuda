@@ -15,7 +15,12 @@ import com.mathheals.meajuda.presenter.UserPresenter;
 
 public class ViewProfile extends Fragment {
 
+    private User currentUser;
     private SharedPreferences session;
+
+    public ViewProfile(User user){
+        this.currentUser = user;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -25,15 +30,12 @@ public class ViewProfile extends Fragment {
         session = PreferenceManager.getDefaultSharedPreferences(getActivity()
                 .getApplicationContext());
 
-        showUserOnProfile(view);
+        showUserOnProfile(view, currentUser);
 
         return view;
     }
 
-    public void showUserOnProfile(View view){
-        UserPresenter userPresenter = UserPresenter.getInstance(getContext());
-        User user = userPresenter.showProfile(session.getString("email", ""), getActivity());
-
+    public void showUserOnProfile(View view, User user){
         TextView userName = (TextView) view.findViewById(R.id.userName);
         userName.setText(user.getFirstName()+" "+user.getLastName());
 
@@ -42,5 +44,14 @@ public class ViewProfile extends Fragment {
 
         TextView userRating = (TextView) view.findViewById(R.id.userRating);
         userRating.setText(String.valueOf(user.getRating()));
+    }
+
+    @Override
+    public void onDestroy(){
+        if(this.getArguments().getBoolean("comeFromSearch")){
+            getActivity().finish();
+        }
+
+        super.onDestroy();
     }
 }

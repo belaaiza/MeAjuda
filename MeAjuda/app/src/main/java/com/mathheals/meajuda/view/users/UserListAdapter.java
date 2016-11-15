@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.model.TopicEvaluation;
@@ -58,18 +59,17 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             //Gets the selected topic to be open on the list
             User selectedItem = data.get(this.getAdapterPosition());
 
-            ViewProfile viewProfile = new ViewProfile();
+            ViewProfile viewProfile = new ViewProfile(selectedItem);
 
-            /*
             if(currentActivity instanceof MainActivity){
-                openFragment(topicView);
+                openFragment(viewProfile);
             }
             else if(currentActivity instanceof SearchActivity){
                 Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra("whichFragment", "topic");
-                intent.putExtra("idTopic", idTopic);
+                intent.putExtra("whichFragment", "user");
+                intent.putExtra("user", new Gson().toJson(selectedItem));
                 context.startActivity(intent);
-            }*/
+            }
         }
     }
 

@@ -181,6 +181,20 @@ public class UserPresenter {
         return editor;
     }
 
+    public SharedPreferences.Editor finishLoginSession(SharedPreferences session) {
+
+        // All Shared Preferences Keys
+        final String IS_LOGIN = "IsLoggedIn";
+
+        SharedPreferences.Editor editor = session.edit().clear();
+        editor.commit();
+
+        editor.putBoolean(IS_LOGIN, false);
+        editor.commit();
+
+        return editor;
+    }
+
     public User showProfile(String emailOrLogin, Context context){
         UserDAO userDAO = UserDAO.getInstance(context);
 
@@ -297,16 +311,9 @@ public class UserPresenter {
         return levelIcon;
     }
 
-    public Integer getUserClassification(Integer userId){
+    public Integer getUserClassification(Integer userId) throws UserException, JSONException {
         UserDAO userDAO = UserDAO.getInstance(context);
-        User user = null;
-        try{
-            user = userDAO.getUserById(userId);
-        } catch(JSONException e){
-            e.printStackTrace();
-        } catch(UserException e){
-            e.printStackTrace();
-        }
+        User user = userDAO.getUserById(userId);
 
         return user.getIdClassification();
     }

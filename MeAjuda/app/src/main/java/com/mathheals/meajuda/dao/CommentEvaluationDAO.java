@@ -83,7 +83,7 @@ public class CommentEvaluationDAO extends DAO {
 
         try {
             if(jsonObjectCommentEvaluation != null) {
-                jsonObjectCommentEvaluation.getJSONObject("0").getInt("descricao");
+                evaluation = jsonObjectCommentEvaluation.getJSONObject("0").getInt("descricao");
             }
         } catch (JSONException e) {
             e.printStackTrace();

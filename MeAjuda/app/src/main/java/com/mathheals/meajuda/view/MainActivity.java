@@ -44,6 +44,7 @@ import com.mathheals.meajuda.view.users.LoginActivity;
 import com.mathheals.meajuda.view.users.UserList;
 import com.mathheals.meajuda.view.users.UserUpdate;
 import com.mathheals.meajuda.view.users.ViewProfile;
+import com.sun.jna.platform.win32.Netapi32Util;
 
 import org.json.JSONException;
 
@@ -51,10 +52,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView
+        .OnNavigationItemSelectedListener {
 
     private SharedPreferences session;
+    private Toolbar toolbar;
+    private MenuItem createTopic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -62,12 +65,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //Setup toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         this.session = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        setUpNavigationDrawer(toolbar);
+        try{
+            setUpNavigationDrawer(toolbar);
+        } catch(JSONException e){
+            e.printStackTrace();
+        } catch(UserException e){
+            e.printStackTrace();
+        }
 
         try{
             fillCategoriesMenu();
@@ -90,7 +99,6 @@ public class MainActivity extends AppCompatActivity
                 openFragment(topicView, "TopicViewFragment");
             }
             else if(whichFragment.equals("school")){
-                Log.d("entrou", "aqui");
                 School school = new Gson().fromJson(
                         getIntent().getExtras().getString("school"), School.class);
                 SchoolView schoolView = new SchoolView(school);
@@ -101,6 +109,18 @@ public class MainActivity extends AppCompatActivity
 
                 openFragment(schoolView, "SchoolViewFragment");
             }
+            else if(whichFragment.equals("user")){
+                    User user = new Gson().fromJson(getIntent().getExtras().getString("user"),
+                            User.class);
+                    ViewProfile viewProfile = new ViewProfile(user);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("comeFromSearch", true);
+
+                    viewProfile.setArguments(bundle);
+                    openFragment(viewProfile);
+            }
+
         }
 
     }
@@ -182,31 +202,56 @@ public class MainActivity extends AppCompatActivity
         categoryIcon.setImageDrawable(icon);
     }
 
-    private void setUpNavigationDrawer(Toolbar toolbar){
+    private void setUpNavigationDrawer(Toolbar toolbar) throws JSONException, UserException{
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if(session != null && session.getBoolean("IsLoggedIn", false)){
-            UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close) {
 
-            Drawable userPhoto = userPresenter.getClassificationIcon(userPresenter
-                    .getUserClassification(session.getInt(getBaseContext().getResources()
-                            .getString(R.string.key_id), -1)));
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset){
+                try{
 
-            View headerLayout = navigationView.getHeaderView(0);
-            ImageView imageView = (ImageView) headerLayout.findViewById(R.id.imageView);
-            imageView.setImageDrawable(userPhoto);
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    View headerLayout = navigationView.getHeaderView(0);
+                    ImageView imageView = (ImageView) headerLayout.findViewById(R.id.imageView);
 
-            navigationView.getMenu().findItem(R.id.edit_profile).setVisible(true);
-            navigationView.getMenu().findItem(R.id.show_profile).setVisible(true);
-        }
+                    if(session != null && session.getBoolean("IsLoggedIn", false)){
+                        UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
+                        Drawable userPhoto = userPresenter.getClassificationIcon(userPresenter
+                                .getUserClassification(session.getInt(getBaseContext().getResources()
+                                        .getString(R.string.key_id), -1)));
+
+                        imageView.setImageDrawable(userPhoto);
+
+                        navigationView.getMenu().findItem(R.id.edit_profile).setVisible(true);
+                        navigationView.getMenu().findItem(R.id.show_profile).setVisible(true);
+                    }
+                    else{
+                        Drawable userPhoto = ResourcesCompat.getDrawable(getResources(),
+                                R.drawable.logo, getTheme());
+                        imageView.setImageDrawable(userPhoto);
+
+                        navigationView.getMenu().findItem(R.id.edit_profile).setVisible(false);
+                        navigationView.getMenu().findItem(R.id.show_profile).setVisible(false);
+                    }
+
+                } catch(JSONException e){
+                    e.printStackTrace();
+                } catch(UserException e){
+                    e.printStackTrace();
+                }
+            }
+
+        };
+
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
     private void openFragment(Fragment fragmentToBeOpen, String tag){
@@ -253,6 +298,18 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_settings);
+        createTopic = menu.findItem(R.id.create_topic);
+        if(session.getBoolean("IsLoggedIn", false)){
+            menuItem.setTitle("Sair");
+            createTopic.setVisible(true);
+        }
+        else{
+            menuItem.setTitle("Entrar");
+            createTopic.setVisible(false);
+        }
+
         return true;
     }
 
@@ -261,11 +318,18 @@ public class MainActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if(id == R.id.action_settings){
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+            if(session.getBoolean("IsLoggedIn", false)){
+                item.setTitle("Entrar");
+                createTopic.setVisible(false);
+                UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
+                userPresenter.finishLoginSession(session);
+            }
+            else {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
             return true;
         } else if(id == R.id.create_topic){
             TopicCreation topicCreation = new TopicCreation();
@@ -325,7 +389,10 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putBoolean("isOwnProfile", true);
 
-            ViewProfile viewProfile = new ViewProfile();
+            UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
+            User user = userPresenter.showProfile(session.getString("email", ""), this);
+
+            ViewProfile viewProfile = new ViewProfile(user);
             viewProfile.setArguments(bundle);
             openFragment(viewProfile);
         }
