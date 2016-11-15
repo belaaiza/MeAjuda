@@ -2,6 +2,7 @@ package com.mathheals.meajuda.view.topics;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +11,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -158,8 +160,11 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
 
                 String encodedAudio = encodeAudio(AudioSavePathInDevice);
 
-                //FIXME Tirar esses dois números mágicos
-                topicPresenter.createTopic(7, 1, title, description, image, encodedAudio);
+                SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
+                int loggedUserId = session.getInt("id",-1);
+                //FIXME Tirar esse número mágico - id da categoria
+
+                topicPresenter.createTopic(loggedUserId, 1, title, description, image, encodedAudio);
 
                 Toast.makeText(getActivity(), "Tópico criado com sucesso", Toast.LENGTH_LONG).show();
 
@@ -180,7 +185,7 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
                     }
 
                     //TODO: Adicionar um subdiretório com o nome do APP e outro com o nome da pasta em q os áudios ficarão salvos
-                    //TODO: Tirar esse número mágico
+
                     AudioSavePathInDevice =
                             Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
                                     TopicPresenter.generateFileNameExternalStorage() + ".3gp";

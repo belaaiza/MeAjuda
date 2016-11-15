@@ -2,6 +2,7 @@ package com.mathheals.meajuda.view.topics;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +11,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.dao.CommentDAO;
 import com.mathheals.meajuda.presenter.CommentPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
+import com.mathheals.meajuda.presenter.UserPresenter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -117,8 +120,11 @@ public class CommentCreation extends Fragment implements View.OnClickListener{
                     image = ((BitmapDrawable) imagePreview.getDrawable()).getBitmap();
                 }
 
+                SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
+                int loggedUserId = session.getInt("id",-1);
+
                 CommentPresenter commentPresenter = CommentPresenter.getInstance(getContext());
-                commentPresenter.createComment(idTopic, idCategory, 7, description, image,
+                commentPresenter.createComment(idTopic, idCategory, loggedUserId, description, image,
                         encodedAudio);
 
                 Log.d("id do topico", idTopic + "");

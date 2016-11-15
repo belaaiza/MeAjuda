@@ -1,9 +1,11 @@
 package com.mathheals.meajuda.view.topics;
 
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -169,7 +171,6 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.up_evaluation:
-                //TODO: Trocar esse número mágico pelo id do usuário
                 try {
                     topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
                             currentTopic.getIdCategory(), currentTopic.getIdOwner(),
@@ -185,11 +186,14 @@ public class TopicView extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.down_evaluation:
-                //TODO: Trocar esse número mágico pelo id do usuário
+
+                SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
+                int loggedUserId = session.getInt("id",-1);
+
                 try {
                     topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
                             currentTopic.getIdCategory(), currentTopic.getIdOwner(),
-                            NEGATIVE_EVALUATION, 7);
+                            NEGATIVE_EVALUATION, loggedUserId);
                     topicEvaluation--;
 
                     topicEvaluationTextView.setText(topicEvaluation + "");

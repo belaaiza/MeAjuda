@@ -1,6 +1,8 @@
 package com.mathheals.meajuda.view.topics;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -65,6 +67,9 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
             final Integer POSITIVE_EVALUATION = 1;
             final Integer NEGATIVE_EVALUATION = -1;
 
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+            int loggedUserId = session.getInt("id",-1);
+
             switch (v.getId()) {
                 case R.id.commentViewPlayAudio:
                     CommentPresenter commentPresenter = CommentPresenter.getInstance(context);
@@ -82,11 +87,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                     break;
 
                 case R.id.up_evaluation:
-                    //TODO: Trocar esse número mágico pelo id do usuário
+
                     try {
                         commentEvaluationPresenter.evaluateComment(currentComment.getIdComment(),
                                 currentComment.getIdTopic(), currentComment.getIdCategory(),
-                                currentComment.getIdUser(), POSITIVE_EVALUATION, 7);
+                                currentComment.getIdUser(), POSITIVE_EVALUATION, loggedUserId);
                         commentEvaluationValue++;
 
                         commentEvaluation.setText(commentEvaluationValue + "");
@@ -97,11 +102,10 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                     break;
 
                 case R.id.down_evaluation:
-                    //TODO: Trocar esse número mágico pelo id do usuário
                     try {
                         commentEvaluationPresenter.evaluateComment(currentComment.getIdComment(),
                                 currentComment.getIdTopic(), currentComment.getIdCategory(),
-                                currentComment.getIdUser(), NEGATIVE_EVALUATION, 7);
+                                currentComment.getIdUser(), NEGATIVE_EVALUATION, loggedUserId);
                         commentEvaluationValue--;
 
                         commentEvaluation.setText(commentEvaluationValue + "");
@@ -159,9 +163,9 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         }
 
         holder.description.setText(descriptionComment);
-
-        //TODO: Adicionar o nome certo do autor
-        holder.author.setText("Testando");
+        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+        String authorName = session.getString("name","user");
+        holder.author.setText(authorName);
 
 
         if(imageURL != "N") {

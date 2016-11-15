@@ -195,8 +195,10 @@ public class MainActivity extends AppCompatActivity
 
         if(session != null && session.getBoolean("IsLoggedIn", false)){
             UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
-            Drawable userPhoto = userPresenter.getClassificationIcon(session.getInt(
-                    getResources().getString(R.string.key_classification), -1));
+
+            Drawable userPhoto = userPresenter.getClassificationIcon(userPresenter
+                    .getUserClassification(session.getInt(getBaseContext().getResources()
+                            .getString(R.string.key_id), -1)));
 
             View headerLayout = navigationView.getHeaderView(0);
             ImageView imageView = (ImageView) headerLayout.findViewById(R.id.imageView);
@@ -320,7 +322,11 @@ public class MainActivity extends AppCompatActivity
             openFragment(userUpdate);
         }
         else if(id == R.id.show_profile){
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isOwnProfile", true);
+
             ViewProfile viewProfile = new ViewProfile();
+            viewProfile.setArguments(bundle);
             openFragment(viewProfile);
         }
 

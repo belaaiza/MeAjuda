@@ -175,6 +175,7 @@ public class UserPresenter {
                 user.getLastName());
         editor.putString(context.getResources().getString(R.string.key_password),
                 user.getPassword());
+        editor.putInt("id", user.getUserId());
         editor.commit();
 
         return editor;
@@ -249,9 +250,9 @@ public class UserPresenter {
             userRanking.add(user);
         }
 
-        Collections.sort(userRanking, new Comparator<User>() {
+        Collections.sort(userRanking, new Comparator<User>(){
             @Override
-            public int compare(User lhs, User rhs) {
+            public int compare(User lhs, User rhs){
                 return lhs.getRating() > rhs.getRating() ? -1 : 1;
             }
         });
@@ -296,4 +297,17 @@ public class UserPresenter {
         return levelIcon;
     }
 
+    public Integer getUserClassification(Integer userId){
+        UserDAO userDAO = UserDAO.getInstance(context);
+        User user = null;
+        try{
+            user = userDAO.getUserById(userId);
+        } catch(JSONException e){
+            e.printStackTrace();
+        } catch(UserException e){
+            e.printStackTrace();
+        }
+
+        return user.getIdClassification();
+    }
 }
