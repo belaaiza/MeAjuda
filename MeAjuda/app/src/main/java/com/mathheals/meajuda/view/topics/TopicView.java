@@ -2,6 +2,7 @@ package com.mathheals.meajuda.view.topics;
 
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -18,11 +19,15 @@ import android.widget.TextView;
 
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.dao.DownloadImageTask;
+import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.Comment;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.model.TopicEvaluation;
+import com.mathheals.meajuda.model.User;
 import com.mathheals.meajuda.presenter.CommentPresenter;
 import com.mathheals.meajuda.presenter.TopicEvaluationPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
+import com.mathheals.meajuda.presenter.UserPresenter;
 
 import org.json.JSONException;
 
@@ -41,7 +46,8 @@ public class TopicView extends Fragment implements View.OnClickListener {
     private TextView titleTextView;
     private TextView contentTextView;
     private TextView topicEvaluationTextView;
-
+    private TextView classification;
+    private ImageView photo;
     private ImageView topicImage;
 
     private Button playAudioButton;
@@ -89,6 +95,9 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         ImageView downEvaluate = (ImageView) topicView.findViewById(R.id.down_evaluation);
         downEvaluate.setOnClickListener(this);
+
+        photo = (ImageView) topicView.findViewById(R.id.user_profile_photo);
+        classification = (TextView) topicView.findViewById(R.id.classification_description);
 
         recyclerView.setAdapter(commentListAdapter);
 
@@ -160,6 +169,20 @@ public class TopicView extends Fragment implements View.OnClickListener {
         }
 
         topicEvaluationTextView.setText(topicEvaluation + "");
+
+        UserPresenter userPresenter = UserPresenter.getInstance(getContext());
+        User user = null;
+        try{
+            user = userPresenter.getUser(currentTopic.getIdOwner());
+        } catch(UserException e){
+            e.printStackTrace();
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        Drawable userPhoto = userPresenter.getClassificationIcon(user.getIdClassification());
+        photo.setImageDrawable(userPhoto);
+        classification.setText(user.getClassification());
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
