@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.mathheals.meajuda.R;
 import com.mathheals.meajuda.exception.UserException;
 import com.mathheals.meajuda.model.Topic;
+import com.mathheals.meajuda.model.User;
 import com.mathheals.meajuda.presenter.TopicEvaluationPresenter;
 import com.mathheals.meajuda.presenter.UserPresenter;
 import com.mathheals.meajuda.view.MainActivity;
@@ -43,6 +44,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         public TextView author;
         private TextView topicEvaluation;
         private ImageView profilePhoto;
+        private TextView classificationDescription;
 
         public ViewHolder(CardView card) {
             super(card);
@@ -53,6 +55,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             this.author = (TextView) card.findViewById(R.id.author);
             this.topicEvaluation = (TextView) card.findViewById(R.id.topicEvaluation);
             this.profilePhoto = (ImageView) card.findViewById(R.id.user_profile_photo);
+            this.classificationDescription = (TextView) card.findViewById(R.id.classification_description);
 
             card.setOnClickListener(this);
         }
@@ -129,18 +132,21 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        
-        UserPresenter userPresenter = UserPresenter.getInstance(context);
-        try{
-            Drawable userPhoto = userPresenter.getClassificationIcon(userPresenter
-            .getUserClassification(rowData.getIdOwner()));
-            holder.profilePhoto.setImageDrawable(userPhoto);
 
+        UserPresenter userPresenter = UserPresenter.getInstance(context);
+        User currentUser = null;
+        try{
+            currentUser = userPresenter.getUser(rowData.getIdOwner());
         } catch(UserException e){
             e.printStackTrace();
         } catch(JSONException e){
             e.printStackTrace();
         }
+
+        Drawable userPhoto = userPresenter.getClassificationIcon(currentUser.getIdClassification());
+        holder.profilePhoto.setImageDrawable(userPhoto);
+
+        holder.classificationDescription.setText(currentUser.getClassification());
     }
 
     @Override

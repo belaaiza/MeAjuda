@@ -317,4 +317,11 @@ public class UserPresenter {
 
         return user.getIdClassification();
     }
+
+    public User getUser(Integer userId) throws UserException, JSONException {
+        UserDAO userDAO = UserDAO.getInstance(context);
+        User user = userDAO.getUserById(userId);
+
+        return user;
+    }
 }

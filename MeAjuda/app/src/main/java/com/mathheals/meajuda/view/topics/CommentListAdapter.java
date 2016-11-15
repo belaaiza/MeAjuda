@@ -35,7 +35,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         public TextView description;
         public TextView author;
         public TextView commentEvaluation;
-
+        public ImageView userPhoto;
         public ImageView image;
         public ImageView upEvaluate;
         public ImageView downEvaluate;
