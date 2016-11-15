@@ -37,13 +37,13 @@ public class User {
     private String password;
     private String classification;
     private Integer rating;
-    private Integer idSchool;
+    private String codeSchool;
     private Integer idClassification;
 
     //Complete constructor
     public User(String firstName, String lastName, String username, String email,
                 String mailConfirmation, String password, String passwordConfirmation,
-                Integer rating, Integer idSchool, Integer idClassification) throws UserException,
+                Integer rating, String codeSchool, Integer idClassification) throws UserException,
             ParseException{
 
         setFirstName(firstName);
@@ -55,7 +55,7 @@ public class User {
         verifyPasswordConfirmation(passwordConfirmation);
         setRating(rating);
         setClassification(rating);
-        setIdSchool(idSchool);
+        setCodeSchool(codeSchool);
         setIdClassification(rating);
 
     }
@@ -88,7 +88,7 @@ public class User {
         setEmail(email);
         setPassword(password);
         setRating(rating);
-        setIdSchool(idSchool);
+        setCodeSchool(codeSchool);
         setIdClassification(rating);
     }
 
@@ -155,8 +155,8 @@ public class User {
         this.rating = rating;
     }
 
-    private void setIdSchool (Integer idSchool){
-        this.idSchool = idSchool;
+    private void setCodeSchool (String codeSchool){
+        this.codeSchool = codeSchool;
     }
 
     //Revisar esse método se der tempo
@@ -308,8 +308,8 @@ public class User {
         return this.rating;
     }
 
-    public Integer getIdSchool(){
-        return this.idSchool;
+    public String getCodeSchool(){
+        return this.codeSchool;
     }
 
     public Integer getIdClassification(){

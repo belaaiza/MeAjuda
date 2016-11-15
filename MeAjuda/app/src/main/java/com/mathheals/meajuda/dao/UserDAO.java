@@ -47,10 +47,10 @@ public class UserDAO extends DAO {
     public String saveUser(User user){
 
         final String QUERY = "INSERT INTO Usuario(nome, sobrenome, email, login, senha, rating, " +
-                "Escola_idEscola, Classificacao_idClassificacao)VALUES (\" " + user.getFirstName() +
+                "codigoEscola, Classificacao_idClassificacao)VALUES (\" " + user.getFirstName() +
                 " \", \" " + user.getLastName() + " \", \" " + user.getEmail() + " \", \" " +
                 user.getUsername() + " \", \" " + user.getPassword() + " \", " + user.getRating() +
-                ", " + user.getIdSchool() + ", " + user.getIdClassification() + ")";
+                ", \"" + user.getCodeSchool() + "\", " + user.getIdClassification() + ")";
 
         Log.d("Final Query", QUERY);
 

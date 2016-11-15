@@ -41,12 +41,12 @@ public class UserPresenter {
 
     public String registerUser(String firstName, String lastName, String username, String mail,
                                          String mailConfirmation, String password,
-                                         String passwordConfirmation, Context context){
+                                         String passwordConfirmation, String codeSchool, Context context){
         String message = "";
 
         try{
             User user = new User(firstName, lastName, username, mail, mailConfirmation,
-                    password, passwordConfirmation, 0, null, 1);
+                    password, passwordConfirmation, 0, codeSchool, 1);
 
             UserDAO userDAO = UserDAO.getInstance(context);
             userDAO.saveUser(user);
@@ -153,7 +153,7 @@ public class UserPresenter {
         editor.putInt(context.getResources().getString(R.string.key_rating), user.getRating());
         editor.putInt(context.getResources().getString(R.string.key_classification),
                 user.getIdClassification());
-        editor.putInt(context.getResources().getString(R.string.key_school), user.getIdSchool());
+        editor.putString(context.getResources().getString(R.string.key_school), user.getCodeSchool());
         editor.commit();
 
         return editor;

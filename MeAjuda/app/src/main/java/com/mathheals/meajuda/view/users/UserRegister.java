@@ -110,7 +110,6 @@ public class UserRegister extends Fragment implements View.OnClickListener, NoCo
         });
 
         List<String> countries = new ArrayList<>();
-        //String[] countries = {"Brasil", "Canada", "Brama", "Bahamas", "Cualquer coisa"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,countries);
         schoolField.setAdapter(adapter);
     }
@@ -123,8 +122,16 @@ public class UserRegister extends Fragment implements View.OnClickListener, NoCo
 
         UserPresenter userPresenter = UserPresenter.getInstance(getContext());
 
+        List<School> school = new ArrayList<>();
+        try {
+            school = JSONHelper.schoolListFromName(schoolField.getText().toString(), 1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         String message = userPresenter.registerUser(this.firstName, this.lastName, this.username,
                 this.mail, this.mailConfirmation, this.password, this.passwordConfirmation,
+                school.get(0).getSchoolCode(),
                 getContext());
 
         switch(message){
