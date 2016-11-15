@@ -50,6 +50,8 @@ public class TopicView extends Fragment implements View.OnClickListener {
     private ImageView photo;
     private ImageView topicImage;
 
+    private Button playAudioButton;
+
     Integer idTopic = 0;
     Integer idCategory = 0;
 
@@ -125,7 +127,7 @@ public class TopicView extends Fragment implements View.OnClickListener {
             createCommentButton.setVisibility(View.INVISIBLE);
         }
 
-        Button playAudioButton = (Button) view.findViewById(R.id.topicViewPlayAudio);
+        playAudioButton = (Button) view.findViewById(R.id.topicViewPlayAudio);
         playAudioButton.setOnClickListener(this);
 
         topicImage = (ImageView) view.findViewById(R.id.topicViewImage);
@@ -141,10 +143,16 @@ public class TopicView extends Fragment implements View.OnClickListener {
 
         String imageURL = currentTopic.getImageURL();
 
-        if(imageURL != "N") {
+        if(!imageURL.trim().equals("N")) {
             topicPresenter.showImage(topicImage, imageURL);
 
             new DownloadImageTask(topicImage).execute(imageURL);
+        }
+
+        String audioURL = currentTopic.getAudioURL();
+
+        if(!audioURL.trim().equals("N")) {
+            playAudioButton.setVisibility(View.VISIBLE);
         }
 
         nameAuthorTextView.setText(currentTopic.getNameOwner());

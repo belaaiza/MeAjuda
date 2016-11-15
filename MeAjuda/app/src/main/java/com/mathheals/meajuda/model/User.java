@@ -56,7 +56,7 @@ public class User {
         setRating(rating);
         setClassification(rating);
         setIdSchool(idSchool);
-        setIdClassification(idClassification);
+        setIdClassification(rating);
 
     }
 
@@ -73,7 +73,6 @@ public class User {
         verifyEmailConfirmation(mailConfirmation);
         setPassword(password);
         verifyPasswordConfirmation(passwordConfirmation);
-        setRating(rating);
     }
 
     //Constructor without password and email confirmation
@@ -90,7 +89,7 @@ public class User {
         setPassword(password);
         setRating(rating);
         setIdSchool(idSchool);
-        setIdClassification(idClassification);
+        setIdClassification(rating);
     }
 
     //Search user constructor
@@ -102,7 +101,7 @@ public class User {
         setUsername(username);
         setEmail(email);
         setRating(rating);
-        setIdClassification(idClassification);
+        setIdClassification(rating);
     }
 
     public User(String firstName, String lastName, String username, Integer rating) throws UserException {

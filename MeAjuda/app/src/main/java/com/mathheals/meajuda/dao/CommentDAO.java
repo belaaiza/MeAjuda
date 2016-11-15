@@ -15,14 +15,15 @@ import java.util.List;
 public class CommentDAO extends DAO {
 
     private static CommentDAO instance;
+    private Context context;
 
     private CommentDAO(Context currentContext){
         super(currentContext);
+        this.context = currentContext;
     }
 
     public static CommentDAO getInstance(final Context context) {
         if(CommentDAO.instance == null) {
-
             CommentDAO.instance = new CommentDAO(context);
 
         } else {
@@ -76,8 +77,11 @@ public class CommentDAO extends DAO {
                     String audioURL = consultResult.getJSONObject("" + i)
                             .getString("audioURL");
 
+                    UserDAO userDAO = UserDAO.getInstance(context);
+                    String nameUser = userDAO.getUserNameById(idUser);
+
                     Comment comment = new Comment(idComment, idTopic, idCategory, idUser,
-                            description, imageURL, audioURL);
+                            description, imageURL, audioURL, nameUser);
                     comments.add(comment);
                 } catch(JSONException e){
                     e.printStackTrace();
