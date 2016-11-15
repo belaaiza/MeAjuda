@@ -30,15 +30,17 @@
                 <LinearLayout
                     android:id="@+id/comment_header"
                     android:layout_gravity="center"
+                    android:weightSum="10"
                     android:orientation="horizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/userHeader"
                         android:orientation="vertical"
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="3"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content">
 
 
@@ -75,7 +77,8 @@
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_width="200dp"
+                        android:layout_weight="6"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content">
 
                         <TextView
@@ -91,7 +94,8 @@
                         android:layout_gravity="center"
                         android:orientation="vertical"
                         android:layout_margin="5dp"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content">
 
                         <ImageView
@@ -105,6 +109,7 @@
                         <TextView
                             android:id="@+id/commentEvalutation"
                             android:text="10"
+                            android:layout_gravity="center"
                             style="@style/TextAppearance.AppCompat.Headline"
                             android:textColor="#000"
                             android:layout_width="wrap_content"
@@ -124,21 +129,27 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:orientation="vertical"
                     android:layout_below="@+id/comment_header"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:layout_below="@+id/commentViewImage"
+                        android:background="@drawable/audio_button"
+                        android:drawableRight="@android:drawable/ic_media_play"
+                        android:drawableTint="@color/colorPrimary"
+                        android:text="Tocar áudio"
+                        android:textColor="@color/colorPrimary"
+                        android:id="@+id/commentViewPlayAudio"/>
 
                     <ImageView
                         android:id="@+id/commentViewImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/commentViewImage"
-                        android:text="Tocar audio"
-                        android:id="@+id/commentViewPlayAudio"/>
 
                 </LinearLayout>
 

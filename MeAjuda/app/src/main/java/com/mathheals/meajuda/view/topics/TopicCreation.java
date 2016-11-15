@@ -162,9 +162,9 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
 
                 SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
                 int loggedUserId = session.getInt("id",-1);
-                //FIXME Tirar esse número mágico - id da categoria
 
-                topicPresenter.createTopic(loggedUserId, 1, title, description, image, encodedAudio);
+                topicPresenter.createTopic(loggedUserId, categoryId, title, description, image,
+                        encodedAudio);
 
                 Toast.makeText(getActivity(), "Tópico criado com sucesso", Toast.LENGTH_LONG).show();
 
