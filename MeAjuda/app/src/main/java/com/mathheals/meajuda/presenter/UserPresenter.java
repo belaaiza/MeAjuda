@@ -2,7 +2,9 @@ package com.mathheals.meajuda.presenter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 
 import com.mathheals.meajuda.R;
@@ -15,6 +17,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class UserPresenter {
 
@@ -168,7 +174,7 @@ public class UserPresenter {
                 user.getLastName());
         editor.putString(context.getResources().getString(R.string.key_password),
                 user.getPassword());
-        editor.putInt("id",user.getUserId());
+        editor.putInt("id", user.getUserId());
         editor.commit();
 
         return editor;
@@ -217,5 +223,81 @@ public class UserPresenter {
         Log.d("classification " + idUser, idClassification + "");
 
         return idClassification;
+    }
+
+    public List<User> getUserRanking() throws JSONException, UserException {
+        UserDAO userDAO = UserDAO.getInstance(context);
+
+        List<Integer> userIdList = userDAO.getUserIdList();
+
+        List<User> userRanking = new ArrayList<>();
+
+        for(int i = 0; i < userIdList.size(); i++) {
+            Integer idUser = userIdList.get(i);
+
+            User user = userDAO.getUserById(idUser);
+
+            userRanking.add(user);
+        }
+
+        Collections.sort(userRanking, new Comparator<User>(){
+            @Override
+            public int compare(User lhs, User rhs){
+                return lhs.getRating() > rhs.getRating() ? -1 : 1;
+            }
+        });
+
+        return userRanking;
+    }
+
+    public List<User> getAllUsers(Context context){
+        List<User> usersFound = UserDAO.getInstance(context).getAllUsers(context);
+        return usersFound;
+    }
+
+    public Drawable getClassificationIcon(Integer classification){
+        Drawable levelIcon = null;
+        switch(classification){
+            case 1:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level1, context.getTheme());
+                break;
+            case 2:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level2, context.getTheme());
+                break;
+            case 3:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level3, context.getTheme());
+                break;
+            case 4:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level4, context.getTheme());
+                break;
+            case 5:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level5, context.getTheme());
+                break;
+            case 6:
+                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
+                        R.drawable.level6, context.getTheme());
+                break;
+        }
+
+        return levelIcon;
+    }
+
+    public Integer getUserClassification(Integer userId){
+        UserDAO userDAO = UserDAO.getInstance(context);
+        User user = null;
+        try{
+            user = userDAO.getUserById(userId);
+        } catch(JSONException e){
+            e.printStackTrace();
+        } catch(UserException e){
+            e.printStackTrace();
+        }
+
+        return user.getIdClassification();
     }
 }
