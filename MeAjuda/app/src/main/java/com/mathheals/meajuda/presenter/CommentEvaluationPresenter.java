@@ -39,4 +39,14 @@ public class CommentEvaluationPresenter {
 
         return commentEvaluation;
     }
+
+    public Integer getCommentEvaluationByUserId(Integer idComment, Integer idUser) {
+        Integer evaluation = commentEvaluationDAO.getCommentEvaluationByUserId(idComment, idUser);
+
+        return evaluation;
+    }
+
+    public void deleteCommentEvaluation(Integer idComment, Integer idUser) {
+        commentEvaluationDAO.deleteCommentEvaluation(idComment, idUser);
+    }
 }

@@ -76,4 +76,27 @@ public class CommentEvaluationDAO extends DAO {
         return commentEvaluation;
     }
 
+    public Integer getCommentEvaluationByUserId(Integer idComment, Integer idUser) {
+        JSONObject jsonObjectCommentEvaluation = getCommentEvaluationJSONOBjectByUserId(idComment, idUser);
+
+        Integer evaluation = 0;
+
+        try {
+            if(jsonObjectCommentEvaluation != null) {
+                jsonObjectCommentEvaluation.getJSONObject("0").getInt("descricao");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return evaluation;
+    }
+
+    public void deleteCommentEvaluation(Integer idComment, Integer idUser) {
+        final String QUERY = "DELETE FROM AvaliacaoComentario WHERE Comentario_idComentario = "+ idComment +" " +
+                "AND Usuario_idUsuario = "+ idUser +"";
+
+        executeQuery(QUERY);
+    }
+
 }

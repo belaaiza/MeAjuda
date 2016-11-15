@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,9 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
             final Integer NEGATIVE_EVALUATION = -1;
 
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
-            int loggedUserId = session.getInt("id",-1);
+            int loggedUserId = session.getInt("id", -1);
+
+            Integer idComment = currentComment.getIdComment();
 
             switch (v.getId()) {
                 case R.id.commentViewPlayAudio:
@@ -87,12 +90,29 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                     break;
 
                 case R.id.up_evaluation:
-
                     try {
-                        commentEvaluationPresenter.evaluateComment(currentComment.getIdComment(),
-                                currentComment.getIdTopic(), currentComment.getIdCategory(),
-                                currentComment.getIdUser(), POSITIVE_EVALUATION, loggedUserId);
-                        commentEvaluationValue++;
+                        Integer currentEvaluation = commentEvaluationPresenter.
+                                getCommentEvaluationByUserId(idComment, loggedUserId);
+
+                        if(currentEvaluation == 0 || currentEvaluation == -1) {
+
+                            commentEvaluationPresenter.evaluateComment(currentComment.getIdComment(),
+                                    currentComment.getIdTopic(), currentComment.getIdCategory(),
+                                    currentComment.getIdUser(), POSITIVE_EVALUATION, loggedUserId);
+
+                        }else {
+                            commentEvaluationPresenter.deleteCommentEvaluation(idComment, loggedUserId);
+                        }
+
+                        Log.d("current evaluation", currentEvaluation + "");
+
+                        if(currentEvaluation == 0) {
+                            commentEvaluationValue++;
+                        } else if(currentEvaluation == 1) {
+                            commentEvaluationValue--;
+                        } else if(currentEvaluation == -1) {
+                            commentEvaluationValue += 2;
+                        }
 
                         commentEvaluation.setText(commentEvaluationValue + "");
                     } catch (JSONException e) {
@@ -103,10 +123,26 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
                 case R.id.down_evaluation:
                     try {
-                        commentEvaluationPresenter.evaluateComment(currentComment.getIdComment(),
-                                currentComment.getIdTopic(), currentComment.getIdCategory(),
-                                currentComment.getIdUser(), NEGATIVE_EVALUATION, loggedUserId);
-                        commentEvaluationValue--;
+                        Integer currentEvaluation = commentEvaluationPresenter.
+                                getCommentEvaluationByUserId(idComment, loggedUserId);
+
+                        if(currentEvaluation == 0 || currentEvaluation == 1) {
+
+                            commentEvaluationPresenter.evaluateComment(currentComment.getIdComment(),
+                                    currentComment.getIdTopic(), currentComment.getIdCategory(),
+                                    currentComment.getIdUser(), NEGATIVE_EVALUATION, loggedUserId);
+
+                        }else {
+                            commentEvaluationPresenter.deleteCommentEvaluation(idComment, loggedUserId);
+                        }
+
+                        if(currentEvaluation == 0) {
+                            commentEvaluationValue--;
+                        } else if(currentEvaluation == 1) {
+                            commentEvaluationValue -= 2;
+                        } else if(currentEvaluation == -1) {
+                            commentEvaluationValue++;
+                        }
 
                         commentEvaluation.setText(commentEvaluationValue + "");
                     } catch (JSONException e) {

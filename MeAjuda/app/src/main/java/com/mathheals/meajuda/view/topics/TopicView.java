@@ -169,14 +169,34 @@ public class TopicView extends Fragment implements View.OnClickListener {
         final Integer POSITIVE_EVALUATION = 1;
         final Integer NEGATIVE_EVALUATION = -1;
 
+        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int loggedUserId = session.getInt("id", -1);
+
         switch (v.getId()) {
             case R.id.up_evaluation:
                 try {
-                    topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
-                            currentTopic.getIdCategory(), currentTopic.getIdOwner(),
-                            POSITIVE_EVALUATION, 7);
-                    //TODO: Arrumar o bug do caso em que ele já havia votado, seja positivamente ou negativamente
-                    topicEvaluation++;
+                    Integer currentEvaluation = topicEvaluationPresenter.
+                            getTopicEvaluationByUserId(idTopic, loggedUserId);
+
+                    Log.d("current evaluation", currentEvaluation + "");
+
+                    if(currentEvaluation == 0 || currentEvaluation == -1) {
+
+                        topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
+                                currentTopic.getIdCategory(), currentTopic.getIdOwner(),
+                                POSITIVE_EVALUATION, loggedUserId);
+
+                    }else {
+                        topicEvaluationPresenter.deleteTopicEvaluation(idTopic, loggedUserId);
+                    }
+
+                    if(currentEvaluation == 0) {
+                        topicEvaluation++;
+                    } else if(currentEvaluation == 1) {
+                        topicEvaluation--;
+                    } else if(currentEvaluation == -1) {
+                        topicEvaluation += 2;
+                    }
 
                     topicEvaluationTextView.setText(topicEvaluation + "");
                 } catch (JSONException e) {
@@ -186,15 +206,27 @@ public class TopicView extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.down_evaluation:
-
-                SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
-                int loggedUserId = session.getInt("id",-1);
-
                 try {
-                    topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
-                            currentTopic.getIdCategory(), currentTopic.getIdOwner(),
-                            NEGATIVE_EVALUATION, loggedUserId);
-                    topicEvaluation--;
+                    Integer currentEvaluation = topicEvaluationPresenter.
+                            getTopicEvaluationByUserId(idTopic, loggedUserId);
+
+                    Log.d("current evaluation", currentEvaluation + "");
+
+                    if(currentEvaluation == 0 || currentEvaluation == 1) {
+                        topicEvaluationPresenter.evaluateTopic(currentTopic.getIdTopic(),
+                                currentTopic.getIdCategory(), currentTopic.getIdOwner(),
+                                NEGATIVE_EVALUATION, loggedUserId);
+                    }else {
+                        topicEvaluationPresenter.deleteTopicEvaluation(idTopic, loggedUserId);
+                    }
+
+                    if(currentEvaluation == 0) {
+                        topicEvaluation--;
+                    } else if(currentEvaluation == 1) {
+                        topicEvaluation -= 2;
+                    } else if(currentEvaluation == -1) {
+                        topicEvaluation++;
+                    }
 
                     topicEvaluationTextView.setText(topicEvaluation + "");
                 } catch (JSONException e) {

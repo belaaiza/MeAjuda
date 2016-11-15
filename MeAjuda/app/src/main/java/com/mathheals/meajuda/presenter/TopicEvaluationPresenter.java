@@ -37,4 +37,14 @@ public class TopicEvaluationPresenter {
 
         return topicEvaluation;
     }
+
+    public Integer getTopicEvaluationByUserId(Integer idTopic, Integer idUser) {
+        Integer evaluation = topicEvaluationDAO.getTopicEvaluationByUserId(idTopic, idUser);
+
+        return evaluation;
+    }
+
+    public void deleteTopicEvaluation(Integer idTopic, Integer idUser) {
+        topicEvaluationDAO.deleteTopicEvaluation(idTopic, idUser);
+    }
 }

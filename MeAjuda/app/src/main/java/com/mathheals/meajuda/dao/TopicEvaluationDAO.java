@@ -34,6 +34,9 @@ public class TopicEvaluationDAO extends DAO {
         final String QUERY = "SELECT * FROM AvaliacaoTopico WHERE Topico_idTopico = "+ idTopic +" " +
                 "AND" + " Usuario_idUsuario = "+ idUser +" ";
 
+        Log.d("id do topico na dao", idTopic + "");
+        Log.d("id do usuario na dao", idUser + "");
+
         JSONObject consultResult = executeConsult(QUERY);
 
         return consultResult;
@@ -77,5 +80,28 @@ public class TopicEvaluationDAO extends DAO {
         }
 
         return topicEvaluation;
+    }
+
+    public Integer getTopicEvaluationByUserId(Integer idTopic, Integer idUser) {
+        JSONObject jsonObjectTopicEvaluation = getTopicEvaluationJSONOBjectByUserId(idTopic, idUser);
+
+        Integer evaluation = 0;
+
+        try {
+            if(jsonObjectTopicEvaluation != null) {
+                evaluation = jsonObjectTopicEvaluation.getJSONObject("0").getInt("descricao");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return evaluation;
+    }
+
+    public void deleteTopicEvaluation(Integer idTopic, Integer idUser) {
+        final String QUERY = "DELETE FROM AvaliacaoTopico WHERE Topico_idTopico = "+ idTopic +" " +
+                "AND Usuario_idUsuario = "+ idUser +"";
+
+        executeQuery(QUERY);
     }
 }
