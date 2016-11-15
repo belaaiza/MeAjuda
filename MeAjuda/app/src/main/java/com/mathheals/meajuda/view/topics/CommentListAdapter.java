@@ -177,6 +177,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
         String descriptionComment = rowData.getDescription();
         String imageURL = rowData.getImageURL();
+        String audioURL = rowData.getAudioURL();
 
         CommentEvaluationPresenter commentEvaluationPresenter = CommentEvaluationPresenter.
                 getInstance(context);
@@ -204,10 +205,14 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         holder.author.setText(authorName);
 
 
-        if(imageURL != "N") {
+        if(!imageURL.trim().equals("N")) {
             CommentPresenter commentPresenter = CommentPresenter.getInstance(context);
 
             commentPresenter.showImage(holder.image, imageURL);
+        }
+
+        if(!audioURL.trim().equals("N")) {
+            holder.playAudio.setVisibility(View.VISIBLE);
         }
     }
 
