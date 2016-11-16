@@ -323,6 +323,8 @@ public class UserDAO extends DAO {
     public User getUserById(Integer idUser) throws JSONException, UserException {
         final String QUERY = "SELECT * FROM Usuario WHERE idUsuario = " + idUser;
 
+        Log.d("id do usuario na dao", idUser + "");
+
         JSONObject consultResult = executeConsult(QUERY);
 
         User user = null;
@@ -333,7 +335,11 @@ public class UserDAO extends DAO {
             String username = consultResult.getJSONObject("0").getString("login");
             Integer rating = getUserEvaluationById(idUser);
 
+            Log.d("rating na dao: ", rating + "");
+
             user = new User(firstName, lastName, username, rating);
+        }else {
+            Log.d("veio nulo", "getUserById ");
         }
 
         return user;

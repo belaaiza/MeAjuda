@@ -249,6 +249,22 @@ public class UserPresenter {
         return idClassification;
     }
 
+    public String getClassificationName(Integer idClassification) {
+        if(idClassification == 1) {
+            return "Iniciante";
+        } else if(idClassification == 2) {
+            return "Aprendiz";
+        } else if(idClassification == 3) {
+            return "Nerd";
+        } else if(idClassification == 4) {
+            return  "Especialista";
+        } else if(idClassification == 5) {
+            return "Mestre";
+        } else {
+            return "Gênio";
+        }
+    }
+
     public List<User> getUserRanking() throws JSONException, UserException {
         UserDAO userDAO = UserDAO.getInstance(context);
 
@@ -256,7 +272,7 @@ public class UserPresenter {
 
         List<User> userRanking = new ArrayList<>();
 
-        for(int i = 0; i < userIdList.size(); i++) {
+        for (int i = 0; i < userIdList.size(); i++) {
             Integer idUser = userIdList.get(i);
 
             User user = userDAO.getUserById(idUser);

@@ -89,6 +89,7 @@ public class User {
         setPassword(password);
         setRating(rating);
         setCodeSchool(codeSchool);
+        setClassification(rating);
         setIdClassification(rating);
     }
 
@@ -102,6 +103,7 @@ public class User {
         setEmail(email);
         setRating(rating);
         setIdClassification(rating);
+        setClassification(rating);
     }
 
     public User(String firstName, String lastName, String username, Integer rating) throws UserException {
