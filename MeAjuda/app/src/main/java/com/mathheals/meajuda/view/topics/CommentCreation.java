@@ -55,6 +55,8 @@ public class CommentCreation extends Fragment implements View.OnClickListener{
 
     private MediaRecorder mediaRecorder;
 
+    private Button startPlaying;
+
     MediaPlayer mediaPlayer;
 
     private boolean recording = false;
@@ -99,7 +101,7 @@ public class CommentCreation extends Fragment implements View.OnClickListener{
         ImageView startStopRecording = (ImageView) view.findViewById(R.id.record_comment_audio);
         startStopRecording.setOnClickListener(this);
 
-        Button startPlaying = (Button) view.findViewById(R.id.comment_play_audio);
+        startPlaying = (Button) view.findViewById(R.id.comment_play_audio);
         startPlaying.setOnClickListener(this);
 
         return view;
@@ -179,6 +181,7 @@ public class CommentCreation extends Fragment implements View.OnClickListener{
                     Toast.makeText(getActivity(), "Recording Completed",
                             Toast.LENGTH_LONG).show();
 
+                    startPlaying.setVisibility(View.VISIBLE);
                     recording = false;
                 }
 

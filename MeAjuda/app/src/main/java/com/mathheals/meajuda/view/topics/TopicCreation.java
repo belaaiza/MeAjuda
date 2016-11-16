@@ -62,6 +62,8 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
 
     String AudioSavePathInDevice = null;
 
+    private Button startPlaying;
+
     public static final int RequestPermissionCode = 1;
 
     private static final Integer RESULT_LOAD_IMAGE = 9002;
@@ -96,7 +98,7 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
         ImageView startStopRecording = (ImageView) view.findViewById(R.id.record_audio);
         startStopRecording.setOnClickListener(this);
 
-        Button startPlaying = (Button) view.findViewById(R.id.play_audio);
+        startPlaying = (Button) view.findViewById(R.id.play_audio);
         startPlaying.setOnClickListener(this);
 
         return view;
@@ -215,6 +217,7 @@ public class TopicCreation extends Fragment implements View.OnClickListener, Mat
                     Toast.makeText(getActivity(), "Recording Completed",
                             Toast.LENGTH_LONG).show();
 
+                    startPlaying.setVisibility(View.VISIBLE);
                     recording = false;
                 }
 
