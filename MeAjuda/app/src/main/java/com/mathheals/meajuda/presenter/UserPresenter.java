@@ -26,6 +26,11 @@ import java.util.List;
 public class UserPresenter {
 
     private static UserPresenter instance;
+    private static LoggedIn loggedInInstance;
+    private static NotLoggedIn notLoggedInInstance;
+
+    private State state;
+
     Context context;
 
     private UserPresenter(Context currentContext) {
@@ -35,6 +40,8 @@ public class UserPresenter {
     public static UserPresenter getInstance(Context context) {
         if (instance == null) {
             instance = new UserPresenter(context);
+            loggedInInstance = LoggedIn.getInstance(context);
+            notLoggedInInstance = NotLoggedIn.getInstance(context);
         }
         return instance;
     }
@@ -42,21 +49,8 @@ public class UserPresenter {
     public String registerUser(String firstName, String lastName, String username, String mail,
                                          String mailConfirmation, String password,
                                          String passwordConfirmation, String codeSchool, Context context){
-        String message = "";
-
-        try{
-            User user = new User(firstName, lastName, username, mail, mailConfirmation,
-                    password, passwordConfirmation, 0, codeSchool, 1);
-
-            UserDAO userDAO = UserDAO.getInstance(context);
-            userDAO.saveUser(user);
-
-            message = user.USER_SUCCESSFULLY_REGISTERED;
-        }catch(UserException e){
-            message = e.getMessage();
-        }catch(ParseException e){
-            e.printStackTrace();
-        }
+        String message = notLoggedInInstance.registerUser(firstName, lastName, username, mail,
+                mailConfirmation, password, passwordConfirmation, codeSchool);
 
         return message;
     }
@@ -64,28 +58,8 @@ public class UserPresenter {
     public String updateUser(String firstName, String lastName, String username, String mail,
                                String mailConfirmation, String password,
                                String passwordConfirmation, Context context){
-        String message = "";
-
-        SharedPreferences currentSession = PreferenceManager.getDefaultSharedPreferences
-                (context);
-
-        try{
-            User user = new User(currentSession.getInt(context.getString(R.string.key_id), -1),
-                    firstName, lastName, username, mail, mailConfirmation,
-                    password, passwordConfirmation);
-
-            UserDAO userDAO = UserDAO.getInstance(context);
-            userDAO.updateUser(user);
-
-            updateLoginSession(user, context, currentSession);
-
-            message = user.USER_SUCCESSFULLY_UPDATED;
-
-        }catch(UserException e){
-            message = e.getMessage();
-        }catch(ParseException e){
-            e.printStackTrace();
-        }
+        String message = loggedInInstance.updateUser(firstName, lastName, username, mail,
+                mailConfirmation, password, passwordConfirmation);
 
         return message;
     }
@@ -93,40 +67,7 @@ public class UserPresenter {
     public String authenticateUser(String emailOrLogin, String typedPassword, Context context)
             throws JSONException{
 
-        String message = "";
-
-        UserDAO userDAO = UserDAO.getInstance(context);
-        JSONObject searchByEmailResult = userDAO.searchUserByEmail(emailOrLogin);
-
-        if(searchByEmailResult != null){
-            message = verifyLoginPassword(searchByEmailResult, typedPassword, context);
-        }
-        else{
-            JSONObject searchByLoginResult = userDAO.searchUserByLoginName(emailOrLogin);
-
-            if(searchByLoginResult != null){
-                message = verifyLoginPassword(searchByLoginResult, typedPassword, context);
-            }
-            else{
-                message = context.getResources().getString(R.string.error_login_or_email);
-            }
-        }
-
-        return message;
-    }
-
-
-    private String verifyLoginPassword(JSONObject searchResult, String passwordTyped,
-                                       Context context) throws JSONException{
-        String message;
-
-        String userPassword = searchResult.getJSONObject("0").getString("senha");
-        if(userPassword.equals(passwordTyped)){
-            message = searchResult.toString();
-        }
-        else{
-            message = context.getResources().getString(R.string.error_password);
-        }
+        String message = notLoggedInInstance.authenticateUser(emailOrLogin, typedPassword);
 
         return message;
     }
@@ -134,209 +75,73 @@ public class UserPresenter {
     public SharedPreferences.Editor createLoginSession(String userJson,Context context,
                                                         SharedPreferences session) {
 
-        User user = JSONHelper.getInstance().jsonToUser(userJson);
-
-        // All Shared Preferences Keys
-        final String IS_LOGIN = "IsLoggedIn";
-
-        SharedPreferences.Editor editor = session.edit();
-
-        editor.putBoolean(IS_LOGIN, true);
-        editor.putInt(context.getResources().getString(R.string.key_id), user.getUserId());
-        editor.putString(context.getResources().getString(R.string.key_email), user.getEmail());
-        editor.putString(context.getResources().getString(R.string.key_login), user.getUsername());
-        editor.putString(context.getResources().getString(R.string.key_name), user.getFirstName());
-        editor.putString(context.getResources().getString(R.string.key_last_name),
-                user.getLastName());
-        editor.putString(context.getResources().getString(R.string.key_password),
-                user.getPassword());
-        editor.putInt(context.getResources().getString(R.string.key_rating), user.getRating());
-        editor.putInt(context.getResources().getString(R.string.key_classification),
-                user.getIdClassification());
-        editor.putString(context.getResources().getString(R.string.key_school), user.getCodeSchool());
-        editor.commit();
+        SharedPreferences.Editor editor = notLoggedInInstance.createLoginSession(userJson, session);
 
         return editor;
+    }
+
+    public void setState(SharedPreferences session) {
+        final String IS_LOGIN = "IsLoggedIn";
+
+        boolean isLoggedIn = session.getBoolean(IS_LOGIN, false);
+
+        if(isLoggedIn) {
+            this.state = loggedInInstance;
+        } else {
+            this.state = notLoggedInInstance;
+        }
     }
 
     public SharedPreferences.Editor updateLoginSession(User user,Context context,
                                                        SharedPreferences session) {
 
-        // All Shared Preferences Keys
-        final String IS_LOGIN = "IsLoggedIn";
+        setState(session);
 
-        SharedPreferences.Editor editor = session.edit();
-
-        editor.putBoolean(IS_LOGIN, true);
-        editor.putString(context.getResources().getString(R.string.key_email), user.getEmail());
-        editor.putString(context.getResources().getString(R.string.key_login), user.getUsername());
-        editor.putString(context.getResources().getString(R.string.key_name), user.getFirstName());
-        editor.putString(context.getResources().getString(R.string.key_last_name),
-                user.getLastName());
-        editor.putString(context.getResources().getString(R.string.key_password),
-                user.getPassword());
-        editor.putInt("id", user.getUserId());
-        editor.commit();
+        SharedPreferences.Editor editor = state.updateLoginSession(user, session);
 
         return editor;
     }
 
     public SharedPreferences.Editor finishLoginSession(SharedPreferences session) {
+        setState(session);
 
-        // All Shared Preferences Keys
-        final String IS_LOGIN = "IsLoggedIn";
-
-        SharedPreferences.Editor editor = session.edit().clear();
-        editor.commit();
-
-        editor.putBoolean(IS_LOGIN, false);
-        editor.commit();
+        SharedPreferences.Editor editor = state.updateLoginSession(null, session);
 
         return editor;
     }
 
     public User showProfile(String emailOrLogin, Context context){
-        UserDAO userDAO = UserDAO.getInstance(context);
-
-        JSONObject userFound = userDAO.searchUserByEmail(emailOrLogin);
-
-        if(userFound == null){
-            userFound = userDAO.searchUserByLoginName(emailOrLogin);
-        }
-
-        Log.d("USER FOUND", userFound.toString());
-
-        User user = null;
-
-        user = JSONHelper.getInstance().jsonToUser(userFound.toString());
+        User user = loggedInInstance.showProfile(emailOrLogin);
 
         return user;
     }
 
-    public Integer getUserClassificationId(Integer idUser) throws JSONException{
-        UserDAO userDAO = UserDAO.getInstance(context);
-
-        Integer userEvaluation = userDAO.getUserEvaluationById(idUser);
-
-        Integer idClassification;
-
-        if(userEvaluation < 1){
-            idClassification = 1;
-        }
-        else
-            if(userEvaluation < 2){
-                idClassification = 2;
-            }
-            else
-                if(userEvaluation < 3){
-                    idClassification = 3;
-                }
-                else
-                    if(userEvaluation < 4){
-                        idClassification = 4;
-                    }
-                    else
-                        if(userEvaluation < 5){
-                            idClassification = 5;
-                        }
-                        else{
-                            idClassification = 6;
-                        }
-
-        Log.d("userEvaluation " + idUser, userEvaluation + "");
-        Log.d("classification " + idUser, idClassification + "");
-
-        return idClassification;
-    }
-
-    public String getClassificationName(Integer idClassification) {
-        if(idClassification == 1) {
-            return "Iniciante";
-        } else if(idClassification == 2) {
-            return "Aprendiz";
-        } else if(idClassification == 3) {
-            return "Nerd";
-        } else if(idClassification == 4) {
-            return  "Especialista";
-        } else if(idClassification == 5) {
-            return "Mestre";
-        } else {
-            return "Gênio";
-        }
-    }
-
     public List<User> getUserRanking() throws JSONException, UserException {
-        UserDAO userDAO = UserDAO.getInstance(context);
-
-        List<Integer> userIdList = userDAO.getUserIdList();
-
-        List<User> userRanking = new ArrayList<>();
-
-        for (int i = 0; i < userIdList.size(); i++) {
-            Integer idUser = userIdList.get(i);
-
-            User user = userDAO.getUserById(idUser);
-
-            userRanking.add(user);
-        }
-
-        Collections.sort(userRanking, new Comparator<User>(){
-            @Override
-            public int compare(User lhs, User rhs){
-                return lhs.getRating() > rhs.getRating() ? -1 : 1;
-            }
-        });
+        List<User> userRanking = notLoggedInInstance.getUserRanking();
 
         return userRanking;
     }
 
     public List<User> getAllUsers(Context context){
-        List<User> usersFound = UserDAO.getInstance(context).getAllUsers(context);
+        List<User> usersFound = notLoggedInInstance.getAllUsers();
+
         return usersFound;
     }
 
     public Drawable getClassificationIcon(Integer classification){
-        Drawable levelIcon = null;
-        switch(classification){
-            case 1:
-                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
-                        R.drawable.level1, context.getTheme());
-                break;
-            case 2:
-                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
-                        R.drawable.level2, context.getTheme());
-                break;
-            case 3:
-                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
-                        R.drawable.level3, context.getTheme());
-                break;
-            case 4:
-                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
-                        R.drawable.level4, context.getTheme());
-                break;
-            case 5:
-                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
-                        R.drawable.level5, context.getTheme());
-                break;
-            case 6:
-                levelIcon = ResourcesCompat.getDrawable(context.getResources(),
-                        R.drawable.level6, context.getTheme());
-                break;
-        }
+        Drawable levelIcon = notLoggedInInstance.getClassificationIcon(classification);
 
         return levelIcon;
     }
 
     public Integer getUserClassification(Integer userId) throws UserException, JSONException {
-        UserDAO userDAO = UserDAO.getInstance(context);
-        User user = userDAO.getUserById(userId);
+        Integer userClassification = notLoggedInInstance.getUserClassification(userId);
 
-        return user.getIdClassification();
+        return userClassification;
     }
 
     public User getUser(Integer userId) throws UserException, JSONException {
-        UserDAO userDAO = UserDAO.getInstance(context);
-        User user = userDAO.getUserById(userId);
+        User user = notLoggedInInstance.getUser(userId);
 
         return user;
     }
