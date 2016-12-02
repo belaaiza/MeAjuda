@@ -116,12 +116,6 @@ public class UserPresenter {
         return user;
     }
 
-    public List<User> getUserRanking() throws JSONException, UserException {
-        List<User> userRanking = notLoggedInInstance.getUserRanking();
-
-        return userRanking;
-    }
-
     public List<User> getAllUsers(Context context){
         List<User> usersFound = notLoggedInInstance.getAllUsers();
 

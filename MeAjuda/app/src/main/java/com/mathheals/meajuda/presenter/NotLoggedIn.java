@@ -145,31 +145,6 @@ public class NotLoggedIn implements State {
         return editor;
     }
 
-    public List<User> getUserRanking() throws JSONException, UserException {
-        UserDAO userDAO = UserDAO.getInstance(context);
-
-        List<Integer> userIdList = userDAO.getUserIdList();
-
-        List<User> userRanking = new ArrayList<>();
-
-        for (int i = 0; i < userIdList.size(); i++) {
-            Integer idUser = userIdList.get(i);
-
-            User user = userDAO.getUserById(idUser);
-
-            userRanking.add(user);
-        }
-
-        Collections.sort(userRanking, new Comparator<User>() {
-            @Override
-            public int compare(User lhs, User rhs) {
-                return lhs.getRating() > rhs.getRating() ? -1 : 1;
-            }
-        });
-
-        return userRanking;
-    }
-
     public List<User> getAllUsers(){
         List<User> usersFound = UserDAO.getInstance(context).getAllUsers(context);
         return usersFound;

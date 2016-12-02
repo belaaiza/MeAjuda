@@ -32,6 +32,7 @@ import com.mathheals.meajuda.model.School;
 import com.mathheals.meajuda.model.Topic;
 import com.mathheals.meajuda.model.User;
 import com.mathheals.meajuda.presenter.CategoryPresenter;
+import com.mathheals.meajuda.presenter.RankingFacade;
 import com.mathheals.meajuda.presenter.SchoolPresenter;
 import com.mathheals.meajuda.presenter.TopicPresenter;
 import com.mathheals.meajuda.presenter.UserPresenter;
@@ -350,12 +351,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView
         int id = item.getItemId();
 
         if(id == R.id.user_ranking){
-            UserPresenter userPresenter = UserPresenter.getInstance(getBaseContext());
+            RankingFacade rankingFacade = RankingFacade.getInstance(getBaseContext());
 
             List<User> userRanking = new ArrayList<>();
 
             try {
-                userRanking = userPresenter.getUserRanking();
+                userRanking = rankingFacade.getUserRanking();
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (UserException e) {
