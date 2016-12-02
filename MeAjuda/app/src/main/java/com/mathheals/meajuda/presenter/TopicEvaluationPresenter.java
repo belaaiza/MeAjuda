@@ -2,6 +2,8 @@ package com.mathheals.meajuda.presenter;
 
 import android.content.Context;
 import com.mathheals.meajuda.dao.TopicEvaluationDAO;
+import com.mathheals.meajuda.exception.TopicEvaluationException;
+import com.mathheals.meajuda.model.TopicEvaluation;
 
 import org.json.JSONException;
 
@@ -29,6 +31,11 @@ public class TopicEvaluationPresenter {
 
     public void evaluateTopic(Integer idTopic, Integer idCategory, Integer idUserEvaluated,
                               Integer evaluation, Integer idUser) throws JSONException {
+        ConcreteProcessRating concreteProcessRating =
+                new ConcreteProcessRating(context, new TopicEvaluation());
+
+        concreteProcessRating.processEvaluation();
+
         topicEvaluationDAO.evaluateTopic(idTopic, idCategory, idUserEvaluated, evaluation, idUser);
     }
 

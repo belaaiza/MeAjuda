@@ -17,6 +17,8 @@ public class TopicEvaluation {
     public static final String USER_ID_IS_INVALID = "O identificador do usuário está inválido";
     public static final String TOPIC_ID_IS_INVALID = "O identificador do post está inválido";
 
+    public TopicEvaluation(){}
+
     public TopicEvaluation(Integer idEvaluation, Integer evaluationDescription, Integer idTopic,
                            Integer idCategory, Integer idUser) throws TopicEvaluationException {
         setIdEvaluation(idEvaluation);
